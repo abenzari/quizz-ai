@@ -400,6 +400,8 @@
       </div>
 
       <div id="practiceQuestionsDisplayArea" class="mt-8">
+        <!-- Practice card progress indicator -->
+        <p id="practiceCardProgress" class="text-center text-gray-600 font-medium mb-4"></p>
         </div>
 
       <div class="mt-6 text-center space-y-3">
@@ -539,7 +541,16 @@
         goodJob90Percent: "90% - Excellent travail !",
         achievementUnlocked: "Débloqué : {name} !",
         achievementsTitle: "Réalisations",
-        noQuestionsInCategory: "Aucune question dans cette catégorie."
+        noQuestionsInCategory: "Aucune question dans cette catégorie.",
+        practiceCardProgress: "Question {current} / {total}",
+        encouragementCorrect: [
+            "Fantastique !", "Impressionnant !", "Bien joué !", "Exact !", "Parfait !",
+            "Continuez comme ça !", "Superbe !", "Très bien !"
+        ],
+        encouragementIncorrect: [
+            "Gardez la tête haute !", "Ne vous inquiétez pas, vous y arriverez !", "Chaque erreur est une leçon.",
+            "Continuez d'essayer !", "Prochaine fois sera la bonne !", "C'est un processus d'apprentissage."
+        ]
       },
       en: {
         pageTitleDoc: 'Complete Quiz – Mock Exam',
@@ -602,7 +613,16 @@
         goodJob90Percent: "90% - Good job!",
         achievementUnlocked: "Achievement Unlocked: {name}!",
         achievementsTitle: "Achievements",
-        noQuestionsInCategory: "No questions in this category."
+        noQuestionsInCategory: "No questions in this category.",
+        practiceCardProgress: "Question {current} / {total}",
+        encouragementCorrect: [
+            "Fantastic!", "Impressive!", "Well done!", "Exactly!", "Perfect!",
+            "Keep it up!", "Superb!", "Very good!"
+        ],
+        encouragementIncorrect: [
+            "Keep your chin up!", "Don't worry, you'll get it!", "Every mistake is a lesson.",
+            "Keep trying!", "Next time will be the one!", "It's a learning process."
+        ]
       }
     };
 
@@ -627,6 +647,7 @@
     // Categories: 'unseen', 'new-learning', 'learning-bad', 'learning-normal', 'learning-good', 'mastered', 'problematic'
 
     let currentPracticeCardQuestions = []; // To store questions for the current practice card
+    let currentPracticeCardQuestionIndex = 0; // To track progress within the current practice card
     const DEFAULT_PRACTICE_CARD_SIZE = 10; // Default size for mixed questions
     let currentMode = 'learn'; // Default mode set to 'learn'
     let quizCounter = 0; // Tracks how many practice cards have been generated
@@ -824,9 +845,6 @@
       // Update progress bar text
       updateTestProgressBar();
 
-      // Update version number
-      document.getElementById('appVersion').textContent = '1.0.5';
-
       // Update categories in stats modal if open
       if (document.getElementById('performanceStatsModal').style.display === 'block') {
         showPerformanceStatsModal();
@@ -856,6 +874,7 @@
         document.getElementById('checkPracticeCardButton').style.display = 'none';
         document.getElementById('practiceCardScoreText').textContent = '';
         document.getElementById('generateNewPracticeCardButton').style.display = 'none';
+        document.getElementById('practiceCardProgress').textContent = ''; // Clear practice card progress
       }
     }
 
@@ -947,6 +966,7 @@
                   // In learning mode, provide immediate feedback after a delay
                   setTimeout(() => {
                       processSingleQuestionAnswer(qData, selectedVal, prefix);
+                      updatePracticeCardProgress(); // Update progress bar for practice card
                   }, 750); // 0.75 seconds delay
               } else {
                   // In test mode, disable other radio buttons for this question
@@ -1050,6 +1070,9 @@
                 if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) { // Notify every 5 correct answers
                     showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
                 }
+                // Add random encouragement for correct answers
+                const randomEncouragement = s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)];
+                showNotification(randomEncouragement, 'success');
             }
         } else {
             const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
@@ -1058,6 +1081,9 @@
             if (prefix === 'pq') { // Reset streak in learning mode
                 currentLearningStreak = 0;
             }
+            // Add random encouragement for incorrect answers
+            const randomEncouragement = s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)];
+            showNotification(randomEncouragement, 'error');
         }
 
         // Update performance data for this specific question
@@ -1073,7 +1099,7 @@
             questionPerf.incorrectAttempts++;
         }
         // Store category at the time of answering for potential achievement checks
-        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: stats.category });
+        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category }); // Use current category
         if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
 
         updateQuestionCategory(qNumForPerf);
@@ -1122,7 +1148,7 @@
 
         // Process and display feedback for each question
         if (selectedVal !== null) {
-            processSingleQuestionAnswer(qData, selectedVal, 'q');
+            processSingleQuestionAnswer(qData, selectedVal, 'q'); // This will update performance data
             // Recalculate score based on the updated performanceData
             const questionPerf = performanceData[qNumber];
             if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
@@ -1247,7 +1273,9 @@
         saveSavedAnswers();
 
         savePerformanceData();
-        saveAchievements(); // Save empty achievements (or reset specific ones)
+        // Reset achievements by reloading them as empty
+        earnedAchievements = [];
+        saveAchievements();
         showNotification(s.performanceDataReset, 'success');
         renderCurrentPageQuestionsAndFeedback(); // Re-render current page to clear feedback
         updateTestProgressBar(); // Reset progress bar
@@ -1499,6 +1527,7 @@
       quizCounter++; // Increment quiz counter for tracking last seen questions
       const s = uiStrings[currentLanguage];
       currentPracticeCardQuestions = [];
+      currentPracticeCardQuestionIndex = 0; // Reset current question index
 
       // Define all categories, including the new learning sub-categories
       const allCategories = ['problematic', 'learning-bad', 'learning-normal', 'learning-good', 'new-learning', 'unseen', 'mastered'];
@@ -1617,12 +1646,13 @@
       document.getElementById('checkPracticeCardButton').style.display = 'block';
       document.getElementById('practiceCardScoreText').textContent = ''; // Clear previous score
       document.getElementById('generateNewPracticeCardButton').style.display = 'none'; // Hide until checked
+      updatePracticeCardProgress(); // Initial update for practice card progress
     }
 
     // Renders the practice card questions directly on the page
     function renderPracticeCardQuestions(questionsToRender) {
       const displayArea = document.getElementById('practiceQuestionsDisplayArea');
-      displayArea.innerHTML = ''; // Clear previous questions
+      displayArea.innerHTML = '<p id="practiceCardProgress" class="text-center text-gray-600 font-medium mb-4"></p>'; // Clear previous questions and re-add progress element
 
       questionsToRender.forEach((qData, index) => {
         // Use 'pq' prefix for practice questions to avoid name conflicts with 'q' from test mode
@@ -1630,6 +1660,26 @@
       });
       loadSavedAnswersForPage(displayArea, 'pq'); // Load saved answers for the practice card
     }
+
+    // Update Practice Card Progress
+    function updatePracticeCardProgress() {
+        const s = uiStrings[currentLanguage];
+        const progressEl = document.getElementById('practiceCardProgress');
+        if (!progressEl) return;
+
+        let answeredCount = 0;
+        currentPracticeCardQuestions.forEach(qData => {
+            const radios = document.getElementsByName(`pq${qData.qNum}`);
+            if (Array.from(radios).some(radio => radio.checked)) {
+                answeredCount++;
+            }
+        });
+
+        progressEl.textContent = s.practiceCardProgress
+            .replace('{current}', answeredCount)
+            .replace('{total}', currentPracticeCardQuestions.length);
+    }
+
 
     // This function is now primarily for displaying the overall score of the practice card
     // Individual question updates are handled by processSingleQuestionAnswer
@@ -1838,6 +1888,7 @@
         const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
 
         progressBar.style.width = `${percentage}%`;
+        progressBar.setAttribute('aria-valuenow', percentage); // For accessibility
         progressText.textContent = `${answeredCount} / ${totalQuestions} (${percentage}${s.percentComplete})`;
 
         // Check for 'Quiz Champion' achievement
@@ -1894,7 +1945,7 @@
 
   <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.1.0</span>
+    Version <span id="appVersion">1.1.1</span>
   </div>
 </body>
 </html>
