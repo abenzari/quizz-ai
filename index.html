@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz Complet – Examen Blanc</title>
+  <title>Complete Quiz – Mock Exam</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
@@ -189,10 +189,10 @@
         id="mainQuizTitle"
         class="text-4xl font-bold text-blue-700"
       >
-        Examen Blanc Quiz Interactif
+        Interactive Mock Exam Quiz
       </h1>
       <p id="mainQuizSubtitle" class="text-gray-600 mt-2">
-        Testez vos connaissances avec ces 100 questions.
+        Test your knowledge with these 100 questions.
       </p>
 
       <button
@@ -200,7 +200,7 @@
         onclick="toggleLanguage()"
         class="absolute top-0 right-0 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md text-sm transition-colors duration-150"
       >
-        Switch to English
+        Passer en Français
       </button>
 
       <div class="mt-4 flex justify-center space-x-4">
@@ -209,28 +209,28 @@
           onclick="switchMode('test')"
           class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150"
         >
-          Mode Examen
+          Test Mode
         </button>
         <button
           id="learningModeButton"
           onclick="switchMode('learn')"
           class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150"
         >
-          Mode Apprentissage
+          Learning Mode
         </button>
       </div>
 
       <div id="shuffleControls" class="mt-4 flex items-center justify-center space-x-2">
         <label class="flex items-center space-x-2">
           <input type="checkbox" id="shuffleToggle" checked />
-          <span id="shuffleLabel" class="text-gray-700">Ordre par défaut</span>
+          <span id="shuffleLabel" class="text-gray-700">Default order</span>
         </label>
         <button
           id="shuffleButton"
           class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           disabled
         >
-          Mélanger les questions
+          Shuffle Questions
         </button>
       </div>
     </header>
@@ -324,7 +324,7 @@
             onclick="navigatePage(-1)"
             class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
           >
-            Précédent
+            Previous
           </button>
           <span id="pageIndicator" class="text-gray-700 font-medium text-lg"
             >Page 1 / 10</span
@@ -334,7 +334,7 @@
             onclick="navigatePage(1)"
             class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
           >
-            Suivant
+            Next
           </button>
         </div>
         <div class="mt-6 space-y-3 md:space-y-0 md:flex md:space-x-3">
@@ -343,14 +343,14 @@
             onclick="showFinalResultsModal()"
             class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
           >
-            Voir les résultats finaux
+            View Final Results
           </button>
           <button
             id="resetAllButton"
             onclick="resetAllAnswers()"
             class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
           >
-            Réinitialiser toutes les réponses
+            Reset All Answers
           </button>
         </div>
       </footer>
@@ -358,21 +358,36 @@
 
     <div id="learningModeContainer" style="display: none;">
       <div class="mt-8 pt-6 border-t border-gray-300">
-        <h3 id="learningToolsTitle" class="text-2xl font-semibold mb-4 text-center text-gray-700">Outils d'Apprentissage</h3>
-        <div class="space-y-3 md:space-y-0 md:flex md:space-x-3 md:justify-center">
+        <h3 id="learningToolsTitle" class="text-2xl font-semibold mb-4 text-center text-gray-700">Learning Tools</h3>
+        <div class="flex flex-col md:flex-row items-center justify-center space-y-3 md:space-y-0 md:space-x-4 mb-6">
+          <div class="flex items-center space-x-2">
+            <label for="quizStrategy" class="text-gray-700 font-medium">Generate:</label>
+            <select id="quizStrategy" class="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <option value="default">Default (Mixed Questions)</option>
+              <option value="unseen">Unseen Questions</option>
+              <option value="problematic">Problematic Questions</option>
+              <option value="random_x">Random X Questions</option>
+            </select>
+          </div>
+          <div id="numQuestionsInputContainer" class="flex items-center space-x-2" style="display: none;">
+            <label for="numQuestions" class="text-gray-700 font-medium">Number:</label>
+            <input type="number" id="numQuestions" min="1" max="100" value="10" class="w-20 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
           <button
             id="generatePracticeCardButton"
-            onclick="generatePracticeCard()"
+            onclick="generatePracticeCardFromUI()"
             class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
           >
-            Générer une Carte de Pratique (10 Q)
+            Generate Card
           </button>
+        </div>
+        <div class="space-y-3 md:space-y-0 md:flex md:space-x-3 md:justify-center">
           <button
             id="viewStatsButton"
             onclick="showPerformanceStatsModal()"
             class="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
           >
-            Voir les Statistiques de Performance
+            View Performance Stats
           </button>
         </div>
       </div>
@@ -387,16 +402,16 @@
             class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
             style="display: none;"
           >
-            Vérifier la Carte
+            Check Card Answers
           </button>
           <p id="practiceCardScoreText" class="text-lg font-semibold text-gray-800"></p>
           <button
             id="generateNewPracticeCardButton"
-            onclick="generatePracticeCard()"
+            onclick="generatePracticeCardFromUI()"
             class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md mt-4"
             style="display: none;"
           >
-            Générer une Nouvelle Carte
+            Generate New Card
           </button>
       </div>
     </div>
@@ -408,7 +423,7 @@
       <div class="modal-header">
         <span class="close-button" onclick="closeFinalResultsModal()">&times;</span>
         <h2 id="finalResultsTitle" class="text-2xl font-bold text-gray-800">
-          Résultats Finaux
+          Final Results
         </h2>
       </div>
       <div id="finalResultsBody" class="modal-body space-y-3">
@@ -423,7 +438,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <span class="close-button" onclick="closePerformanceStatsModal()">×</span>
-        <h2 id="performanceStatsTitle" class="text-2xl font-bold text-gray-800">Statistiques de Performance</h2>
+        <h2 id="performanceStatsTitle" class="text-2xl font-bold text-gray-800">Performance Statistics</h2>
       </div>
       <div id="performanceStatsBody" class="modal-body space-y-2">
         </div>
@@ -440,8 +455,8 @@
         <p class="text-gray-700"></p>
       </div>
       <div class="mt-6 text-center space-x-4">
-        <button id="confirmYes" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Oui</button>
-        <button id="confirmNo" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Non</button>
+        <button id="confirmYes" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Yes</button>
+        <button id="confirmNo" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">No</button>
       </div>
     </div>
   </div>
@@ -449,7 +464,7 @@
   <script src="./quizQuestions.js"></script>
   <script>
     // ––– Language and UI Strings –––
-    let currentLanguage = 'fr';
+    let currentLanguage = 'en'; // Default language set to English
     const uiStrings = {
       fr: {
         pageTitleDoc: 'Quiz Complet – Examen Blanc',
@@ -477,17 +492,14 @@
         defaultLabel: 'Ordre par défaut',
         shuffleButton: 'Mélanger les questions',
         learningToolsTitle: "Outils d'Apprentissage",
-        generatePracticeCardButton: "Générer une Carte de Pratique (10 Q)", // Changed to 10 Q
+        generatePracticeCardButton: "Générer une Carte de Pratique (10 Q)",
         viewStatsButton: "Voir les Statistiques de Performance",
         practiceCardTitle: "Carte de Pratique",
         checkPracticeCardButton: "Vérifier la Carte",
         performanceStatsTitle: "Statistiques de Performance",
         categoryUnseen: "Non vues",
-        categoryNewLearning: "Nouvelles en apprentissage", // New category label
-        categoryLearning: "En apprentissage", // This will now be a general label, sub-categories will be used internally
-        categoryLearningBad: "En apprentissage (difficile)", // New label
-        categoryLearningNormal: "En apprentissage (normal)", // New label
-        categoryLearningGood: "En apprentissage (facile)", // New label
+        categoryNewLearning: "Nouvelles en apprentissage",
+        categoryLearning: "En apprentissage",
         categoryMastered: "Maîtrisées",
         categoryProblematic: "Problématiques",
         questionsInCategory: "questions dans cette catégorie",
@@ -498,7 +510,15 @@
         testModeButton: "Mode Examen",
         learningModeButton: "Mode Apprentissage",
         generateNewPracticeCardButton: "Générer une Nouvelle Carte",
-        noQuestionsAvailableForPractice: "Pas assez de questions disponibles pour générer une carte de pratique. Essayez de répondre à plus de questions en mode examen ou réinitialisez vos données."
+        noQuestionsAvailableForPractice: "Pas assez de questions disponibles pour générer une carte de pratique. Essayez de répondre à plus de questions en mode examen ou réinitialisez vos données.",
+        // New UI Strings for customization
+        generateLabel: "Générer:",
+        numQuestionsLabel: "Nombre:",
+        optionDefault: "Par défaut (Questions Mixtes)",
+        optionUnseen: "Questions Non Vues",
+        optionProblematic: "Questions Problématiques",
+        optionRandomX: "X Questions Aléatoires",
+        invalidNumQuestions: "Veuillez entrer un nombre valide de questions (1-100)."
       },
       en: {
         pageTitleDoc: 'Complete Quiz – Mock Exam',
@@ -526,17 +546,14 @@
         defaultLabel: 'Default order',
         shuffleButton: 'Shuffle Questions',
         learningToolsTitle: "Learning Tools",
-        generatePracticeCardButton: "Generate Practice Card (10 Q)", // Changed to 10 Q
+        generatePracticeCardButton: "Generate Practice Card (10 Q)",
         viewStatsButton: "View Performance Stats",
         practiceCardTitle: "Practice Card",
         checkPracticeCardButton: "Check Card Answers",
         performanceStatsTitle: "Performance Statistics",
         categoryUnseen: "Unseen",
-        categoryNewLearning: "New Learning", // New category label
-        categoryLearning: "Learning", // General label
-        categoryLearningBad: "Learning (difficult)", // New label
-        categoryLearningNormal: "Learning (normal)", // New label
-        categoryLearningGood: "Learning (easy)", // New label
+        categoryNewLearning: "New Learning",
+        categoryLearning: "Learning",
         categoryMastered: "Mastered",
         categoryProblematic: "Problematic",
         questionsInCategory: "questions in this category",
@@ -547,7 +564,15 @@
         testModeButton: "Test Mode",
         learningModeButton: "Learning Mode",
         generateNewPracticeCardButton: "Generate New Card",
-        noQuestionsAvailableForPractice: "Not enough questions available to generate a practice card. Try answering more questions in test mode or reset your data."
+        noQuestionsAvailableForPractice: "Not enough questions available to generate a practice card. Try answering more questions in test mode or reset your data.",
+        // New UI Strings for customization
+        generateLabel: "Generate:",
+        numQuestionsLabel: "Number:",
+        optionDefault: "Default (Mixed Questions)",
+        optionUnseen: "Unseen Questions",
+        optionProblematic: "Problematic Questions",
+        optionRandomX: "Random X Questions",
+        invalidNumQuestions: "Please enter a valid number of questions (1-100)."
       }
     };
 
@@ -572,9 +597,12 @@
     // Categories: 'unseen', 'new-learning', 'learning-bad', 'learning-normal', 'learning-good', 'mastered', 'problematic'
 
     let currentPracticeCardQuestions = []; // To store questions for the current practice card
-    const PRACTICE_CARD_SIZE = 10; // Changed to 10 questions per practice card
+    const DEFAULT_PRACTICE_CARD_SIZE = 10; // Default size for mixed questions
     let currentMode = 'test'; // 'test' or 'learn'
     let quizCounter = 0; // Tracks how many practice cards have been generated
+
+    // Stores selected answers for persistence
+    let savedSelectedAnswers = {}; // { qNum: "true" | "false", ... }
 
     // ––– Initialization on DOMContentLoaded –––
     document.addEventListener('DOMContentLoaded', () => {
@@ -583,8 +611,9 @@
         pageElements.push(document.getElementById(`page-${i}`));
       }
 
-      // Load performance data
+      // Load performance data and saved answers
       loadPerformanceData();
+      loadSavedAnswers();
 
       // 2) Set up UI text & button labels in the current language
       updateAllUIText();
@@ -597,7 +626,7 @@
         if (shuffleToggle.checked) {
           // Restore default order
           quizOrder = Array.from(originalOrder);
-          resetAllAnswers(); // This will now also reset performance data
+          resetAllAnswers(); // This will now also reset performance data and saved answers
           renderCurrentPageQuestionsAndFeedback();
           shuffleButton.disabled = true;
         } else {
@@ -610,13 +639,25 @@
         // Fisher–Yates shuffle
         for (let i = quizOrder.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [quizOrder[i], quizOrder[i]] = [quizOrder[j], quizOrder[i]]; // Fix: should be [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
+          [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
         }
-        resetAllAnswers(); // This will now also reset performance data
+        resetAllAnswers(); // This will now also reset performance data and saved answers
         renderCurrentPageQuestionsAndFeedback();
       });
 
-      // 4) Initially render page 0 and set initial mode
+      // 4) Initialize Learning Mode Customization Controls
+      const quizStrategySelect = document.getElementById('quizStrategy');
+      const numQuestionsInputContainer = document.getElementById('numQuestionsInputContainer');
+
+      quizStrategySelect.addEventListener('change', () => {
+        if (quizStrategySelect.value === 'random_x') {
+          numQuestionsInputContainer.style.display = 'flex';
+        } else {
+          numQuestionsInputContainer.style.display = 'none';
+        }
+      });
+
+      // 5) Initially render page 0 and set initial mode
       switchMode(currentMode); // Set initial display mode
       updateNavigation();
       renderCurrentPageQuestionsAndFeedback();
@@ -676,6 +717,14 @@
         document.getElementById('generateNewPracticeCardButton').textContent = s.generateNewPracticeCardButton;
       }
       document.getElementById('performanceStatsTitle').textContent = s.performanceStatsTitle;
+
+      // Update quiz customization options
+      document.querySelector('#quizStrategy option[value="default"]').textContent = s.optionDefault;
+      document.querySelector('#quizStrategy option[value="unseen"]').textContent = s.optionUnseen;
+      document.querySelector('#quizStrategy option[value="problematic"]').textContent = s.optionProblematic;
+      document.querySelector('#quizStrategy option[value="random_x"]').textContent = s.optionRandomX;
+      document.querySelector('label[for="numQuestions"]').textContent = s.numQuestionsLabel;
+      document.querySelector('label[for="quizStrategy"]').textContent = s.generateLabel;
 
 
       // Page headings
@@ -741,16 +790,19 @@
       // 4) Append “Check Answers” button + score placeholder
       addCheckButtonAndScoreToPage(currentPageIndex);
 
-      // 5) If page was already attempted, re-run checkAnswers (calculateScore = false)
+      // 5) Load saved answers and apply them
+      loadSavedAnswersForPage(pageEl, 'q');
+
+      // 6) If page was already attempted, re-run checkAnswers (calculateScore = false)
+      // This is primarily for displaying the score, not for re-processing answers
       if (
         pageScores[currentPageIndex] &&
-        pageScores[currentPageIndex].attempted
+        pageScores[currentPageIndex].attempted &&
+        currentMode === 'test' // Only re-check in test mode to update score display
       ) {
         checkAnswersForPage(
           currentPageIndex,
-          startIdx + 1,
-          endIdx,
-          false
+          false // Don't recalculate score from scratch, just update display based on performanceData
         );
       }
     }
@@ -780,7 +832,7 @@
         <p id="${prefix}${qData.qNum}-result" class="result mt-2"></p>
       `;
 
-      // Add event listeners for immediate feedback
+      // Add event listeners for immediate feedback (only in Learning Mode)
       const radioButtons = div.querySelectorAll(`input[name="${prefix}${qData.qNum}"]`);
       radioButtons.forEach(radio => {
           radio.addEventListener('change', (event) => {
@@ -791,10 +843,25 @@
                   resultEl.textContent = '';
                   resultEl.className = 'result mt-2';
               }
-              // Provide feedback after a short delay
-              setTimeout(() => {
-                  processSingleQuestionAnswer(qData, selectedVal, prefix);
-              }, 330); // 0.75 seconds delay
+
+              // Save the selected answer immediately
+              savedSelectedAnswers[qData.qNum] = selectedVal;
+              saveSavedAnswers();
+
+              if (currentMode === 'learn') {
+                  // In learning mode, provide immediate feedback after a delay
+                  setTimeout(() => {
+                      processSingleQuestionAnswer(qData, selectedVal, prefix);
+                  }, 750); // 0.75 seconds delay
+              } else {
+                  // In test mode, disable other radio buttons for this question
+                  // and do NOT provide immediate feedback. Feedback comes from checkAnswersForPage.
+                  radioButtons.forEach(rb => {
+                      if (rb !== event.target) {
+                          rb.disabled = true;
+                      }
+                  });
+              }
           });
       });
 
@@ -910,6 +977,14 @@
 
     // ––– Check Answers for One Page (Test Mode) –––
     function checkAnswersForPage(pageIdx, calculateScore = true) {
+      if (currentMode === 'learn') {
+          // In learning mode, individual questions are processed automatically.
+          // This button is not strictly needed for feedback, but could be used to summarize.
+          // For now, we'll just ensure the score is updated if needed.
+          // The individual question feedback is handled by the radio button change event.
+          return;
+      }
+
       const s = uiStrings[currentLanguage];
       let score = 0;
 
@@ -932,15 +1007,25 @@
 
         const radios   = document.getElementsByName(`q${qNumber}`);
         let selectedVal = null;
-        radios.forEach(rb => { if (rb.checked) selectedVal = rb.value; });
+        radios.forEach(rb => {
+            if (rb.checked) selectedVal = rb.value;
+            // Re-enable all radio buttons for this question after checking
+            rb.disabled = false;
+        });
 
-        // If a selection was made, process it. Immediate feedback already handles performance data update.
+        // Process and display feedback for each question
         if (selectedVal !== null) {
-            // Recalculate score for the page based on the current state of performanceData
-            // This is important because individual question answers are now processed immediately
+            processSingleQuestionAnswer(qData, selectedVal, 'q');
+            // Recalculate score based on the updated performanceData
             const questionPerf = performanceData[qNumber];
             if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
                 score++;
+            }
+        } else {
+            const resultEl = document.getElementById(`q${qNumber}-result`);
+            if (resultEl) {
+                resultEl.textContent = s.selectAnswerPrompt;
+                resultEl.className = "result text-red-700";
             }
         }
       }
@@ -954,7 +1039,46 @@
         scoreEl.textContent =
           `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
       }
-      // No need to call savePerformanceData here as it's called by processSingleQuestionAnswer
+      savePerformanceData(); // Save after checking all questions on the page
+    }
+
+    // ––– Save/Load Selected Answers –––
+    function loadSavedAnswers() {
+      const savedAnswers = localStorage.getItem('quizSelectedAnswers_v1');
+      if (savedAnswers) {
+        savedSelectedAnswers = JSON.parse(savedAnswers);
+      } else {
+        savedSelectedAnswers = {};
+      }
+      console.log("Saved answers loaded:", savedSelectedAnswers);
+    }
+
+    function saveSavedAnswers() {
+      localStorage.setItem('quizSelectedAnswers_v1', JSON.stringify(savedSelectedAnswers));
+      console.log("Saved answers updated.");
+    }
+
+    function loadSavedAnswersForPage(pageElement, prefix) {
+        const questionBlocks = pageElement.querySelectorAll('.question-block');
+        questionBlocks.forEach(block => {
+            const qNum = parseInt(block.querySelector('input[type="radio"]').name.replace(prefix, ''));
+            if (savedSelectedAnswers[qNum]) {
+                const radios = block.querySelectorAll(`input[name="${prefix}${qNum}"]`);
+                radios.forEach(radio => {
+                    if (radio.value === savedSelectedAnswers[qNum]) {
+                        radio.checked = true;
+                        // In test mode, disable other radio buttons if an answer was loaded
+                        if (currentMode === 'test') {
+                            radios.forEach(rb => {
+                                if (rb !== radio) {
+                                    rb.disabled = true;
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
     }
 
     // ––– Reset All Answers & Scores –––
@@ -965,7 +1089,10 @@
         allQuizData.forEach((qData) => {
           // Reset test mode radio buttons and feedback
           const radios = document.getElementsByName(`q${qData.qNum}`);
-          radios.forEach((rb) => (rb.checked = false));
+          radios.forEach((rb) => {
+              rb.checked = false;
+              rb.disabled = false; // Re-enable if they were disabled in test mode
+          });
           const resEl = document.getElementById(`q${qData.qNum}-result`);
           if (resEl) {
             resEl.textContent = '';
@@ -973,7 +1100,10 @@
           }
           // Reset practice mode radio buttons and feedback (if any are rendered)
           const pqRadios = document.getElementsByName(`pq${qData.qNum}`);
-          pqRadios.forEach((rb) => (rb.checked = false));
+          pqRadios.forEach((rb) => {
+              rb.checked = false;
+              rb.disabled = false;
+          });
           const pqResEl = document.getElementById(`pq${qData.qNum}-result`);
           if (pqResEl) {
             pqResEl.textContent = '';
@@ -1001,6 +1131,11 @@
           };
         });
         quizCounter = 0; // Reset quiz counter
+
+        // Clear saved answers from localStorage
+        savedSelectedAnswers = {};
+        saveSavedAnswers();
+
         savePerformanceData();
         showNotification(s.performanceDataReset, 'success');
         renderCurrentPageQuestionsAndFeedback(); // Re-render current page to clear feedback
@@ -1212,7 +1347,22 @@
     }
 
     // --- Practice Card Functions ---
-    function generatePracticeCard() {
+    // This function acts as a wrapper to get parameters from the UI
+    function generatePracticeCardFromUI() {
+        const quizStrategy = document.getElementById('quizStrategy').value;
+        let numQuestions = DEFAULT_PRACTICE_CARD_SIZE; // Default for 'default' strategy
+
+        if (quizStrategy === 'random_x') {
+            numQuestions = parseInt(document.getElementById('numQuestions').value, 10);
+            if (isNaN(numQuestions) || numQuestions < 1 || numQuestions > allQuizData.length) {
+                showNotification(uiStrings[currentLanguage].invalidNumQuestions, 'error');
+                return;
+            }
+        }
+        generatePracticeCard(quizStrategy, numQuestions);
+    }
+
+    function generatePracticeCard(strategy = 'default', numQuestionsToGenerate = DEFAULT_PRACTICE_CARD_SIZE) {
       quizCounter++; // Increment quiz counter for tracking last seen questions
       const s = uiStrings[currentLanguage];
       currentPracticeCardQuestions = [];
@@ -1239,68 +1389,81 @@
       }
 
       let count = 0;
-      const PRACTICE_CARD_SIZE = 10;
       const BOOST_INTERVAL = 3; // Every 3 quizzes, boost unseen/new-learning
       const applyBoost = (quizCounter % BOOST_INTERVAL === 0);
-
-      // Define target counts for each category for a 10-question card
-      // These are flexible targets, actual counts may vary based on availability
-      const targetCounts = {
-          problematic: 3,
-          'learning-bad': 2,
-          'learning-normal': 1,
-          'learning-good': 1,
-          'new-learning': applyBoost ? 2 : 1, // Boosted
-          unseen: applyBoost ? 2 : 1, // Boosted
-          mastered: 0 // Will be added via resurfacing logic
-      };
-
       const minMasteredResurfaceInterval = 15; // How many quizzes before a mastered question can resurface
 
-      // Priority order for filling the card (from most difficult/urgent to easiest/less urgent)
-      const priorityOrder = ['problematic', 'learning-bad', 'new-learning', 'unseen', 'learning-normal', 'learning-good'];
-
-      // 1. Fill based on target counts and priority
-      for (const category of priorityOrder) {
-          let needed = targetCounts[category] || 0; // Get target count, default to 0 if not defined
-          while (needed > 0 && candidates[category].length > 0 && count < PRACTICE_CARD_SIZE) {
-              const qData = candidates[category].shift();
-              currentPracticeCardQuestions.push(qData);
-              // If an unseen question is picked, immediately mark it as new-learning
-              if (category === 'unseen') {
-                  performanceData[qData.qNum].category = 'new-learning';
-              }
-              count++;
-              needed--;
+      if (strategy === 'unseen') {
+          // Take from unseen questions
+          currentPracticeCardQuestions = candidates.unseen.slice(0, numQuestionsToGenerate);
+      } else if (strategy === 'problematic') {
+          // Take from problematic questions
+          currentPracticeCardQuestions = candidates.problematic.slice(0, numQuestionsToGenerate);
+      } else if (strategy === 'random_x') {
+          // Take random questions from all available questions
+          const allAvailableQuestions = [];
+          for (const cat in candidates) {
+              allAvailableQuestions.push(...candidates[cat]);
           }
-      }
+          allAvailableQuestions.sort(() => 0.5 - Math.random()); // Shuffle all
+          currentPracticeCardQuestions = allAvailableQuestions.slice(0, numQuestionsToGenerate);
+      } else { // Default strategy: mixed questions based on learning progress
+          // Define flexible target counts for each category for a 10-question card
+          const targetCounts = {
+              problematic: 3,
+              'learning-bad': 2,
+              'learning-normal': 1,
+              'learning-good': 1,
+              'new-learning': applyBoost ? 2 : 1, // Boosted
+              unseen: applyBoost ? 2 : 1, // Boosted
+              mastered: 0 // Will be added via resurfacing logic
+          };
 
-      // 2. Add Mastered questions that need resurfacing
-      // Sort mastered by lastSeenInQuiz (ascending) to get older ones first
-      const resurfaceCandidates = candidates.mastered
-          .filter(qData => (quizCounter - performanceData[qData.qNum].lastSeenInQuiz) > minMasteredResurfaceInterval)
-          .sort((a, b) => performanceData[a.qNum].lastSeenInQuiz - performanceData[b.qNum].lastSeenInQuiz);
+          // Priority order for filling the card (from most difficult/urgent to easiest/less urgent)
+          const priorityOrder = ['problematic', 'learning-bad', 'new-learning', 'unseen', 'learning-normal', 'learning-good'];
 
-      while (count < PRACTICE_CARD_SIZE && resurfaceCandidates.length > 0) {
-          currentPracticeCardQuestions.push(resurfaceCandidates.shift());
-          count++;
-      }
+          // 1. Fill based on target counts and priority
+          for (const category of priorityOrder) {
+              let needed = targetCounts[category] || 0; // Get target count, default to 0 if not defined
+              while (needed > 0 && candidates[category].length > 0 && count < DEFAULT_PRACTICE_CARD_SIZE) {
+                  const qData = candidates[category].shift();
+                  currentPracticeCardQuestions.push(qData);
+                  // If an unseen question is picked, immediately mark it as new-learning
+                  if (category === 'unseen') {
+                      performanceData[qData.qNum].category = 'new-learning';
+                  }
+                  count++;
+                  needed--;
+              }
+          }
 
-      // 3. Fill any remaining slots with a general mix from remaining questions
-      // Prioritize from harder categories first if still available
-      let remainingQuestionsPool = [];
-      // Re-add remaining questions from candidates in priority order to the pool
-      for (const category of priorityOrder) {
-          remainingQuestionsPool = remainingQuestionsPool.concat(candidates[category]);
-      }
-      // Add any remaining mastered questions that didn't meet the resurfacing criteria
-      remainingQuestionsPool = remainingQuestionsPool.concat(candidates.mastered);
+          // 2. Add Mastered questions that need resurfacing
+          // Sort mastered by lastSeenInQuiz (ascending) to get older ones first
+          const resurfaceCandidates = candidates.mastered
+              .filter(qData => (quizCounter - performanceData[qData.qNum].lastSeenInQuiz) > minMasteredResurfaceInterval)
+              .sort((a, b) => performanceData[a.qNum].lastSeenInQuiz - performanceData[b.qNum].lastSeenInQuiz);
 
-      remainingQuestionsPool.sort(() => 0.5 - Math.random()); // Shuffle the entire remaining pool
+          while (count < DEFAULT_PRACTICE_CARD_SIZE && resurfaceCandidates.length > 0) {
+              currentPracticeCardQuestions.push(resurfaceCandidates.shift());
+              count++;
+          }
 
-      while (count < PRACTICE_CARD_SIZE && remainingQuestionsPool.length > 0) {
-          currentPracticeCardQuestions.push(remainingQuestionsPool.shift());
-          count++;
+          // 3. Fill any remaining slots with a general mix from remaining questions
+          // Prioritize from harder categories first if still available
+          let remainingQuestionsPool = [];
+          // Re-add remaining questions from candidates in priority order to the pool
+          for (const category of priorityOrder) {
+              remainingQuestionsPool = remainingQuestionsPool.concat(candidates[category]);
+          }
+          // Add any remaining mastered questions that didn't meet the resurfacing criteria
+          remainingQuestionsPool = remainingQuestionsPool.concat(candidates.mastered);
+
+          remainingQuestionsPool.sort(() => 0.5 - Math.random()); // Shuffle the entire remaining pool
+
+          while (count < DEFAULT_PRACTICE_CARD_SIZE && remainingQuestionsPool.length > 0) {
+              currentPracticeCardQuestions.push(remainingQuestionsPool.shift());
+              count++;
+          }
       }
 
       // Final shuffle of the selected questions for randomness within the card
@@ -1332,6 +1495,7 @@
         // Use 'pq' prefix for practice questions to avoid name conflicts with 'q' from test mode
         displayArea.appendChild(createQuestionElement(qData, 'pq', index + 1));
       });
+      loadSavedAnswersForPage(displayArea, 'pq'); // Load saved answers for the practice card
     }
 
     // This function is now primarily for displaying the overall score of the practice card
@@ -1344,24 +1508,38 @@
       currentPracticeCardQuestions.forEach(qData => {
         const radios = document.getElementsByName(`pq${qData.qNum}`);
         let selectedVal = null;
-        radios.forEach(rb => { if (rb.checked) selectedVal = rb.value; });
+        radios.forEach(rb => {
+            if (rb.checked) selectedVal = rb.value;
+            // Disable radio buttons after checking in practice mode
+            rb.disabled = true;
+        });
 
         if (selectedVal !== null) {
           answeredCount++;
+          // Ensure feedback is displayed for all questions on the card if not already
+          processSingleQuestionAnswer(qData, selectedVal, 'pq');
+
           // Check if the last attempt for this question was correct based on performanceData
           const questionPerf = performanceData[qData.qNum];
           if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
               score++;
           }
+        } else {
+            const resultEl = document.getElementById(`pq${qData.qNum}-result`);
+            if (resultEl) {
+                resultEl.textContent = s.selectAnswerPrompt;
+                resultEl.className = "result text-red-700";
+            }
         }
       });
 
       if (answeredCount === currentPracticeCardQuestions.length) {
           document.getElementById('practiceCardScoreText').textContent = `${s.scoreForPageLabel}: ${score} / ${currentPracticeCardQuestions.length}`;
           document.getElementById('generateNewPracticeCardButton').style.display = 'block'; // Show new card button
+          document.getElementById('checkPracticeCardButton').style.display = 'none'; // Hide check button
       } else {
           // Optionally, show a message if not all questions are answered
-          showNotification("Veuillez répondre à toutes les questions avant de vérifier.", 'info');
+          showNotification(s.selectAnswerPrompt, 'info'); // Using existing string for consistency
       }
 
       // No need to call savePerformanceData here as it's called by processSingleQuestionAnswer
@@ -1392,16 +1570,14 @@
       const categoryLabels = {
           unseen: s.categoryUnseen,
           'new-learning': s.categoryNewLearning,
-          // 'learning-bad': s.categoryLearningBad, // Hidden
-          'learning-normal': s.categoryLearningNormal,
-          // 'learning-good': s.categoryLearningGood, // Hidden
+          'learning-normal': s.categoryLearning, // Use general 'Learning' label for normal
           mastered: s.categoryMastered,
           problematic: s.categoryProblematic
       };
 
       // Order for display in stats modal (from most difficult to easiest)
       // Exclude 'learning-bad' and 'learning-good' from explicit display
-      const displayOrder = ['problematic', 'learning-normal', 'new-learning', 'unseen', 'mastered'];
+      const displayOrder = ['problematic', 'new-learning', 'learning-normal', 'unseen', 'mastered'];
 
       displayOrder.forEach(category => {
         // Only display if the category is not 'learning-bad' or 'learning-good'
@@ -1422,7 +1598,7 @@
                 });
             } else {
                 const liEl = document.createElement('li');
-                liEl.textContent = "Aucune question dans cette catégorie.";
+                liEl.textContent = "No questions in this category."; // This string should be in uiStrings
                 ulEl.appendChild(liEl);
             }
             detailEl.appendChild(ulEl);
@@ -1468,8 +1644,9 @@
     };
   </script>
 
+  <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.0.3</span>
+    Version <span id="appVersion">1.0.4</span>
   </div>
 </body>
 </html>
