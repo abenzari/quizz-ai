@@ -1065,14 +1065,16 @@
         if (wasCorrect) {
             resultEl.textContent = s.correctFeedback;
             resultEl.className = "result text-green-700";
-            if (prefix === 'pq') { // Only track streak in learning mode
+            if (prefix === 'pq') { // Only track streak and show encouragement in learning mode
                 currentLearningStreak++;
                 if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) { // Notify every 5 correct answers
                     showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
                 }
-                // Add random encouragement for correct answers
-                const randomEncouragement = s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)];
-                showNotification(randomEncouragement, 'success');
+                // Add random encouragement for correct answers with 50% probability
+                if (Math.random() < 0.5) {
+                    const randomEncouragement = s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)];
+                    resultEl.textContent += ` (${randomEncouragement})`;
+                }
             }
         } else {
             const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
@@ -1081,30 +1083,34 @@
             if (prefix === 'pq') { // Reset streak in learning mode
                 currentLearningStreak = 0;
             }
-            // Add random encouragement for incorrect answers
-            const randomEncouragement = s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)];
-            showNotification(randomEncouragement, 'error');
+            // Add random encouragement for incorrect answers with 50% probability
+            if (Math.random() < 0.5) {
+                const randomEncouragement = s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)];
+                resultEl.textContent += ` (${randomEncouragement})`;
+            }
         }
 
-        // Update performance data for this specific question
-        const qNumForPerf = qData.qNum;
-        if (!performanceData[qNumForPerf]) {
-            performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-        }
-        const questionPerf = performanceData[qNumForPerf];
+        // Update performance data ONLY IF IN LEARNING MODE
+        if (prefix === 'pq') {
+            const qNumForPerf = qData.qNum;
+            if (!performanceData[qNumForPerf]) {
+                performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
+            }
+            const questionPerf = performanceData[qNumForPerf];
 
-        if (wasCorrect) {
-            questionPerf.correctAttempts++;
-        } else {
-            questionPerf.incorrectAttempts++;
-        }
-        // Store category at the time of answering for potential achievement checks
-        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category }); // Use current category
-        if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
+            if (wasCorrect) {
+                questionPerf.correctAttempts++;
+            } else {
+                questionPerf.incorrectAttempts++;
+            }
+            // Store category at the time of answering for potential achievement checks
+            questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category }); // Use current category
+            if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
 
-        updateQuestionCategory(qNumForPerf);
-        savePerformanceData(); // Save after each question update
-        checkAchievements(); // Check achievements after performance data update
+            updateQuestionCategory(qNumForPerf);
+            savePerformanceData(); // Save after each question update
+            checkAchievements(); // Check achievements after performance data update
+        }
     }
 
 
@@ -1146,17 +1152,21 @@
             rb.disabled = false;
         });
 
-        // Process and display feedback for each question
-        if (selectedVal !== null) {
-            processSingleQuestionAnswer(qData, selectedVal, 'q'); // This will update performance data
-            // Recalculate score based on the updated performanceData
-            const questionPerf = performanceData[qNumber];
-            if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
-                score++;
-            }
-        } else {
-            const resultEl = document.getElementById(`q${qNumber}-result`);
-            if (resultEl) {
+        // Display feedback for each question
+        const resultEl = document.getElementById(`q${qNumber}-result`);
+        if (resultEl) {
+            if (selectedVal !== null) {
+                const wasCorrect = selectedVal === qData.answer;
+                if (wasCorrect) {
+                    resultEl.textContent = s.correctFeedback;
+                    resultEl.className = "result text-green-700";
+                    score++; // Increment score for test mode if correct
+                } else {
+                    const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
+                    resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
+                    resultEl.className = "result text-red-700";
+                }
+            } else {
                 resultEl.textContent = s.selectAnswerPrompt;
                 resultEl.className = "result text-red-700";
             }
@@ -1172,7 +1182,9 @@
         scoreEl.textContent =
           `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
       }
-      savePerformanceData(); // Save after checking all questions on the page
+      // Performance data (seen/unseen/mastered) is NOT updated by test mode answers here.
+      // It's only updated by learning mode interaction.
+      savePerformanceData(); // Save any changes to gamification stats (like achievements)
       checkAchievements(); // Check achievements after test mode page check
     }
 
@@ -1652,7 +1664,8 @@
     // Renders the practice card questions directly on the page
     function renderPracticeCardQuestions(questionsToRender) {
       const displayArea = document.getElementById('practiceQuestionsDisplayArea');
-      displayArea.innerHTML = '<p id="practiceCardProgress" class="text-center text-gray-600 font-medium mb-4"></p>'; // Clear previous questions and re-add progress element
+      // Clear previous questions and re-add progress element
+      displayArea.innerHTML = '<p id="practiceCardProgress" class="text-center text-gray-600 font-medium mb-4"></p>';
 
       questionsToRender.forEach((qData, index) => {
         // Use 'pq' prefix for practice questions to avoid name conflicts with 'q' from test mode
@@ -1877,14 +1890,16 @@
         const s = uiStrings[currentLanguage];
 
         let answeredCount = 0;
+        // Count unique questions that have a saved answer
         for (const qNum in savedSelectedAnswers) {
-            // Check if the question exists in allQuizData to avoid errors from old data
+            // Ensure the question actually exists in allQuizData to prevent errors
             if (allQuizData.some(q => q.qNum == qNum)) {
                 answeredCount++;
             }
         }
 
         const totalQuestions = allQuizData.length;
+        // Ensure percentage is not NaN if totalQuestions is 0
         const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
 
         progressBar.style.width = `${percentage}%`;
@@ -1945,7 +1960,7 @@
 
   <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.1.1</span>
+    Version <span id="appVersion">1.1.2</span>
   </div>
 </body>
 </html>
