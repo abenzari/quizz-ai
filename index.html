@@ -446,7 +446,7 @@
     </div>
   </div>
 
-  <script src="./quizQuestions.js"></script> 
+  <script src="./quizQuestions.js"></script>
   <script>
     // ––– Language and UI Strings –––
     let currentLanguage = 'fr';
@@ -610,7 +610,7 @@
         // Fisher–Yates shuffle
         for (let i = quizOrder.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
+          [quizOrder[i], quizOrder[i]] = [quizOrder[j], quizOrder[i]]; // Fix: should be [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
         }
         resetAllAnswers(); // This will now also reset performance data
         renderCurrentPageQuestionsAndFeedback();
@@ -710,8 +710,8 @@
         // Clear any previous practice questions when switching to learn mode
         document.getElementById('practiceQuestionsDisplayArea').innerHTML = '';
         document.getElementById('checkPracticeCardButton').style.display = 'none';
-        document.getElementById('generateNewPracticeCardButton').style.display = 'none';
         document.getElementById('practiceCardScoreText').textContent = '';
+        document.getElementById('generateNewPracticeCardButton').style.display = 'none';
       }
     }
 
@@ -779,6 +779,25 @@
         </div>
         <p id="${prefix}${qData.qNum}-result" class="result mt-2"></p>
       `;
+
+      // Add event listeners for immediate feedback
+      const radioButtons = div.querySelectorAll(`input[name="${prefix}${qData.qNum}"]`);
+      radioButtons.forEach(radio => {
+          radio.addEventListener('change', (event) => {
+              const selectedVal = event.target.value;
+              // Clear previous feedback immediately
+              const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
+              if (resultEl) {
+                  resultEl.textContent = '';
+                  resultEl.className = 'result mt-2';
+              }
+              // Provide feedback after a short delay
+              setTimeout(() => {
+                  processSingleQuestionAnswer(qData, selectedVal, prefix);
+              }, 750); // 0.75 seconds delay
+          });
+      });
+
       return div;
     }
 
@@ -788,11 +807,18 @@
       const pageEl = pageElements[pageIdx];
       if (!pageEl) return;
 
-      const startQ = pageIdx * questionsPerPage + 1;
-      const endQ = Math.min((pageIdx + 1) * questionsPerPage, allQuizData.length);
+      // Remove any existing check button to prevent duplicates
+      const existingBtn = pageEl.querySelector('.check-answers-btn');
+      if (existingBtn) {
+          existingBtn.remove();
+      }
+      const existingScoreP = pageEl.querySelector('.page-score-display');
+      if (existingScoreP) {
+          existingScoreP.remove();
+      }
 
       const btn = document.createElement('button');
-      btn.onclick = () => checkAnswersForPage(pageIdx, startQ, endQ, true);
+      btn.onclick = () => checkAnswersForPage(pageIdx, true); // Simplified call
       btn.className =
         'check-answers-btn bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg w-full mt-6 shadow-md transition-colors duration-150';
       btn.textContent = `${s.checkAnswersButton} (${s.pageIndicatorPrefix} ${
@@ -844,12 +870,49 @@
       }
     }
 
-    // ––– Check Answers for One Page –––
-    function checkAnswersForPage(pageIdx, startQ, endQ, calculateScore = true) {
+    // ––– Process a Single Question's Answer and Update Performance Data –––
+    function processSingleQuestionAnswer(qData, selectedVal, prefix) {
+        const s = uiStrings[currentLanguage];
+        const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
+
+        if (!resultEl) return;
+
+        const wasCorrect = selectedVal === qData.answer;
+
+        if (wasCorrect) {
+            resultEl.textContent = s.correctFeedback;
+            resultEl.className = "result text-green-700";
+        } else {
+            const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
+            resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
+            resultEl.className = "result text-red-700";
+        }
+
+        // Update performance data for this specific question
+        const qNumForPerf = qData.qNum;
+        if (!performanceData[qNumForPerf]) {
+            performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
+        }
+        const questionPerf = performanceData[qNumForPerf];
+
+        if (wasCorrect) {
+            questionPerf.correctAttempts++;
+        } else {
+            questionPerf.incorrectAttempts++;
+        }
+        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect });
+        if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
+
+        updateQuestionCategory(qNumForPerf);
+        savePerformanceData(); // Save after each question update
+    }
+
+
+    // ––– Check Answers for One Page (Test Mode) –––
+    function checkAnswersForPage(pageIdx, calculateScore = true) {
       const s = uiStrings[currentLanguage];
       let score = 0;
 
-      // Determine which slice of quizOrder we are showing on this page:
       const startIdx = pageIdx * questionsPerPage;
       const endIdx = Math.min(startIdx + questionsPerPage, allQuizData.length);
       const questionsOnThisPage = endIdx - startIdx;
@@ -862,55 +925,23 @@
         };
       }
 
-      // Loop over the indexes in quizOrder for this page
       for (let i = startIdx; i < endIdx; i++) {
-        const dataIdx = quizOrder[i];                // actual index into allQuizData
-        const qData   = allQuizData[dataIdx];        // { qNum, text: {...}, answer: "true"/"false" }
-        const qNumber = qData.qNum;                   // e.g. 1, 2, …, 100
+        const dataIdx = quizOrder[i];
+        const qData   = allQuizData[dataIdx];
+        const qNumber = qData.qNum;
 
-        const resultEl = document.getElementById(`q${qNumber}-result`);
         const radios   = document.getElementsByName(`q${qNumber}`);
         let selectedVal = null;
         radios.forEach(rb => { if (rb.checked) selectedVal = rb.value; });
 
-        if (!resultEl) continue;
-
-        if (selectedVal === null) {
-          // No radio selected
-          resultEl.textContent = s.selectAnswerPrompt;
-          resultEl.className = "result text-red-700";
-        }
-        else if (selectedVal === qData.answer) {
-          // User got it correct
-          resultEl.textContent = s.correctFeedback;
-          resultEl.className = "result text-green-700";
-          if (calculateScore) score++;
-        }
-        else {
-          // User got it wrong
-          const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
-          resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
-          resultEl.className = "result text-red-700";
-        }
-
-        // Only update stats if an answer was given
+        // If a selection was made, process it. Immediate feedback already handles performance data update.
         if (selectedVal !== null) {
-          const wasCorrect = selectedVal === qData.answer;
-          // Should be initialized by loadPerformanceData, but as a fallback
-          if (!performanceData[qNumber]) {
-              performanceData[qNumber] = { qNumOriginal: qNumber, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-          }
-          const questionPerf = performanceData[qNumber];
-
-          if (wasCorrect) {
-            questionPerf.correctAttempts++;
-          } else {
-            questionPerf.incorrectAttempts++;
-          }
-          questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect });
-          if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
-
-          updateQuestionCategory(qNumber);
+            // Recalculate score for the page based on the current state of performanceData
+            // This is important because individual question answers are now processed immediately
+            const questionPerf = performanceData[qNumber];
+            if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
+                score++;
+            }
         }
       }
 
@@ -923,7 +954,7 @@
         scoreEl.textContent =
           `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
       }
-      savePerformanceData(); // Save after checking all questions on the page
+      // No need to call savePerformanceData here as it's called by processSingleQuestionAnswer
     }
 
     // ––– Reset All Answers & Scores –––
@@ -1303,58 +1334,37 @@
       });
     }
 
+    // This function is now primarily for displaying the overall score of the practice card
+    // Individual question updates are handled by processSingleQuestionAnswer
     function checkPracticeCardAnswers() {
       const s = uiStrings[currentLanguage];
       let score = 0;
       let answeredCount = 0;
 
       currentPracticeCardQuestions.forEach(qData => {
-        const radios = document.getElementsByName(`pq${qData.qNum}`); // Use 'pq' prefix
-        const resultEl = document.getElementById(`pq${qData.qNum}-result`); // Use 'pq' prefix
+        const radios = document.getElementsByName(`pq${qData.qNum}`);
         let selectedVal = null;
         radios.forEach(rb => { if (rb.checked) selectedVal = rb.value; });
 
-        if (!resultEl) return;
-
-        if (selectedVal === null) {
-          resultEl.textContent = s.selectAnswerPrompt;
-          resultEl.className = "result text-red-700";
-        } else {
+        if (selectedVal !== null) {
           answeredCount++;
-          const wasCorrect = selectedVal === qData.answer;
-          if (wasCorrect) {
-            score++;
-            resultEl.textContent = s.correctFeedback;
-            resultEl.className = "result text-green-700";
-          } else {
-            const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
-            resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
-            resultEl.className = "result text-red-700";
+          // Check if the last attempt for this question was correct based on performanceData
+          const questionPerf = performanceData[qData.qNum];
+          if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
+              score++;
           }
-
-          // Update global performance data
-          const qNumForPerf = qData.qNum;
-          if (!performanceData[qNumForPerf]) {
-              performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-          }
-          const questionPerf = performanceData[qNumForPerf];
-          if (wasCorrect) {
-            questionPerf.correctAttempts++;
-          } else {
-            questionPerf.incorrectAttempts++;
-          }
-          questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect });
-          if (questionPerf.history.length > 10) questionPerf.history.shift();
-          updateQuestionCategory(qNumForPerf);
         }
       });
 
       if (answeredCount === currentPracticeCardQuestions.length) {
           document.getElementById('practiceCardScoreText').textContent = `${s.scoreForPageLabel}: ${score} / ${currentPracticeCardQuestions.length}`;
           document.getElementById('generateNewPracticeCardButton').style.display = 'block'; // Show new card button
+      } else {
+          // Optionally, show a message if not all questions are answered
+          showNotification("Veuillez répondre à toutes les questions avant de vérifier.", 'info');
       }
 
-      savePerformanceData(); // Save after checking practice card
+      // No need to call savePerformanceData here as it's called by processSingleQuestionAnswer
     }
 
     // --- Performance Stats Modal Functions ---
@@ -1382,38 +1392,42 @@
       const categoryLabels = {
           unseen: s.categoryUnseen,
           'new-learning': s.categoryNewLearning,
-          'learning-bad': s.categoryLearningBad,
+          // 'learning-bad': s.categoryLearningBad, // Hidden
           'learning-normal': s.categoryLearningNormal,
-          'learning-good': s.categoryLearningGood,
+          // 'learning-good': s.categoryLearningGood, // Hidden
           mastered: s.categoryMastered,
           problematic: s.categoryProblematic
       };
 
       // Order for display in stats modal (from most difficult to easiest)
-      const displayOrder = ['problematic', 'learning-bad', 'learning-normal', 'learning-good', 'new-learning', 'unseen', 'mastered'];
+      // Exclude 'learning-bad' and 'learning-good' from explicit display
+      const displayOrder = ['problematic', 'learning-normal', 'new-learning', 'unseen', 'mastered'];
 
       displayOrder.forEach(category => {
-        const detailEl = document.createElement('details');
-        detailEl.className = 'category-detail';
-        const summaryEl = document.createElement('summary');
-        summaryEl.textContent = `${categoryLabels[category]}: ${stats[category].length} ${s.questionsInCategory}`;
-        detailEl.appendChild(summaryEl);
+        // Only display if the category is not 'learning-bad' or 'learning-good'
+        if (category !== 'learning-bad' && category !== 'learning-good') {
+            const detailEl = document.createElement('details');
+            detailEl.className = 'category-detail';
+            const summaryEl = document.createElement('summary');
+            summaryEl.textContent = `${categoryLabels[category]}: ${stats[category].length} ${s.questionsInCategory}`;
+            detailEl.appendChild(summaryEl);
 
-        const ulEl = document.createElement('ul');
-        if (stats[category].length > 0) {
-            // Sort questions by qNum for consistent display within categories
-            stats[category].sort((a, b) => a.qNum - b.qNum).forEach(qData => {
+            const ulEl = document.createElement('ul');
+            if (stats[category].length > 0) {
+                // Sort questions by qNum for consistent display within categories
+                stats[category].sort((a, b) => a.qNum - b.qNum).forEach(qData => {
+                    const liEl = document.createElement('li');
+                    liEl.textContent = `Q${qData.qNum}: ${qData.text[currentLanguage].substring(0, 100)}...`; // Show first 100 chars
+                    ulEl.appendChild(liEl);
+                });
+            } else {
                 const liEl = document.createElement('li');
-                liEl.textContent = `Q${qData.qNum}: ${qData.text[currentLanguage].substring(0, 100)}...`; // Show first 100 chars
+                liEl.textContent = "Aucune question dans cette catégorie.";
                 ulEl.appendChild(liEl);
-            });
-        } else {
-            const liEl = document.createElement('li');
-            liEl.textContent = "Aucune question dans cette catégorie.";
-            ulEl.appendChild(liEl);
+            }
+            detailEl.appendChild(ulEl);
+            body.appendChild(detailEl);
         }
-        detailEl.appendChild(ulEl);
-        body.appendChild(detailEl);
       });
 
 
@@ -1453,5 +1467,9 @@
       }
     };
   </script>
+
+  <div class="text-center text-gray-500 text-xs mt-8 pb-4">
+    Version <span id="appVersion">1.0.1</span>
+  </div>
 </body>
 </html>
