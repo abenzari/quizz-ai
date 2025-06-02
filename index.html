@@ -236,6 +236,13 @@
     </header>
 
     <div id="testModeContainer">
+      <!-- Progress Bar for Test Mode -->
+      <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+        <div id="testProgressBar" class="bg-blue-600 h-4 rounded-full text-xs flex justify-center items-center text-white font-semibold" style="width: 0%;">
+          <span id="testProgressText">0% Complete</span>
+        </div>
+      </div>
+
       <div id="page-0" class="quiz-page active">
         <h2
           id="pageTitle-0"
@@ -441,7 +448,12 @@
         <h2 id="performanceStatsTitle" class="text-2xl font-bold text-gray-800">Performance Statistics</h2>
       </div>
       <div id="performanceStatsBody" class="modal-body space-y-2">
+        <!-- Achievements will be displayed here -->
+        <h3 id="achievementsTitle" class="text-xl font-semibold mb-2 text-gray-700">Achievements</h3>
+        <div id="achievementsDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Badges will be dynamically inserted here -->
         </div>
+      </div>
     </div>
   </div>
 
@@ -518,7 +530,16 @@
         optionUnseen: "Questions Non Vues",
         optionProblematic: "Questions Problématiques",
         optionRandomX: "X Questions Aléatoires",
-        invalidNumQuestions: "Veuillez entrer un nombre valide de questions (1-100)."
+        invalidNumQuestions: "Veuillez entrer un nombre valide de questions (1-100).",
+        // Gamification strings
+        testProgress: "Progrès du Test",
+        percentComplete: "% Terminé",
+        streakNotification: "Série de {count} réponses correctes !",
+        perfectCardNotification: "Carte de pratique parfaite ! ({count} consécutives)",
+        goodJob90Percent: "90% - Excellent travail !",
+        achievementUnlocked: "Débloqué : {name} !",
+        achievementsTitle: "Réalisations",
+        noQuestionsInCategory: "Aucune question dans cette catégorie."
       },
       en: {
         pageTitleDoc: 'Complete Quiz – Mock Exam',
@@ -572,7 +593,16 @@
         optionUnseen: "Unseen Questions",
         optionProblematic: "Problematic Questions",
         optionRandomX: "Random X Questions",
-        invalidNumQuestions: "Please enter a valid number of questions (1-100)."
+        invalidNumQuestions: "Please enter a valid number of questions (1-100).",
+        // Gamification strings
+        testProgress: "Test Progress",
+        percentComplete: "% Complete",
+        streakNotification: "{count}-Question Streak!",
+        perfectCardNotification: "Perfect Practice Card! ({count} consecutive)",
+        goodJob90Percent: "90% - Good job!",
+        achievementUnlocked: "Achievement Unlocked: {name}!",
+        achievementsTitle: "Achievements",
+        noQuestionsInCategory: "No questions in this category."
       }
     };
 
@@ -598,11 +628,62 @@
 
     let currentPracticeCardQuestions = []; // To store questions for the current practice card
     const DEFAULT_PRACTICE_CARD_SIZE = 10; // Default size for mixed questions
-    let currentMode = 'test'; // 'test' or 'learn'
+    let currentMode = 'learn'; // Default mode set to 'learn'
     let quizCounter = 0; // Tracks how many practice cards have been generated
 
     // Stores selected answers for persistence
     let savedSelectedAnswers = {}; // { qNum: "true" | "false", ... }
+
+    // Gamification variables
+    let currentLearningStreak = 0; // Streak for consecutive correct answers in Learning Mode
+    let consecutivePerfectCards = 0; // Streak for consecutive perfect practice cards (10/10)
+
+    // Achievements definition
+    const achievements = [
+        {
+            id: 'first_step',
+            name_fr: 'Premier Pas',
+            name_en: 'First Step',
+            description_fr: 'Terminez votre première page en mode Examen.',
+            description_en: 'Complete your first page in Test Mode.',
+            check: () => pageScores.some(score => score && score.attempted)
+        },
+        {
+            id: 'master_learner_i',
+            name_fr: 'Apprenti Maître I',
+            name_en: 'Master Learner I',
+            description_fr: 'Maîtrisez 5 questions (catégorie "Maîtrisées").',
+            description_en: 'Master 5 questions (in "Mastered" category).',
+            check: () => Object.values(performanceData).filter(q => q.category === 'mastered').length >= 5
+        },
+        {
+            id: 'problem_solver',
+            name_fr: 'Résolveur de Problèmes',
+            name_en: 'Problem Solver',
+            description_fr: 'Faites passer 3 questions de "Problématiques" à une meilleure catégorie.',
+            description_en: 'Improve 3 questions from "Problematic" to a better category.',
+            // This one is harder to track directly, will need a counter for questions that *left* problematic
+            // For now, let's simplify: have 3 questions that were once problematic and are now mastered/learning-good/normal
+            check: () => Object.values(performanceData).filter(q => q.category !== 'problematic' && q.history.some(h => h.categoryAtTime === 'problematic')).length >= 3
+        },
+        {
+            id: 'perfect_card_pro',
+            name_fr: 'Pro des Cartes Parfaites',
+            name_en: 'Perfect Card Pro',
+            description_fr: 'Obtenez 3 cartes de pratique parfaites consécutives.',
+            description_en: 'Achieve 3 consecutive perfect practice cards.',
+            check: () => consecutivePerfectCards >= 3
+        },
+        {
+            id: 'quiz_champion',
+            name_fr: 'Champion du Quiz',
+            name_en: 'Quiz Champion',
+            description_fr: 'Répondez à toutes les 100 questions en mode Examen.',
+            description_en: 'Answer all 100 questions in Test Mode.',
+            check: () => Object.keys(savedSelectedAnswers).length === allQuizData.length
+        }
+    ];
+    let earnedAchievements = []; // Stores IDs of earned achievements
 
     // ––– Initialization on DOMContentLoaded –––
     document.addEventListener('DOMContentLoaded', () => {
@@ -611,9 +692,10 @@
         pageElements.push(document.getElementById(`page-${i}`));
       }
 
-      // Load performance data and saved answers
+      // Load performance data, saved answers, and achievements
       loadPerformanceData();
       loadSavedAnswers();
+      loadAchievements();
 
       // 2) Set up UI text & button labels in the current language
       updateAllUIText();
@@ -658,9 +740,10 @@
       });
 
       // 5) Initially render page 0 and set initial mode
-      switchMode(currentMode); // Set initial display mode
+      switchMode(currentMode); // Set initial display mode (now 'learn')
       updateNavigation();
       renderCurrentPageQuestionsAndFeedback();
+      updateTestProgressBar(); // Initial update for the progress bar
     });
 
     // ––– Language Switching –––
@@ -717,6 +800,8 @@
         document.getElementById('generateNewPracticeCardButton').textContent = s.generateNewPracticeCardButton;
       }
       document.getElementById('performanceStatsTitle').textContent = s.performanceStatsTitle;
+      document.getElementById('achievementsTitle').textContent = s.achievementsTitle;
+
 
       // Update quiz customization options
       document.querySelector('#quizStrategy option[value="default"]').textContent = s.optionDefault;
@@ -736,7 +821,16 @@
         titleEl.textContent = `${s.questionsLabel} ${startQ} – ${endQ}`;
       });
 
-      updateNavigation();
+      // Update progress bar text
+      updateTestProgressBar();
+
+      // Update version number
+      document.getElementById('appVersion').textContent = '1.0.5';
+
+      // Update categories in stats modal if open
+      if (document.getElementById('performanceStatsModal').style.display === 'block') {
+        showPerformanceStatsModal();
+      }
     }
 
     // ––– Mode Switching –––
@@ -752,6 +846,7 @@
         shuffleControls.style.display = 'flex'; // Show shuffle controls in test mode
         updateNavigation(); // Ensure test mode pagination is updated
         renderCurrentPageQuestionsAndFeedback(); // Ensure questions are rendered
+        updateTestProgressBar(); // Update progress bar when switching to test mode
       } else { // 'learn' mode
         testContainer.style.display = 'none';
         learnContainer.style.display = 'block';
@@ -862,6 +957,7 @@
                       }
                   });
               }
+              updateTestProgressBar(); // Update progress bar on any answer selection in test mode
           });
       });
 
@@ -949,10 +1045,19 @@
         if (wasCorrect) {
             resultEl.textContent = s.correctFeedback;
             resultEl.className = "result text-green-700";
+            if (prefix === 'pq') { // Only track streak in learning mode
+                currentLearningStreak++;
+                if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) { // Notify every 5 correct answers
+                    showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
+                }
+            }
         } else {
             const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
             resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
             resultEl.className = "result text-red-700";
+            if (prefix === 'pq') { // Reset streak in learning mode
+                currentLearningStreak = 0;
+            }
         }
 
         // Update performance data for this specific question
@@ -967,11 +1072,13 @@
         } else {
             questionPerf.incorrectAttempts++;
         }
-        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect });
+        // Store category at the time of answering for potential achievement checks
+        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: stats.category });
         if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
 
         updateQuestionCategory(qNumForPerf);
         savePerformanceData(); // Save after each question update
+        checkAchievements(); // Check achievements after performance data update
     }
 
 
@@ -1040,6 +1147,7 @@
           `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
       }
       savePerformanceData(); // Save after checking all questions on the page
+      checkAchievements(); // Check achievements after test mode page check
     }
 
     // ––– Save/Load Selected Answers –––
@@ -1131,14 +1239,18 @@
           };
         });
         quizCounter = 0; // Reset quiz counter
+        currentLearningStreak = 0; // Reset learning streak
+        consecutivePerfectCards = 0; // Reset perfect card streak
 
         // Clear saved answers from localStorage
         savedSelectedAnswers = {};
         saveSavedAnswers();
 
         savePerformanceData();
+        saveAchievements(); // Save empty achievements (or reset specific ones)
         showNotification(s.performanceDataReset, 'success');
         renderCurrentPageQuestionsAndFeedback(); // Re-render current page to clear feedback
+        updateTestProgressBar(); // Reset progress bar
       });
     }
 
@@ -1232,6 +1344,12 @@
         if (savedQuizCounter) {
             quizCounter = parseInt(savedQuizCounter, 10);
         }
+        // Load gamification variables
+        const savedLearningStreak = localStorage.getItem('currentLearningStreak_v1');
+        if (savedLearningStreak) currentLearningStreak = parseInt(savedLearningStreak, 10);
+        const savedPerfectCards = localStorage.getItem('consecutivePerfectCards_v1');
+        if (savedPerfectCards) consecutivePerfectCards = parseInt(savedPerfectCards, 10);
+
         // Ensure all questions from allQuizData are in performanceData and have new properties
         allQuizData.forEach(qData => {
           if (!performanceData[qData.qNum]) {
@@ -1248,6 +1366,13 @@
               if (performanceData[qData.qNum].lastSeenInQuiz === undefined) {
                   performanceData[qData.qNum].lastSeenInQuiz = 0;
               }
+              // Ensure history items have categoryAtTime (for problem_solver achievement)
+              performanceData[qData.qNum].history.forEach(h => {
+                  if (h.categoryAtTime === undefined) {
+                      // This is a fallback for old data, ideally categoryAtTime is set when history is pushed
+                      h.categoryAtTime = 'unknown'; // Or try to infer from current category if logic allows
+                  }
+              });
               // Re-evaluate category on load in case logic changed
               updateQuestionCategory(qData.qNum);
           }
@@ -1265,17 +1390,25 @@
           };
         });
         quizCounter = 0;
+        currentLearningStreak = 0;
+        consecutivePerfectCards = 0;
       }
       console.log("Performance data loaded/initialized:", performanceData);
       console.log("Quiz Counter loaded:", quizCounter);
+      console.log("Learning Streak loaded:", currentLearningStreak);
+      console.log("Perfect Cards Streak loaded:", consecutivePerfectCards);
     }
 
     // Function to save performance data to localStorage
     function savePerformanceData() {
       localStorage.setItem('quizPerformanceData_v1', JSON.stringify(performanceData));
       localStorage.setItem('quizCounter_v1', quizCounter.toString());
+      localStorage.setItem('currentLearningStreak_v1', currentLearningStreak.toString());
+      localStorage.setItem('consecutivePerfectCards_v1', consecutivePerfectCards.toString());
       console.log("Performance data saved.");
       console.log("Quiz Counter saved:", quizCounter);
+      console.log("Learning Streak saved:", currentLearningStreak);
+      console.log("Perfect Cards Streak saved:", consecutivePerfectCards);
     }
 
     // Function to update a question's category based on its performance
@@ -1517,6 +1650,7 @@
         if (selectedVal !== null) {
           answeredCount++;
           // Ensure feedback is displayed for all questions on the card if not already
+          // This call also updates performanceData and streak
           processSingleQuestionAnswer(qData, selectedVal, 'pq');
 
           // Check if the last attempt for this question was correct based on performanceData
@@ -1537,20 +1671,76 @@
           document.getElementById('practiceCardScoreText').textContent = `${s.scoreForPageLabel}: ${score} / ${currentPracticeCardQuestions.length}`;
           document.getElementById('generateNewPracticeCardButton').style.display = 'block'; // Show new card button
           document.getElementById('checkPracticeCardButton').style.display = 'none'; // Hide check button
+
+          // Handle consecutive perfect cards
+          if (score === currentPracticeCardQuestions.length) {
+              consecutivePerfectCards++;
+              showNotification(s.perfectCardNotification.replace('{count}', consecutivePerfectCards), 'success');
+          } else {
+              consecutivePerfectCards = 0; // Reset if not perfect
+          }
+
+          // Special message for 9/10
+          if (score === currentPracticeCardQuestions.length - 1 && currentPracticeCardQuestions.length > 1) {
+              showNotification(s.goodJob90Percent, 'success');
+          }
+
+          savePerformanceData(); // Save updated consecutivePerfectCards
+          checkAchievements(); // Check achievements after practice card check
       } else {
           // Optionally, show a message if not all questions are answered
           showNotification(s.selectAnswerPrompt, 'info'); // Using existing string for consistency
       }
-
-      // No need to call savePerformanceData here as it's called by processSingleQuestionAnswer
     }
 
     // --- Performance Stats Modal Functions ---
     function showPerformanceStatsModal() {
       const s = uiStrings[currentLanguage];
       const body = document.getElementById('performanceStatsBody');
-      body.innerHTML = '';
+      body.innerHTML = ''; // Clear previous content
 
+      // Add Achievements section first
+      const achievementsTitle = document.createElement('h3');
+      achievementsTitle.id = 'achievementsTitle';
+      achievementsTitle.className = 'text-xl font-semibold mb-2 text-gray-700';
+      achievementsTitle.textContent = s.achievementsTitle;
+      body.appendChild(achievementsTitle);
+
+      const achievementsDisplay = document.createElement('div');
+      achievementsDisplay.id = 'achievementsDisplay';
+      achievementsDisplay.className = 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-6';
+      if (earnedAchievements.length > 0) {
+          earnedAchievements.forEach(achId => {
+              const achievement = achievements.find(a => a.id === achId);
+              if (achievement) {
+                  const achEl = document.createElement('div');
+                  achEl.className = 'bg-green-100 border border-green-300 rounded-lg p-3 flex items-center space-x-3 shadow-sm';
+                  achEl.innerHTML = `
+                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                      <p class="font-semibold text-green-800">${achievement[`name_${currentLanguage}`]}</p>
+                      <p class="text-green-700 text-sm">${achievement[`description_${currentLanguage}`]}</p>
+                    </div>
+                  `;
+                  achievementsDisplay.appendChild(achEl);
+              }
+          });
+      } else {
+          const noAch = document.createElement('p');
+          noAch.className = 'text-gray-500 italic';
+          noAch.textContent = "No achievements earned yet. Keep practicing!"; // Add to uiStrings later
+          achievementsDisplay.appendChild(noAch);
+      }
+      body.appendChild(achievementsDisplay);
+
+      const divider1 = document.createElement('hr');
+      divider1.className = 'my-4';
+      body.appendChild(divider1);
+
+
+      // Add Performance Categories section
       const stats = {
         unseen: [], 'new-learning': [], 'learning-bad': [], 'learning-normal': [], 'learning-good': [], mastered: [], problematic: [],
         totalCorrect: 0, totalIncorrect: 0
@@ -1598,7 +1788,7 @@
                 });
             } else {
                 const liEl = document.createElement('li');
-                liEl.textContent = "No questions in this category."; // This string should be in uiStrings
+                liEl.textContent = s.noQuestionsInCategory;
                 ulEl.appendChild(liEl);
             }
             detailEl.appendChild(ulEl);
@@ -1607,9 +1797,9 @@
       });
 
 
-      const divider = document.createElement('hr');
-      divider.className = 'my-2';
-      body.appendChild(divider);
+      const divider2 = document.createElement('hr');
+      divider2.className = 'my-2';
+      body.appendChild(divider2);
 
       const pCorrect = document.createElement('p');
       pCorrect.className = 'text-green-700 font-semibold';
@@ -1626,6 +1816,64 @@
 
     function closePerformanceStatsModal() {
       document.getElementById('performanceStatsModal').style.display = 'none';
+    }
+
+    // ––– Gamification Functions –––
+
+    // Update Test Mode Progress Bar
+    function updateTestProgressBar() {
+        const progressBar = document.getElementById('testProgressBar');
+        const progressText = document.getElementById('testProgressText');
+        const s = uiStrings[currentLanguage];
+
+        let answeredCount = 0;
+        for (const qNum in savedSelectedAnswers) {
+            // Check if the question exists in allQuizData to avoid errors from old data
+            if (allQuizData.some(q => q.qNum == qNum)) {
+                answeredCount++;
+            }
+        }
+
+        const totalQuestions = allQuizData.length;
+        const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
+
+        progressBar.style.width = `${percentage}%`;
+        progressText.textContent = `${answeredCount} / ${totalQuestions} (${percentage}${s.percentComplete})`;
+
+        // Check for 'Quiz Champion' achievement
+        if (answeredCount === totalQuestions) {
+            checkAchievements();
+        }
+    }
+
+    // Achievement System
+    function loadAchievements() {
+        const savedAchievements = localStorage.getItem('earnedAchievements_v1');
+        if (savedAchievements) {
+            earnedAchievements = JSON.parse(savedAchievements);
+        } else {
+            earnedAchievements = [];
+        }
+        console.log("Earned achievements loaded:", earnedAchievements);
+    }
+
+    function saveAchievements() {
+        localStorage.setItem('earnedAchievements_v1', JSON.stringify(earnedAchievements));
+        console.log("Earned achievements saved:", earnedAchievements);
+    }
+
+    function checkAchievements() {
+        const s = uiStrings[currentLanguage];
+        achievements.forEach(achievement => {
+            if (!earnedAchievements.includes(achievement.id)) {
+                if (achievement.check()) {
+                    earnedAchievements.push(achievement.id);
+                    saveAchievements();
+                    showNotification(s.achievementUnlocked.replace('{name}', achievement[`name_${currentLanguage}`]), 'success');
+                    console.log(`Achievement unlocked: ${achievement[`name_${currentLanguage}`]}`);
+                }
+            }
+        });
     }
 
     // ––– END OF NEW PERFORMANCE TRACKING AND PRACTICE CARD LOGIC –––
@@ -1646,7 +1894,7 @@
 
   <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.0.4</span>
+    Version <span id="appVersion">1.1.0</span>
   </div>
 </body>
 </html>
