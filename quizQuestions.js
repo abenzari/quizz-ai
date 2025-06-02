@@ -1,5 +1,5 @@
 // quizQuestions.js
-// This file contains the complete quiz data, updated to match the “Examen en blanc 2025” PDF exactly.
+// This file contains the complete quiz data.
 
 const allQuizData = [
   // Page 1 (Q1–10)
@@ -8,8 +8,7 @@ const allQuizData = [
     text: {
       fr:
         "L’utilisation des indices de persuasion est plus efficace lorsque l’interlocuteur est fatigué.",
-      en:
-        "The use of persuasive cues is more effective when the interlocutor is tired."
+      en: "The use of persuasive cues is more effective when the interlocutor is tired."
     },
     answer: 'true'
   },
@@ -29,7 +28,7 @@ const allQuizData = [
       fr:
         "Une des principales caractéristiques de la méthode scientifique est que les résultats d’une étude ne doivent pas être falsifiables.",
       en:
-        "One of the main characteristics of the scientific method is that the results of a study should not be falsifiable."
+        "One of the main characteristics of the scientific method is that the results of a study must be falsifiable."
     },
     answer: 'false'
   },
@@ -38,13 +37,12 @@ const allQuizData = [
     text: {
       fr:
         "La diffusion de la responsabilité survient fréquemment dans les structures holacratiques.",
-      en:
-        "Diffusion of responsibility frequently occurs in holacratic structures."
+      en: "Diffusion of responsibility frequently occurs in holacratic structures."
     },
     answer: 'true'
   },
   {
-    qNum: 5,
+    qNum: 4.1, // (to keep qNum unique if needed, but here qNum always from 1–100)
     text: {
       fr:
         "Avoir un comportement de dominance permet d’influencer autrui et ce type de pouvoir s’appelle pouvoir légitime.",
@@ -54,7 +52,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 6,
+    qNum: 5, // Actually Q5
     text: {
       fr:
         "Les deux éléments essentiels qui composent les théories comportementales du leadership sont la production de l’employé et sa considération.",
@@ -64,7 +62,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 7,
+    qNum: 6,
     text: {
       fr:
         "Au sein d’une entreprise, une hiérarchie stable favorise la performance du groupe dans toutes les situations.",
@@ -74,7 +72,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 8,
+    qNum: 7,
     text: {
       fr:
         "Si votre supérieur vous offre un bonus de fin d’année pour votre excellente performance, on dira qu’il a un pouvoir légitime.",
@@ -84,7 +82,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 9,
+    qNum: 8,
     text: {
       fr:
         "La renaissance des théories des traits de personnalité dans les années 2000 n’a été possible que grâce au développement d’une nouvelle technique statistique, la méta-analyse.",
@@ -94,12 +92,22 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 10,
+    qNum: 9,
     text: {
       fr:
         "Les dirigeants peuvent être à la fois orientés vers les tâches et vers les personnes. Ces deux catégories ne s’excluent pas mutuellement et il est donc possible d’être à la fois l’un et l’autre.",
       en:
         "Leaders can be both task-oriented and people-oriented. These two categories are not mutually exclusive, so it is possible to be both."
+    },
+    answer: 'true'
+  },
+  {
+    qNum: 10,
+    text: {
+      fr:
+        "Vous êtes à la tête d’un groupe de travail qui cherche des solutions pour le réchauffement climatique. Vous proposez à vos collègues de faire une activité afin de remettre en question les stratégies précédemment utilisées. En faisant cela, vous utilisez un style de leadership transformationnel basé sur la stimulation intellectuelle.",
+      en:
+        "You are leading a task force looking for solutions to global warming. You suggest your colleagues carry out an activity to challenge previously used strategies. In doing so, you use a transformational leadership style based on intellectual stimulation."
     },
     answer: 'true'
   },
@@ -109,16 +117,6 @@ const allQuizData = [
     qNum: 11,
     text: {
       fr:
-        "Vous êtes à la tête d’un groupe de travail qui cherche des solutions pour le réchauffement climatique. Vous proposez à vos collègues de faire une activité afin de remettre en question les stratégies précédemment utilisées. En faisant cela, vous utilisez un style de leadership transformationnel basé sur la stimulation intellectuelle.",
-      en:
-        "You are leading a task force looking for solutions to global warming. You suggest your colleagues carry out an activity to challenge previously used strategies. In doing so, you use a transformational leadership style based on intellectual stimulation."
-    },
-    answer: 'true'
-  },
-  {
-    qNum: 12,
-    text: {
-      fr:
         "Un leader qui montre de l’optimisme et de l’enthousiasme peut être catégorisé comme utilisant l’influence idéalisée du leadership transformationnel.",
       en:
         "A leader who shows optimism and enthusiasm can be categorized as using the idealized influence of transformational leadership."
@@ -126,7 +124,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 13,
+    qNum: 12,
     text: {
       fr:
         "Un style de leadership laisser-faire est moins efficace qu’un style de leadership transactionnel actif.",
@@ -136,7 +134,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 14,
+    qNum: 13,
     text: {
       fr:
         "La validité incrémentielle permet d’améliorer la prédiction des performances du leader.",
@@ -146,7 +144,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 15,
+    qNum: 14,
     text: {
       fr:
         "Une leader qui formule une stratégie claire, visionnaire, et dont les objectifs sont ambitieux fait preuve d’un leadership transformationnel.",
@@ -156,7 +154,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 16,
+    qNum: 15,
     text: {
       fr:
         "Le leadership instrumental nécessite une attention particulière à l’environnement et aux résultats des subordonnés.",
@@ -166,7 +164,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 17,
+    qNum: 16,
     text: {
       fr:
         "Le leadership instrumental n’ajoute pas de validité supplémentaire au lien entre le leadership transformationnel et les performances du dirigeant.",
@@ -176,7 +174,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 18,
+    qNum: 17,
     text: {
       fr:
         "L’efficacité d’un leader est plus élevée lorsqu’il utilise les récompenses contingentes comparé à un style de leadership transformationnel.",
@@ -186,7 +184,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 19,
+    qNum: 18,
     text: {
       fr:
         "Lors de l’évaluation des performances d’un leader, il est toujours préférable d’utiliser une évaluation objective plutôt qu’une évaluation subjective.",
@@ -196,7 +194,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 20,
+    qNum: 19,
     text: {
       fr:
         "Quand un leader dit : « Si vous gagnez ce client, je vais vous donner la responsabilité du projet… », il utilise les récompenses contingentes dans son style de leadership.",
@@ -205,10 +203,8 @@ const allQuizData = [
     },
     answer: 'true'
   },
-
-  // Page 3 (Q21–30)
   {
-    qNum: 21,
+    qNum: 20,
     text: {
       fr:
         "« Je pense que, je pense que, pardon mais euh…, sur le sujet des engrais, l'approche qu'on a, et j'entends ce que vous dites et c'est très juste… » Ceci est un exemple du doute selon le langage impuissant.",
@@ -217,8 +213,10 @@ const allQuizData = [
     },
     answer: 'false'
   },
+
+  // Page 3 (Q21–30)
   {
-    qNum: 22,
+    qNum: 21,
     text: {
       fr:
         "« Si l'on recherche un peu plus d'information, on pourrait peut-être y arriver même si je ne suis pas certain du résultat. » Ceci est un exemple de clause de non-responsabilité selon le langage impuissant.",
@@ -228,7 +226,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 23,
+    qNum: 22,
     text: {
       fr:
         "Le modèle interactionnel de la communication permet d'expliquer que certaines blagues ne produisent pas du rire chez tous les spectateurs, surtout chez ceux dont l'origine n'est pas similaire à celle de l'oratrice.",
@@ -238,7 +236,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 24,
+    qNum: 23,
     text: {
       fr:
         "Les leaders à succès passent une proportion de leur temps plus grande à prendre des décisions que les leaders ayant le moins de succès.",
@@ -248,7 +246,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 25,
+    qNum: 24,
     text: {
       fr:
         "Dans une culture à forte contextualisation, un même énoncé a besoin d'indices supplémentaires pour être compris par le récepteur.",
@@ -258,7 +256,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 26,
+    qNum: 25,
     text: {
       fr:
         "« Pour améliorer le quotidien de nombreuses personnes dans le besoin, il faut mettre en place des mesures drastiques. Il faut améliorer la quantité de ressources allouées à cette problématique. Il faut aussi sensibiliser la population et favoriser l'intégration de ces personnes. » Ceci est un exemple de répétition.",
@@ -268,7 +266,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 27,
+    qNum: 26,
     text: {
       fr:
         "« Souvenez-vous, souvenez-vous du 5 novembre, de la poudre à canon, des trahisons et conspirations. » Ceci est un exemple d'anecdote.",
@@ -278,7 +276,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 28,
+    qNum: 27,
     text: {
       fr:
         "« Lors de mes voyages au travers des Caraïbes, j'ai rencontré des populations qui n'avaient que très peu de ressources. Pourtant, ces populations parviennent à survivre. Ce n'est pas la quantité qui permet de se développer, mais l'efficience dans l'utilisation des ressources. Si eux y sont arrivés, nous y arriverons aussi. » Ceci est un exemple de confiance vis-à-vis des objectifs.",
@@ -288,7 +286,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 29,
+    qNum: 28,
     text: {
       fr:
         "Les suiveurs adoptent la vision du leader dans le cadre d'un leadership charismatique ou transformationnel.",
@@ -298,12 +296,22 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 30,
+    qNum: 29,
     text: {
       fr:
         "Lors de la structuration d'un discours, l'introduction doit comprendre un “appel à l'action”.",
       en:
         "When structuring a speech, the introduction should include a “call to action.”"
+    },
+    answer: 'false'
+  },
+  {
+    qNum: 30,
+    text: {
+      fr:
+        "Demander une grande faveur puis demander une plus petite faveur est un exemple de la technique du pied dans la porte.",
+      en:
+        "Asking for a large favor and then requesting a smaller one is an example of the foot-in-the-door technique."
     },
     answer: 'false'
   },
@@ -313,16 +321,6 @@ const allQuizData = [
     qNum: 31,
     text: {
       fr:
-        "Demander une grande faveur puis demander une plus petite faveur est un exemple de la technique du pied dans la porte.",
-      en:
-        "Asking for a large favor and then requesting a smaller one is an example of the foot-in-the-door technique."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 32,
-    text: {
-      fr:
         "Un employé vient d'apprendre que son département informatique lui fournira un ordinateur pour ses tâches administratives. Il a le choix entre trois modèles dont l'un est recommandé par le département pour sa facilité d'utilisation. Il décide de choisir cet ordinateur sur la base de cette recommandation. L'employé a utilisé une heuristique pour faire son choix.",
       en:
         "An employee just learned that his IT department will provide him with a computer for administrative tasks. He has a choice of three models, one of which is recommended by the department for its ease of use. He chooses that computer based on the department’s recommendation. The employee used a heuristic to make his decision."
@@ -330,7 +328,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 33,
+    qNum: 32,
     text: {
       fr:
         "Flatter un individu augmente sa propension à coopérer grâce au mécanisme de la voie centrale.",
@@ -340,7 +338,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 34,
+    qNum: 33,
     text: {
       fr:
         "Pour des thématiques qui vous sont importantes, la qualité des arguments est un facteur qui va influencer votre manière de penser.",
@@ -350,7 +348,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 35,
+    qNum: 34,
     text: {
       fr:
         "Les sites de vente en ligne utilisant une politique de premier arrivé-premier servi utilisent le principe de persuasion du côté unique du produit.",
@@ -360,7 +358,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 36,
+    qNum: 35,
     text: {
       fr:
         "La technique de persuasion du pied dans la porte se base sur le principe de réciprocité.",
@@ -370,7 +368,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 37,
+    qNum: 36,
     text: {
       fr:
         "Selon le modèle de probabilité d'élaboration, la voie centrale de persuasion est utilisée lorsque les individus ne sont pas motivés ou ne sont pas en mesure de comprendre.",
@@ -380,7 +378,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 38,
+    qNum: 37,
     text: {
       fr:
         "Selon les principes de la persuasion, la preuve par la masse se base sur les effets de l'obéissance.",
@@ -390,12 +388,21 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 39,
+    qNum: 38,
     text: {
       fr:
         "Le pouvoir d'autorité est une heuristique de persuasion.",
+      en: "Authority power is a heuristic of persuasion."
+    },
+    answer: 'false'
+  },
+  {
+    qNum: 39,
+    text: {
+      fr:
+        "Un style de leadership authentique est en général plus efficace que les autres styles de leadership vu en cours.",
       en:
-        "Authority power is a heuristic of persuasion."
+        "An authentic leadership style is generally more effective than other leadership styles discussed in class."
     },
     answer: 'false'
   },
@@ -403,9 +410,9 @@ const allQuizData = [
     qNum: 40,
     text: {
       fr:
-        "Un style de leadership authentique est en général plus efficace que les autres styles de leadership vu en cours.",
+        "L'évaluation défavorable dans un feedback est facilement acceptée lorsque les subordonnés choisissent le candidat.",
       en:
-        "An authentic leadership style is generally more effective than other leadership styles discussed in class."
+        "Unfavorable feedback is more readily accepted when subordinates choose the candidate."
     },
     answer: 'false'
   },
@@ -415,16 +422,6 @@ const allQuizData = [
     qNum: 41,
     text: {
       fr:
-        "L’évaluation défavorable dans un feedback est facilement acceptée lorsque les subordonnés choisissent le candidat.",
-      en:
-        "Unfavorable feedback is more readily accepted when subordinates choose the candidate."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 42,
-    text: {
-      fr:
         "Le « management by objectives » récompense et sanctionne l'avancée des collaborateurs vers l'objectif.",
       en:
         "\"Management by Objectives\" rewards and sanctions employees’ progress toward goals."
@@ -432,7 +429,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 43,
+    qNum: 42,
     text: {
       fr:
         "Afin de faciliter un entretien de feedback, on proposera aux collaborateurs d'agender la réunion en amont afin de lui fournir du temps pour se préparer.",
@@ -442,7 +439,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 44,
+    qNum: 43,
     text: {
       fr:
         "La conscience de soi n'existe que chez l'homme et n'est pas possible chez les animaux.",
@@ -452,7 +449,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 45,
+    qNum: 44,
     text: {
       fr:
         "Pour un feedback à 360 degrés, le contenu du questionnaire que vous remplissez à votre sujet doit contenir des questions différentes de celles posées aux personnes qui vous évaluent.",
@@ -462,7 +459,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 46,
+    qNum: 45,
     text: {
       fr:
         "Dans le cas d'un feedback à 360 degrés, le candidat choisit généralement la personne qui l'évalue.",
@@ -472,7 +469,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 47,
+    qNum: 46,
     text: {
       fr:
         "L'entretien annuel de collaboration est souvent plus négatif que ce que pensent réellement les supérieurs.",
@@ -482,7 +479,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 48,
+    qNum: 47,
     text: {
       fr:
         "Lorsque vous donnez un feedback négatif, il est bon de se concentrer sur les intentions de la personne plutôt que sur son comportement.",
@@ -492,7 +489,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 49,
+    qNum: 48,
     text: {
       fr:
         "C'est le niveau de stress subjectif qui détermine les conséquences négatives, et non le stress objectif.",
@@ -502,7 +499,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 50,
+    qNum: 49,
     text: {
       fr:
         "Une employée vient d'être embauchée dans une entreprise. Elle fait face à une charge de travail importante pour laquelle elle n'est pas encore totalement préparée. Elle a l'impression qu'elle gère la situation et n'est pas impactée par la charge de travail. Cette employée ressent donc un stress objectif, mais pas subjectif.",
@@ -511,10 +508,8 @@ const allQuizData = [
     },
     answer: 'false'
   },
-
-  // Page 6 (Q51–60)
   {
-    qNum: 51,
+    qNum: 50,
     text: {
       fr:
         "Le grit est une compétence qui se développe au cours du temps et permet aux leaders de devenir plus charismatiques si c'est un de leurs buts.",
@@ -523,8 +518,10 @@ const allQuizData = [
     },
     answer: 'true'
   },
+
+  // Page 6 (Q51–60)
   {
-    qNum: 52,
+    qNum: 51,
     text: {
       fr:
         "Considérer que l'apprentissage est une composante essentielle de la progression favorise le développement du grit chez les leaders.",
@@ -534,7 +531,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 53,
+    qNum: 52,
     text: {
       fr:
         "Dans des hiérarchies stables, des études montrent que les leaders ressentent moins de stress que les non-leaders et que leurs niveaux de stress physiologique, tels que l'hormone cortisol, sont moins élevés.",
@@ -544,17 +541,16 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 54,
+    qNum: 53,
     text: {
       fr:
         "Il existe une corrélation entre le « Grit » et l'intelligence.",
-      en:
-        "There is a correlation between grit and intelligence."
+      en: "There is a correlation between grit and intelligence."
     },
     answer: 'false'
   },
   {
-    qNum: 55,
+    qNum: 54,
     text: {
       fr:
         "Un orateur qui voit un modèle du même sexe augmentera son temps de parole. Cela est vrai pour les hommes comme pour les femmes.",
@@ -564,7 +560,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 56,
+    qNum: 55,
     text: {
       fr:
         "Le self-leadership est une composante du leadership charismatique, car elle permet au leader de motiver les subordonnés.",
@@ -574,7 +570,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 57,
+    qNum: 56,
     text: {
       fr:
         "Si un individu parvient à reconnaître correctement les traits et états d’autrui, on peut dire qu’il a de la sensibilité interpersonnelle.",
@@ -584,7 +580,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 58,
+    qNum: 57,
     text: {
       fr:
         "Une personne qui parle plus vite, a une voix plus grave, et fait plus d’interruptions est perçue comme quelqu’un avec plus de pouvoir.",
@@ -594,7 +590,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 59,
+    qNum: 58,
     text: {
       fr:
         "Lors d’une réunion de travail dans votre nouvelle équipe, vous observez qu’une collègue a des contacts visuels fréquents avec les autres participants. D’ailleurs, lorsqu’elle parle, sa voix n’est pas du tout monotone. Vous en concluez qu’elle a du pouvoir dans l’équipe. Vous avez fait preuve de sensibilité interpersonnelle.",
@@ -604,12 +600,22 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 60,
+    qNum: 59,
     text: {
       fr:
         "L’attractivité, la taille, la voix et la marque des vêtements portés sont utilisés comme indices de statut.",
       en:
         "Attractiveness, size, voice, and brand of clothing worn are used as status indicators."
+    },
+    answer: 'false'
+  },
+  {
+    qNum: 60,
+    text: {
+      fr:
+        "Selon le modèle de lentille de Brunswick (1956), les premières impressions sont généralement correctes.",
+      en:
+        "According to Brunswick’s lens model (1956), first impressions are generally accurate."
     },
     answer: 'false'
   },
@@ -619,16 +625,6 @@ const allQuizData = [
     qNum: 61,
     text: {
       fr:
-        "Selon le modèle de lentille de Brunswick (1956), les premières impressions sont généralement correctes.",
-      en:
-        "According to Brunswick’s lens model (1956), first impressions are generally accurate."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 62,
-    text: {
-      fr:
         "La tâche de perception interpersonnelle (IPT) et la tâche WIPS sont des tests de performance utilisés pour mesurer le niveau de sensibilité interpersonnelle d'un individu.",
       en:
         "The Interpersonal Perception Task (IPT) and the WIPS task are performance tests used to measure an individual’s level of interpersonal sensitivity."
@@ -636,7 +632,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 63,
+    qNum: 62,
     text: {
       fr:
         "Selon la théorie des attentes de statut (EST), les attentes concernant la contribution de chaque membre du groupe peuvent créer une prophétie auto-réalisatrice.",
@@ -646,7 +642,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 64,
+    qNum: 63,
     text: {
       fr:
         "Selon la théorie des attentes de statut (EST), les groupes homogènes forment des hiérarchies en fonction d'indices de statut externes.",
@@ -656,7 +652,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 65,
+    qNum: 64,
     text: {
       fr:
         "Dans un groupe de personnes qui ne se connaissent pas, chaque personne reçoit aléatoirement une casquette avec un trait de personnalité marqué sur la casquette (p.ex. timide, maladroit). Les personnes ne connaissent pas le trait qui est marqué sur leur casquette, mais les autres membres du groupe le voient. Les traits de personnalité marqués sur les casquettes vont amener les membres du groupe à avoir des attentes différentes concernant le comportement de chaque membre du groupe.",
@@ -666,7 +662,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 66,
+    qNum: 65,
     text: {
       fr:
         "En réalisant un entretien structuré, c’est-à-dire qui respecte la même structure, quels que soient les candidats, on minimise les probabilités d’apparition de biais implicites.",
@@ -676,7 +672,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 67,
+    qNum: 66,
     text: {
       fr:
         "Le racisme est un problème majeur qui s’explique par l’effet d’homogénéisation. Les personnes racistes pensent de la même manière et leur perception de l’exogroupe est homogène.",
@@ -686,7 +682,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 68,
+    qNum: 67,
     text: {
       fr:
         "Une perception réduite de la variabilité exogroupe limite le chevauchement réel entre la variabilité exogroupe et endogroupe.",
@@ -696,17 +692,16 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 69,
+    qNum: 68,
     text: {
       fr:
         "La valence des caractéristiques de l’endogroupe est négative.",
-      en:
-        "The valence of in-group characteristics is negative."
+      en: "The valence of in-group characteristics is negative."
     },
     answer: 'false'
   },
   {
-    qNum: 70,
+    qNum: 69,
     text: {
       fr:
         "Un stéréotype est différent d’un préjugé car les réactions sont différentes : l’une est émotionnelle et l’autre comportementale.",
@@ -715,10 +710,8 @@ const allQuizData = [
     },
     answer: 'false'
   },
-
-  // Page 8 (Q71–80)
   {
-    qNum: 71,
+    qNum: 70,
     text: {
       fr:
         "Les stéréotypes sont une heuristique utilisée pour la sélection du personnel lors d’un premier entretien d’embauche.",
@@ -727,8 +720,10 @@ const allQuizData = [
     },
     answer: 'true'
   },
+
+  // Page 8 (Q71–80)
   {
-    qNum: 72,
+    qNum: 71,
     text: {
       fr:
         "Selon la théorie de l'identité sociale, les stéréotypes peuvent provenir de la catégorisation sociale et de l'identité sociale.",
@@ -738,7 +733,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 73,
+    qNum: 72,
     text: {
       fr:
         "Il ne suffit pas de connaître les stéréotypes de genre dans notre culture pour qu'ils influencent nos perceptions et nos comportements.",
@@ -748,7 +743,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 74,
+    qNum: 73,
     text: {
       fr:
         "L'exagération et la valence sont des caractéristiques clés des stéréotypes.",
@@ -758,7 +753,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 75,
+    qNum: 74,
     text: {
       fr:
         "Selon la théorie des stéréotypes, les gens perçoivent leur propre groupe comme moins diversifié que d'autres groupes auxquels ils n'appartiennent pas.",
@@ -768,17 +763,16 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 76,
+    qNum: 75,
     text: {
       fr:
         "Il y a toujours une part de vérité derrière les stéréotypes.",
-      en:
-        "There is always some truth behind stereotypes."
+      en: "There is always some truth behind stereotypes."
     },
     answer: 'false'
   },
   {
-    qNum: 77,
+    qNum: 76,
     text: {
       fr:
         "L'une des manifestations des préjugés implicites est que nous percevons et évaluons le même comportement différemment, en fonction de la personne qui le manifeste.",
@@ -788,7 +782,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 78,
+    qNum: 77,
     text: {
       fr:
         "Le test d'association implicite est une méthode basée sur un questionnaire pour mesurer les préjugés implicites.",
@@ -798,7 +792,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 79,
+    qNum: 78,
     text: {
       fr:
         "La désindividualisation est un moyen de briser les associations stéréotypées et habituelles et donc de surmonter les préjugés.",
@@ -808,19 +802,17 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 80,
+    qNum: 79,
     text: {
       fr:
-        "Au cours du temps, la proportion de répondants considérant les femmes et hommes égaux en termes de compétence a largement augmenté.",
+        "Au cours du temps, la proportion de répondants considérant les femmes et hommes égaux en termes de compétence à largement augmenté.",
       en:
         "Over time, the proportion of respondents who consider women and men equal in competence has increased significantly."
     },
     answer: 'true'
   },
-
-  // Page 9 (Q81–90)
   {
-    qNum: 81,
+    qNum: 80,
     text: {
       fr:
         "La proportion de répondants dont l’évaluation de la caractéristique “agency” est stéréotypique des hommes est plus faible en 2020 que celle associée aux femmes en 1945.",
@@ -829,8 +821,10 @@ const allQuizData = [
     },
     answer: 'false'
   },
+
+  // Page 9 (Q81–90)
   {
-    qNum: 82,
+    qNum: 81,
     text: {
       fr:
         "Le modèle du lack of fit permet d’expliquer pourquoi une femme serait sous-évaluée lors d’un entretien d’embauche lorsque ce poste concerne une position de manager.",
@@ -840,7 +834,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 83,
+    qNum: 82,
     text: {
       fr:
         "La menace du stéréotype influence la catégorie auto-évaluation dans le modèle du lack of fit.",
@@ -850,7 +844,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 84,
+    qNum: 83,
     text: {
       fr:
         "L'explication la plus plausible de l'écart salarial entre les hommes et les femmes est que les femmes ne demandent pas autant d'argent que les hommes.",
@@ -860,7 +854,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 85,
+    qNum: 84,
     text: {
       fr:
         "Les femmes dirigeantes sont évaluées de manière particulièrement positive lorsqu'elles adoptent un style de leadership masculin.",
@@ -870,7 +864,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 86,
+    qNum: 85,
     text: {
       fr:
         "Selon le modèle du « Lack of fit », la cohérence ou l'incohérence entre les attributs d'un individu et les attentes ou stéréotypes peut conduire à un comportement d'autolimitation et à la discrimination.",
@@ -880,7 +874,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 87,
+    qNum: 86,
     text: {
       fr:
         "Fournir des explications externes à l'anxiété est un moyen de réduire la menace des stéréotypes.",
@@ -890,7 +884,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 88,
+    qNum: 87,
     text: {
       fr:
         "Les femmes sont plus susceptibles d'être perçues comme des leaders qui utilisent le style de leadership « Laissez-faire » que les hommes.",
@@ -900,7 +894,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 89,
+    qNum: 88,
     text: {
       fr:
         "Deux méta-analyses montrent que la diversité des sexes au sein du conseil d'administration a un effet sur les performances des entreprises.",
@@ -910,7 +904,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 90,
+    qNum: 89,
     text: {
       fr:
         "Dans une situation où une leader a un statut élevé, le fait d’avoir du pouvoir ou de ne pas avoir de pouvoir n’a pas d’influence sur les conflits interpersonnels.",
@@ -919,10 +913,8 @@ const allQuizData = [
     },
     answer: 'true'
   },
-
-  // Page 10 (Q91–100)
   {
-    qNum: 91,
+    qNum: 90,
     text: {
       fr:
         "Les leaders ont tendance à garder à l’esprit les conseils des experts pour améliorer leur compétitivité et augmenter la confiance en leurs propres idées.",
@@ -931,8 +923,10 @@ const allQuizData = [
     },
     answer: 'false'
   },
+
+  // Page 10 (Q91–100)
   {
-    qNum: 92,
+    qNum: 91,
     text: {
       fr:
         "La construction du pouvoir et la corruption qui en découle dépend des opportunités et de la responsabilité de l’institution.",
@@ -942,7 +936,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 93,
+    qNum: 92,
     text: {
       fr:
         "Lors du gala de fin d’année, vous arrivez habillé.e de manière informelle. Vous remarquez dès l’entrée que tous les autres participants sont habillés de manière formelle et vous n’avez pas été tenu au courant. Vous décidez de retourner vous changer pour respecter le code vestimentaire. Vous avez agi de cette manière sous l’influence sociale informative.",
@@ -952,7 +946,7 @@ const allQuizData = [
     answer: 'true'
   },
   {
-    qNum: 94,
+    qNum: 93,
     text: {
       fr:
         "Lors d’une réunion, on vous demande d’aller chercher des verres supplémentaires pour les invités de la société concurrente. Vous devez choisir parmi les verres marrons ou les verres violets et vous ne savez pas quoi faire. Vous choisissez finalement des verres de couleur marron car vous avez vu que la table ne contient que des verres marrons. Vous respectez la norme, il s’agit donc d’une influence sociale normative.",
@@ -962,7 +956,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 95,
+    qNum: 94,
     text: {
       fr:
         "Les personnes orientées vers l'échange se comportent de manière moins égoïste, car elles pensent qu'elles peuvent donner aux autres sans nécessairement toujours recevoir quelque chose en retour.",
@@ -972,17 +966,16 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 96,
+    qNum: 95,
     text: {
       fr:
         "La déshumanisation peut avoir des effets positifs.",
-      en:
-        "Dehumanization can have positive effects."
+      en: "Dehumanization can have positive effects."
     },
     answer: 'true'
   },
   {
-    qNum: 97,
+    qNum: 96,
     text: {
       fr:
         "Le perfectionnisme est un comportement approprié pour les dirigeants, et ceux qui en font preuve sont moins susceptibles de devenir des dirigeants destructeurs.",
@@ -992,7 +985,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 98,
+    qNum: 97,
     text: {
       fr:
         "Le fait d'avoir du pouvoir sans prestige diminue les conflits avec les autres.",
@@ -1002,7 +995,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 99,
+    qNum: 98,
     text: {
       fr:
         "Les termes obéissance et conformité renvoient au même phénomène.",
@@ -1012,7 +1005,7 @@ const allQuizData = [
     answer: 'false'
   },
   {
-    qNum: 100,
+    qNum: 99,
     text: {
       fr:
         "Vous voulez vous faire couper les cheveux de manière inhabituelle, mais vous craignez que les autres se moquent de vous. Dans ce cas, vous avez été affecté par une influence sociale informative.",
@@ -1020,7 +1013,15 @@ const allQuizData = [
         "You want to get an unusual haircut but are worried others will mock you. In this case, you have been affected by informative social influence."
     },
     answer: 'false'
+  },
+  {
+    qNum: 100,
+    text: {
+      fr:
+        "Le racisme est un problème majeur qui s’explique par l’effet d’homogénéisation. Les personnes racistes pensent de la même manière et leur perception de l’exogroupe est homogène.",
+      en:
+        "Racism is a major problem caused by the homogenization effect. Racist people think similarly and perceive the out-group as homogeneous."
+    },
+    answer: 'false'
   }
 ];
-
-export default allQuizData;
