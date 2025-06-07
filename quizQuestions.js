@@ -383,7 +383,7 @@ const allQuizData = [
       fr:
         "Selon les principes de la persuasion, la preuve par la masse se base sur les effets de l'obéissance.",
       en:
-        "According to persuasion principles, social proof is based on normative influences, not obedience."
+        "According to the principles of persuasion, social proof is based on obedience."
     },
     answer: 'false'
   },
