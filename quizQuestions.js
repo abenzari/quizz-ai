@@ -28,7 +28,7 @@ const allQuizData = [
       fr:
         "Une des principales caractéristiques de la méthode scientifique est que les résultats d’une étude ne doivent pas être falsifiables.",
       en:
-        "One of the main characteristics of the scientific method is that the results of a study must be falsifiable."
+        "One of the key characteristics of the scientific method is that the results of a study should not be falsifiable."
     },
     answer: 'false'
   },
