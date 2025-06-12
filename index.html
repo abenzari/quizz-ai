@@ -245,7 +245,7 @@
       </div>
     </header>
 
-    <div id="testModeContainer">
+    <div id="testModeContainer" style="display: none;">
       <!-- Progress Bar for Test Mode -->
       <div class="w-full bg-gray-200 rounded-full h-4 mb-4 relative">
         <div id="testProgressBar" class="bg-blue-600 h-4 rounded-full" style="width: 0%;"></div>
@@ -557,6 +557,7 @@
         optionProblematic: "Questions Problématiques",
         optionRandomX: "X Questions Aléatoires",
         invalidNumQuestions: "Veuillez entrer un nombre valide de questions (1-100).",
+        // Gamification strings
         testProgress: "Progrès du Test",
         percentComplete: "% Terminé",
         streakNotification: "Série de {count} réponses correctes !",
@@ -854,7 +855,9 @@
           updateProgressBar('ai');
         } else {
             // Fallback if AI mode is selected but no data exists
-            switchMode('learn'); 
+            // Or if AI mode is selected but allAiQuizData is empty
+            showNotification(uiStrings[currentLanguage].noQuestionsAvailableForPractice, 'error');
+            switchMode('learn'); // Fallback to learning mode
         }
       }
     }
@@ -929,8 +932,8 @@
                   // Disable all radios for this question once one is selected
                   radioButtons.forEach(rb => { rb.disabled = true; });
               } else if (prefix === 'pq') { // Learning Mode
-                  savedSelectedAnswers[qData.qNum] = selectedVal; // Save learning mode answer too
-                  saveSavedAnswers();
+                  // savedSelectedAnswers[qData.qNum] = selectedVal; // No need to save learning mode answers directly, performanceData handles it
+                  // saveSavedAnswers();
                   setTimeout(() => {
                       processSingleQuestionAnswer(qData, selectedVal, prefix);
                       updatePracticeCardProgress();
@@ -994,7 +997,9 @@
     function processSingleQuestionAnswer(qData, selectedVal, prefix) {
         const s = uiStrings[currentLanguage];
         const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
+
         if (!resultEl) return;
+
         const wasCorrect = selectedVal === qData.answer;
 
         let feedbackText = '';
@@ -1003,19 +1008,25 @@
         if (wasCorrect) {
             feedbackText = s.correctFeedback;
             feedbackClass = "result text-green-700";
-            currentLearningStreak++;
-            if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) {
-                showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
-            }
-            if (Math.random() < 0.5) { // 50% probability for encouragement
-                feedbackText += ` (${s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)]})`;
+            if (prefix === 'pq') { // Only track streak and show encouragement in learning mode
+                currentLearningStreak++;
+                if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) { // Notify every 5 correct answers
+                    showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
+                }
+                // Add random encouragement for correct answers with 50% probability
+                if (Math.random() < 0.5) {
+                    feedbackText += ` (${s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)]})`;
+                }
             }
         } else {
             const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
             feedbackText = `${s.incorrectFeedbackPrefix}${correctText}.`;
             feedbackClass = "result text-red-700";
-            currentLearningStreak = 0; // Reset streak on incorrect answer
-            if (Math.random() < 0.5) { // 50% probability for encouragement
+            if (prefix === 'pq') { // Reset streak in learning mode
+                currentLearningStreak = 0;
+            }
+            // Add random encouragement for incorrect answers with 50% probability
+            if (Math.random() < 0.5) {
                 feedbackText += ` (${s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)]})`;
             }
         }
@@ -1023,7 +1034,7 @@
         resultEl.textContent = feedbackText;
         resultEl.className = feedbackClass;
 
-        // Update performance data ONLY for Learning Mode questions (prefix === 'pq')
+        // Update performance data ONLY if in LEARNING MODE (prefix === 'pq')
         if (prefix === 'pq') {
             const qNumForPerf = qData.qNum;
             if (!performanceData[qNumForPerf]) {
@@ -1037,11 +1048,12 @@
                 questionPerf.incorrectAttempts++;
             }
             // Store category at the time of answering for potential achievement checks
-            questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category });
-            if (questionPerf.history.length > 10) questionPerf.history.shift();
+            questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category }); // Use current category
+            if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
+
             updateQuestionCategory(qNumForPerf);
-            savePerformanceData();
-            checkAchievements();
+            savePerformanceData(); // Save after each question update
+            checkAchievements(); // Check achievements after performance data update
         }
     }
 
@@ -1138,20 +1150,29 @@
       const s = uiStrings[currentLanguage];
       showConfirmationModal(s.confirmResetPerformance, () => {
         allQuizData.forEach((qData) => {
+          // Reset main quiz questions
           const radios = document.getElementsByName(`q${qData.qNum}`);
           radios.forEach((rb) => { rb.checked = false; rb.disabled = false; });
           const resEl = document.getElementById(`q${qData.qNum}-result`);
           if (resEl) { resEl.textContent = ''; resEl.className = 'result mt-2'; }
+          
+          // Reset practice card questions (if currently rendered)
           const pqRadios = document.getElementsByName(`pq${qData.qNum}`);
           pqRadios.forEach((rb) => { rb.checked = false; rb.disabled = false; });
           const pqResEl = document.getElementById(`pq${qData.qNum}-result`);
           if (pqResEl) { pqResEl.textContent = ''; pqResEl.className = 'result mt-2'; }
         });
+
+        // Reset main quiz scores and saved answers
         pageScores = Array(numPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
         for (let i = 0; i < numPages; i++) {
           const scEl = document.getElementById(`score-page-${i}`);
           if (scEl) scEl.textContent = '';
         }
+        savedSelectedAnswers = {}; // Clear saved answers for main quiz
+        saveSavedAnswers();
+
+        // Reset performance data (learning stats)
         performanceData = {};
         allQuizData.forEach(qData => {
           performanceData[qData.qNum] = { qNumOriginal: qData.qNum, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
@@ -1159,14 +1180,15 @@
         quizCounter = 0;
         currentLearningStreak = 0;
         consecutivePerfectCards = 0;
-        savedSelectedAnswers = {};
-        saveSavedAnswers();
         savePerformanceData();
+
+        // Reset achievements by reloading them as empty (or selectively if desired)
         earnedAchievements = [];
         saveAchievements();
+
         showNotification(s.performanceDataReset, 'success');
-        renderCurrentPageQuestionsAndFeedback();
-        updateProgressBar('test');
+        renderCurrentPageQuestionsAndFeedback(); // Re-render current page in test mode
+        updateProgressBar('test'); // Reset test mode progress bar
       });
     }
 
@@ -1329,6 +1351,7 @@
         if (scoreEl && aiPageScores[pageIdx]) {
             scoreEl.textContent = `${s.scoreForPageLabel}: ${aiPageScores[pageIdx].score} / ${aiPageScores[pageIdx].totalQuestions}`;
         }
+        // AI mode does not influence performanceData categories or streaks directly.
     }
     
     function resetAiQuiz() {
@@ -1681,7 +1704,7 @@
 
   <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.1.4</span>
+    Version <span id="appVersion">1.1.4 TEST</span>
   </div>
 </body>
 </html>
