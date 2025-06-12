@@ -15,11 +15,11 @@
       font-family: 'Inter', sans-serif;
       background-color: #f3f4f6; /* Tailwind gray-100 */
     }
-    .quiz-page, .ai-quiz-page {
+    .quiz-page {
       display: none;
       animation: fadeIn 0.5s ease-in-out;
     }
-    .quiz-page.active, .ai-quiz-page.active {
+    .quiz-page.active {
       display: block;
     }
     @keyframes fadeIn {
@@ -177,17 +177,6 @@
       margin-bottom: 0.25rem;
       color: #4b5563; /* Tailwind gray-600 */
     }
-    /* Style for progress bar text to ensure visibility */
-    .progress-bar-text {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        color: white;
-        font-weight: 600;
-        font-size: 0.75rem;
-        line-height: 1rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
   </style>
 </head>
 
@@ -214,36 +203,24 @@
         Passer en Français
       </button>
 
-      <!-- MODE SELECTION BUTTONS -->
-      <div class="mt-6 border-t pt-4">
-        <h3 class="text-lg font-semibold text-gray-700 mb-3" id="chooseModeTitle">Choose Your Mode</h3>
-        <div class="flex flex-wrap justify-center gap-3">
-          <button
-            id="testModeButton"
-            onclick="switchMode('test')"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150"
-          >
-            Test Mode
-          </button>
-          <button
-            id="learningModeButton"
-            onclick="switchMode('learn')"
-            class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150"
-          >
-            Learning Mode
-          </button>
-          <button
-            id="aiModeButton"
-            onclick="switchMode('ai')"
-            class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            AI Generated Quiz
-          </button>
-        </div>
+      <div class="mt-4 flex justify-center space-x-4">
+        <button
+          id="testModeButton"
+          onclick="switchMode('test')"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150"
+        >
+          Test Mode
+        </button>
+        <button
+          id="learningModeButton"
+          onclick="switchMode('learn')"
+          class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-150"
+        >
+          Learning Mode
+        </button>
       </div>
 
-
-      <div id="shuffleControls" class="mt-4 flex items-center justify-center space-x-2" style="display: none;">
+      <div id="shuffleControls" class="mt-4 flex items-center justify-center space-x-2">
         <label class="flex items-center space-x-2">
           <input type="checkbox" id="shuffleToggle" checked />
           <span id="shuffleLabel" class="text-gray-700">Default order</span>
@@ -258,40 +235,134 @@
       </div>
     </header>
 
-    <!-- TEST MODE CONTAINER -->
-    <div id="testModeContainer" style="display: none;">
+    <div id="testModeContainer">
       <!-- Progress Bar for Test Mode -->
-      <div class="w-full bg-gray-200 rounded-full h-4 mb-4 relative">
-        <div id="testProgressBar" class="bg-blue-600 h-4 rounded-full" style="width: 0%;"></div>
-        <span id="testProgressText" class="progress-bar-text">0% Complete</span>
+      <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+        <div id="testProgressBar" class="bg-blue-600 h-4 rounded-full text-xs flex justify-center items-center text-white font-semibold" style="width: 0%;">
+          <span id="testProgressText">0% Complete</span>
+        </div>
       </div>
 
-      <!-- Test Mode Pages -->
-      <div id="page-0" class="quiz-page active"><h2 id="pageTitle-0" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 1 – 10</h2></div>
-      <div id="page-1" class="quiz-page"><h2 id="pageTitle-1" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 11 – 20</h2></div>
-      <div id="page-2" class="quiz-page"><h2 id="pageTitle-2" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 21 – 30</h2></div>
-      <div id="page-3" class="quiz-page"><h2 id="pageTitle-3" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 31 – 40</h2></div>
-      <div id="page-4" class="quiz-page"><h2 id="pageTitle-4" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 41 – 50</h2></div>
-      <div id="page-5" class="quiz-page"><h2 id="pageTitle-5" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 51 – 60</h2></div>
-      <div id="page-6" class="quiz-page"><h2 id="pageTitle-6" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 61 – 70</h2></div>
-      <div id="page-7" class="quiz-page"><h2 id="pageTitle-7" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 71 – 80</h2></div>
-      <div id="page-8" class="quiz-page"><h2 id="pageTitle-8" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 81 – 90</h2></div>
-      <div id="page-9" class="quiz-page"><h2 id="pageTitle-9" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Questions 91 – 100</h2></div>
+      <div id="page-0" class="quiz-page active">
+        <h2
+          id="pageTitle-0"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 1 – 10
+        </h2>
+      </div>
+      <div id="page-1" class="quiz-page">
+        <h2
+          id="pageTitle-1"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 11 – 20
+        </h2>
+      </div>
+      <div id="page-2" class="quiz-page">
+        <h2
+          id="pageTitle-2"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 21 – 30
+        </h2>
+      </div>
+      <div id="page-3" class="quiz-page">
+        <h2
+          id="pageTitle-3"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 31 – 40
+        </h2>
+      </div>
+      <div id="page-4" class="quiz-page">
+        <h2
+          id="pageTitle-4"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 41 – 50
+        </h2>
+      </div>
+      <div id="page-5" class="quiz-page">
+        <h2
+          id="pageTitle-5"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 51 – 60
+        </h2>
+      </div>
+      <div id="page-6" class="quiz-page">
+        <h2
+          id="pageTitle-6"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 61 – 70
+        </h2>
+      </div>
+      <div id="page-7" class="quiz-page">
+        <h2
+          id="pageTitle-7"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 71 – 80
+        </h2>
+      </div>
+      <div id="page-8" class="quiz-page">
+        <h2
+          id="pageTitle-8"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 81 – 90
+        </h2>
+      </div>
+      <div id="page-9" class="quiz-page">
+        <h2
+          id="pageTitle-9"
+          class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2"
+        >
+          Questions 91 – 100
+        </h2>
+      </div>
 
       <footer class="mt-10 pt-6 border-t border-gray-300">
         <div class="navigation-controls flex justify-between items-center mb-4">
-          <button id="prevButton" onclick="navigatePage(-1)" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150">Previous</button>
-          <span id="pageIndicator" class="text-gray-700 font-medium text-lg">Page 1 / 10</span>
-          <button id="nextButton" onclick="navigatePage(1)" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150">Next</button>
+          <button
+            id="prevButton"
+            onclick="navigatePage(-1)"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
+          >
+            Previous
+          </button>
+          <span id="pageIndicator" class="text-gray-700 font-medium text-lg"
+            >Page 1 / 10</span
+          >
+          <button
+            id="nextButton"
+            onclick="navigatePage(1)"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
+          >
+            Next
+          </button>
         </div>
         <div class="mt-6 space-y-3 md:space-y-0 md:flex md:space-x-3">
-          <button id="viewResultsButton" onclick="showFinalResultsModal('test')" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150">View Final Results</button>
-          <button id="resetAllButton" onclick="resetAllAnswers()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150">Reset All Answers</button>
+          <button
+            id="viewResultsButton"
+            onclick="showFinalResultsModal()"
+            class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
+          >
+            View Final Results
+          </button>
+          <button
+            id="resetAllButton"
+            onclick="resetAllAnswers()"
+            class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
+          >
+            Reset All Answers
+          </button>
         </div>
       </footer>
     </div>
 
-    <!-- LEARNING MODE CONTAINER -->
     <div id="learningModeContainer" style="display: none;">
       <div class="mt-8 pt-6 border-t border-gray-300">
         <h3 id="learningToolsTitle" class="text-2xl font-semibold mb-4 text-center text-gray-700">Learning Tools</h3>
@@ -309,36 +380,66 @@
             <label for="numQuestions" class="text-gray-700 font-medium">Number:</label>
             <input type="number" id="numQuestions" min="1" max="100" value="10" class="w-20 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
           </div>
-          <button id="generatePracticeCardButton" onclick="generatePracticeCardFromUI()" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150">Generate Card</button>
+          <button
+            id="generatePracticeCardButton"
+            onclick="generatePracticeCardFromUI()"
+            class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
+          >
+            Generate Card
+          </button>
         </div>
         <div class="space-y-3 md:space-y-0 md:flex md:space-x-3 md:justify-center">
-          <button id="viewStatsButton" onclick="showPerformanceStatsModal()" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150">View Performance Stats</button>
+          <button
+            id="viewStatsButton"
+            onclick="showPerformanceStatsModal()"
+            class="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150"
+          >
+            View Performance Stats
+          </button>
         </div>
       </div>
+
       <div id="practiceQuestionsDisplayArea" class="mt-8">
+        <!-- Practice card progress indicator -->
         <p id="practiceCardProgress" class="text-center text-gray-600 font-medium mb-4"></p>
-      </div>
+        </div>
+
       <div class="mt-6 text-center space-y-3">
-          <button id="checkPracticeCardButton" onclick="checkPracticeCardAnswers()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md" style="display: none;">Check Card Answers</button>
+          <button
+            id="checkPracticeCardButton"
+            onclick="checkPracticeCardAnswers()"
+            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
+            style="display: none;"
+          >
+            Check Card Answers
+          </button>
           <p id="practiceCardScoreText" class="text-lg font-semibold text-gray-800"></p>
-          <button id="generateNewPracticeCardButton" onclick="generatePracticeCardFromUI()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md mt-4" style="display: none;">Generate New Card</button>
+          <button
+            id="generateNewPracticeCardButton"
+            onclick="generatePracticeCardFromUI()"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md mt-4"
+            style="display: none;"
+          >
+            Generate New Card
+          </button>
       </div>
     </div>
 
-    <!-- AI MODE CONTAINER (will be populated by JS) -->
-    <div id="aiModeContainer" style="display: none;"></div>
-
   </div>
 
-  <!-- MODALS -->
   <div id="finalResultsModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <span class="close-button" onclick="closeFinalResultsModal()">&times;</span>
-        <h2 id="finalResultsTitle" class="text-2xl font-bold text-gray-800">Final Results</h2>
+        <h2 id="finalResultsTitle" class="text-2xl font-bold text-gray-800">
+          Final Results
+        </h2>
       </div>
-      <div id="finalResultsBody" class="modal-body space-y-3"></div>
-      <div class="mt-6 text-center"><p id="overallScoreText" class="text-xl font-bold text-blue-700"></p></div>
+      <div id="finalResultsBody" class="modal-body space-y-3">
+        </div>
+      <div class="mt-6 text-center">
+        <p id="overallScoreText" class="text-xl font-bold text-blue-700"></p>
+      </div>
     </div>
   </div>
 
@@ -349,8 +450,11 @@
         <h2 id="performanceStatsTitle" class="text-2xl font-bold text-gray-800">Performance Statistics</h2>
       </div>
       <div id="performanceStatsBody" class="modal-body space-y-2">
+        <!-- Achievements will be displayed here -->
         <h3 id="achievementsTitle" class="text-xl font-semibold mb-2 text-gray-700">Achievements</h3>
-        <div id="achievementsDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <div id="achievementsDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Badges will be dynamically inserted here -->
+        </div>
       </div>
     </div>
   </div>
@@ -361,7 +465,9 @@
         <span class="close-button" onclick="closeConfirmationModal()">&times;</span>
         <h2 class="text-2xl font-bold text-gray-800">Confirmation</h2>
       </div>
-      <div id="confirmationModalBody" class="modal-body"><p class="text-gray-700"></p></div>
+      <div id="confirmationModalBody" class="modal-body">
+        <p class="text-gray-700"></p>
+      </div>
       <div class="mt-6 text-center space-x-4">
         <button id="confirmYes" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Yes</button>
         <button id="confirmNo" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">No</button>
@@ -369,23 +475,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT FILES -->
   <script src="./quizQuestions.js"></script>
-  <!-- 
-    NOTE: Create a file named "Questions_AI.js" in the same directory.
-    It should contain an array of question objects like the example below.
-    Start qNum from 101 to avoid conflicts with the main quiz.
-
-    Expected format for Questions_AI.js:
-    const allAiQuizData = [
-      { qNum: 101, text: { en: 'This is an AI question in English.', fr: 'Ceci est une question IA en français.' }, answer: "true" },
-      { qNum: 102, text: { en: 'This is another AI question.', fr: 'Ceci est une autre question IA.' }, answer: "false" }
-      // ... more questions
-    ];
-  -->
-  <script src="./Questions_AI.js"></script>
-  
-  <!-- MAIN SCRIPT -->
   <script>
     // ––– Language and UI Strings –––
     let currentLanguage = 'en'; // Default language set to English
@@ -411,7 +501,8 @@
         scoreForPageLabel: 'Score pour cette page',
         allAnswersResetMsg: 'Toutes les réponses ont été réinitialisées.',
         questionsLabel: 'Questions',
-        noResultsYet: 'Aucun résultat à afficher. Veuillez compléter des pages du quiz.',
+        noResultsYet:
+          'Aucun résultat à afficher. Veuillez compléter des pages du quiz.',
         defaultLabel: 'Ordre par défaut',
         shuffleButton: 'Mélanger les questions',
         learningToolsTitle: "Outils d'Apprentissage",
@@ -434,6 +525,7 @@
         learningModeButton: "Mode Apprentissage",
         generateNewPracticeCardButton: "Générer une Nouvelle Carte",
         noQuestionsAvailableForPractice: "Pas assez de questions disponibles pour générer une carte de pratique. Essayez de répondre à plus de questions en mode examen ou réinitialisez vos données.",
+        // New UI Strings for customization
         generateLabel: "Générer:",
         numQuestionsLabel: "Nombre:",
         optionDefault: "Par défaut (Questions Mixtes)",
@@ -441,6 +533,7 @@
         optionProblematic: "Questions Problématiques",
         optionRandomX: "X Questions Aléatoires",
         invalidNumQuestions: "Veuillez entrer un nombre valide de questions (1-100).",
+        // Gamification strings
         testProgress: "Progrès du Test",
         percentComplete: "% Terminé",
         streakNotification: "Série de {count} réponses correctes !",
@@ -450,17 +543,14 @@
         achievementsTitle: "Réalisations",
         noQuestionsInCategory: "Aucune question dans cette catégorie.",
         practiceCardProgress: "Question {current} / {total}",
-        encouragementCorrect: [ "Fantastique !", "Impressionnant !", "Bien joué !", "Exact !", "Parfait !", "Continuez comme ça !", "Superbe !", "Très bien !" ],
-        encouragementIncorrect: [ "Gardez la tête haute !", "Ne vous inquiétez pas, vous y arriverez !", "Chaque erreur est une leçon.", "Continuez d'essayer !", "Prochaine fois sera la bonne !", "C'est un processus d'apprentissage." ],
-        // New AI Mode strings
-        aiModeButton: 'Quiz Généré par IA',
-        aiQuizTitle: 'Quiz Généré par IA',
-        aiQuizProgress: "Progression du Quiz IA",
-        resetAiQuizButton: 'Réinitialiser le Quiz IA',
-        confirmResetAiQuiz: "Êtes-vous sûr de vouloir réinitialiser toutes les réponses du quiz IA ? Cette action est irréversible.",
-        aiQuizResetMsg: "Le quiz IA a été réinitialisé.",
-        chooseModeTitle: "Choisissez Votre Mode",
-        aiResultsTitle: "Résultats du Quiz IA",
+        encouragementCorrect: [
+            "Fantastique !", "Impressionnant !", "Bien joué !", "Exact !", "Parfait !",
+            "Continuez comme ça !", "Superbe !", "Très bien !"
+        ],
+        encouragementIncorrect: [
+            "Gardez la tête haute !", "Ne vous inquiétez pas, vous y arriverez !", "Chaque erreur est une leçon.",
+            "Continuez d'essayer !", "Prochaine fois sera la bonne !", "C'est un processus d'apprentissage."
+        ]
       },
       en: {
         pageTitleDoc: 'Complete Quiz – Mock Exam',
@@ -483,7 +573,8 @@
         scoreForPageLabel: 'Score for this page',
         allAnswersResetMsg: 'All answers have been reset.',
         questionsLabel: 'Questions',
-        noResultsYet: 'No results to display yet. Please complete some quiz pages.',
+        noResultsYet:
+          'No results to display yet. Please complete some quiz pages.',
         defaultLabel: 'Default order',
         shuffleButton: 'Shuffle Questions',
         learningToolsTitle: "Learning Tools",
@@ -506,6 +597,7 @@
         learningModeButton: "Learning Mode",
         generateNewPracticeCardButton: "Generate New Card",
         noQuestionsAvailableForPractice: "Not enough questions available to generate a practice card. Try answering more questions in test mode or reset your data.",
+        // New UI Strings for customization
         generateLabel: "Generate:",
         numQuestionsLabel: "Number:",
         optionDefault: "Default (Mixed Questions)",
@@ -513,6 +605,7 @@
         optionProblematic: "Problematic Questions",
         optionRandomX: "Random X Questions",
         invalidNumQuestions: "Please enter a valid number of questions (1-100).",
+        // Gamification strings
         testProgress: "Test Progress",
         percentComplete: "% Complete",
         streakNotification: "{count}-Question Streak!",
@@ -522,170 +615,225 @@
         achievementsTitle: "Achievements",
         noQuestionsInCategory: "No questions in this category.",
         practiceCardProgress: "Question {current} / {total}",
-        encouragementCorrect: [ "Fantastic!", "Impressive!", "Well done!", "Exactly!", "Perfect!", "Keep it up!", "Superb!", "Very good!" ],
-        encouragementIncorrect: [ "Keep your chin up!", "Don't worry, you'll get it!", "Every mistake is a lesson.", "Keep trying!", "Next time will be the one!", "It's a learning process." ],
-        // New AI Mode strings
-        aiModeButton: 'AI Generated Quiz',
-        aiQuizTitle: 'AI Generated Quiz',
-        aiQuizProgress: "AI Quiz Progress",
-        resetAiQuizButton: 'Reset AI Quiz',
-        confirmResetAiQuiz: "Are you sure you want to reset all AI quiz answers? This action cannot be undone.",
-        aiQuizResetMsg: "The AI quiz has been reset.",
-        chooseModeTitle: "Choose Your Mode",
-        aiResultsTitle: "AI Quiz Results",
+        encouragementCorrect: [
+            "Fantastic!", "Impressive!", "Well done!", "Exactly!", "Perfect!",
+            "Keep it up!", "Superb!", "Very good!"
+        ],
+        encouragementIncorrect: [
+            "Keep your chin up!", "Don't worry, you'll get it!", "Every mistake is a lesson.",
+            "Keep trying!", "Next time will be the one!", "It's a learning process."
+        ]
       }
     };
 
-    // Data from quizQuestions.js is loaded first.
-    // AI quiz data from Questions_AI.js will be checked for existence.
-    const allAiQuizData = typeof allAiQuizData !== 'undefined' ? allAiQuizData : [];
+    // The allQuizData array is now loaded from quizQuestions.js
+    // It is globally available because quizQuestions.js is loaded before this script.
 
 
     // ––– Global Variables & Constants –––
     let quizOrder = Array.from({ length: allQuizData.length }, (_, i) => i);
-    const originalOrder = Array.from(quizOrder);
+    const originalOrder = Array.from(quizOrder); // [0, 1, 2, …, 99]
     let currentPageIndex = 0;
     const questionsPerPage = 10;
     const numPages = Math.ceil(allQuizData.length / questionsPerPage);
     const pageElements = [];
-    let pageScores = Array(numPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
-    let savedSelectedAnswers = {};
-    
-    // AI Mode State
-    let aiCurrentPageIndex = 0;
-    let numAiPages = 0;
-    const aiPageElements = [];
-    let aiPageScores = [];
-    let aiSavedSelectedAnswers = {};
+    let pageScores = Array(numPages)
+      .fill(null)
+      .map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
 
-    // Learning Mode and Performance State
+    // Global variable to hold performance data for each question
     let performanceData = {};
-    let currentPracticeCardQuestions = [];
-    let currentPracticeCardQuestionIndex = 0;
-    const DEFAULT_PRACTICE_CARD_SIZE = 10;
-    let currentMode = 'learn';
-    let quizCounter = 0;
-    
-    // Gamification State
-    let currentLearningStreak = 0;
-    let consecutivePerfectCards = 0;
+    // { qNum: { qNumOriginal: 'actualQNum', correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 } }
+    // Categories: 'unseen', 'new-learning', 'learning-bad', 'learning-normal', 'learning-good', 'mastered', 'problematic'
+
+    let currentPracticeCardQuestions = []; // To store questions for the current practice card
+    let currentPracticeCardQuestionIndex = 0; // To track progress within the current practice card
+    const DEFAULT_PRACTICE_CARD_SIZE = 10; // Default size for mixed questions
+    let currentMode = 'learn'; // Default mode set to 'learn'
+    let quizCounter = 0; // Tracks how many practice cards have been generated
+
+    // Stores selected answers for persistence
+    let savedSelectedAnswers = {}; // { qNum: "true" | "false", ... }
+
+    // Gamification variables
+    let currentLearningStreak = 0; // Streak for consecutive correct answers in Learning Mode
+    let consecutivePerfectCards = 0; // Streak for consecutive perfect practice cards (10/10)
+
+    // Achievements definition
     const achievements = [
-        { id: 'first_step', name_fr: 'Premier Pas', name_en: 'First Step', description_fr: 'Terminez votre première page en mode Examen.', description_en: 'Complete your first page in Test Mode.', check: () => pageScores.some(score => score && score.attempted) },
-        { id: 'master_learner_i', name_fr: 'Apprenti Maître I', name_en: 'Master Learner I', description_fr: 'Maîtrisez 5 questions (catégorie "Maîtrisées").', description_en: 'Master 5 questions (in "Mastered" category).', check: () => Object.values(performanceData).filter(q => q.category === 'mastered').length >= 5 },
-        { id: 'problem_solver', name_fr: 'Résolveur de Problèmes', name_en: 'Problem Solver', description_fr: 'Faites passer 3 questions de "Problématiques" à une meilleure catégorie.', description_en: 'Improve 3 questions from "Problematic" to a better category.', check: () => Object.values(performanceData).filter(q => q.category !== 'problematic' && q.history.some(h => h.categoryAtTime === 'problematic')).length >= 3 },
-        { id: 'perfect_card_pro', name_fr: 'Pro des Cartes Parfaites', name_en: 'Perfect Card Pro', description_fr: 'Obtenez 3 cartes de pratique parfaites consécutives.', description_en: 'Achieve 3 consecutive perfect practice cards.', check: () => consecutivePerfectCards >= 3 },
-        { id: 'quiz_champion', name_fr: 'Champion du Quiz', name_en: 'Quiz Champion', description_fr: 'Répondez à toutes les 100 questions en mode Examen.', description_en: 'Answer all 100 questions in Test Mode.', check: () => Object.keys(savedSelectedAnswers).length === allQuizData.length }
+        {
+            id: 'first_step',
+            name_fr: 'Premier Pas',
+            name_en: 'First Step',
+            description_fr: 'Terminez votre première page en mode Examen.',
+            description_en: 'Complete your first page in Test Mode.',
+            check: () => pageScores.some(score => score && score.attempted)
+        },
+        {
+            id: 'master_learner_i',
+            name_fr: 'Apprenti Maître I',
+            name_en: 'Master Learner I',
+            description_fr: 'Maîtrisez 5 questions (catégorie "Maîtrisées").',
+            description_en: 'Master 5 questions (in "Mastered" category).',
+            check: () => Object.values(performanceData).filter(q => q.category === 'mastered').length >= 5
+        },
+        {
+            id: 'problem_solver',
+            name_fr: 'Résolveur de Problèmes',
+            name_en: 'Problem Solver',
+            description_fr: 'Faites passer 3 questions de "Problématiques" à une meilleure catégorie.',
+            description_en: 'Improve 3 questions from "Problematic" to a better category.',
+            // This one is harder to track directly, will need a counter for questions that *left* problematic
+            // For now, let's simplify: have 3 questions that were once problematic and are now mastered/learning-good/normal
+            check: () => Object.values(performanceData).filter(q => q.category !== 'problematic' && q.history.some(h => h.categoryAtTime === 'problematic')).length >= 3
+        },
+        {
+            id: 'perfect_card_pro',
+            name_fr: 'Pro des Cartes Parfaites',
+            name_en: 'Perfect Card Pro',
+            description_fr: 'Obtenez 3 cartes de pratique parfaites consécutives.',
+            description_en: 'Achieve 3 consecutive perfect practice cards.',
+            check: () => consecutivePerfectCards >= 3
+        },
+        {
+            id: 'quiz_champion',
+            name_fr: 'Champion du Quiz',
+            name_en: 'Quiz Champion',
+            description_fr: 'Répondez à toutes les 100 questions en mode Examen.',
+            description_en: 'Answer all 100 questions in Test Mode.',
+            check: () => Object.keys(savedSelectedAnswers).length === allQuizData.length
+        }
     ];
-    let earnedAchievements = [];
+    let earnedAchievements = []; // Stores IDs of earned achievements
 
     // ––– Initialization on DOMContentLoaded –––
     document.addEventListener('DOMContentLoaded', () => {
-      // Collect main quiz page containers
+      // 1) Collect page containers
       for (let i = 0; i < numPages; i++) {
         pageElements.push(document.getElementById(`page-${i}`));
       }
 
-      // Load all saved data from localStorage
+      // Load performance data, saved answers, and achievements
       loadPerformanceData();
       loadSavedAnswers();
-      loadAiSavedAnswers();
       loadAchievements();
 
-      // Dynamically build the AI quiz section if data exists
-      initializeAiMode(); 
-
-      // Set up UI text & interactive elements
+      // 2) Set up UI text & button labels in the current language
       updateAllUIText();
-      setupEventListeners();
-      
-      // Set the initial view of the application
-      switchMode('learn'); // Default to learning mode on start
+
+      // 3) Shuffle checkbox & button
+      const shuffleToggle = document.getElementById('shuffleToggle');
+      const shuffleButton = document.getElementById('shuffleButton');
+
+      shuffleToggle.addEventListener('change', () => {
+        if (shuffleToggle.checked) {
+          // Restore default order
+          quizOrder = Array.from(originalOrder);
+          resetAllAnswers(); // This will now also reset performance data and saved answers
+          renderCurrentPageQuestionsAndFeedback();
+          shuffleButton.disabled = true;
+        } else {
+          // Enable shuffle
+          shuffleButton.disabled = false;
+        }
+      });
+
+      shuffleButton.addEventListener('click', () => {
+        // Fisher–Yates shuffle
+        for (let i = quizOrder.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
+        }
+        resetAllAnswers(); // This will now also reset performance data and saved answers
+        renderCurrentPageQuestionsAndFeedback();
+      });
+
+      // 4) Initialize Learning Mode Customization Controls
+      const quizStrategySelect = document.getElementById('quizStrategy');
+      const numQuestionsInputContainer = document.getElementById('numQuestionsInputContainer');
+
+      quizStrategySelect.addEventListener('change', () => {
+        if (quizStrategySelect.value === 'random_x') {
+          numQuestionsInputContainer.style.display = 'flex';
+        } else {
+          numQuestionsInputContainer.style.display = 'none';
+        }
+      });
+
+      // 5) Initially render page 0 and set initial mode
+      switchMode(currentMode); // Set initial display mode (now 'learn')
+      updateNavigation();
+      renderCurrentPageQuestionsAndFeedback();
+      updateTestProgressBar(); // Initial update for the progress bar
     });
-    
-    function setupEventListeners() {
-        const shuffleToggle = document.getElementById('shuffleToggle');
-        const shuffleButton = document.getElementById('shuffleButton');
-
-        shuffleToggle.addEventListener('change', () => {
-            if (shuffleToggle.checked) {
-                quizOrder = Array.from(originalOrder);
-                resetAllAnswers(); // Resets both test and performance data
-                renderCurrentPageQuestionsAndFeedback();
-                shuffleButton.disabled = true;
-            } else {
-                shuffleButton.disabled = false;
-            }
-        });
-
-        shuffleButton.addEventListener('click', () => {
-            // Fisher–Yates shuffle
-            for (let i = quizOrder.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
-            }
-            resetAllAnswers();
-            renderCurrentPageQuestionsAndFeedback();
-        });
-
-        const quizStrategySelect = document.getElementById('quizStrategy');
-        const numQuestionsInputContainer = document.getElementById('numQuestionsInputContainer');
-        quizStrategySelect.addEventListener('change', () => {
-            numQuestionsInputContainer.style.display = quizStrategySelect.value === 'random_x' ? 'flex' : 'none';
-        });
-    }
 
     // ––– Language Switching –––
     function toggleLanguage() {
       currentLanguage = currentLanguage === 'fr' ? 'en' : 'fr';
       updateAllUIText();
-
-      // Re-render content based on the current mode to apply language changes
-      if (currentMode === 'test') {
-        renderCurrentPageQuestionsAndFeedback();
-      } else if (currentMode === 'ai') {
-        renderCurrentAiPage();
-      } else if (currentMode === 'learn' && currentPracticeCardQuestions.length > 0) {
-        renderPracticeCardQuestions(currentPracticeCardQuestions);
-      }
-      
-      // Re-render stats modal if it is open
+      renderCurrentPageQuestionsAndFeedback(); // Re-render questions with new language
+      // Re-render stats modal if open
       if (document.getElementById('performanceStatsModal').style.display === 'block') {
         showPerformanceStatsModal();
+      }
+      // If in learning mode, re-render practice card if questions are already displayed
+      if (currentMode === 'learn' && currentPracticeCardQuestions.length > 0) {
+          renderPracticeCardQuestions(currentPracticeCardQuestions);
       }
     }
 
     function updateAllUIText() {
       const s = uiStrings[currentLanguage];
-      // Update all static text elements based on the selected language
       document.title = s.pageTitleDoc;
       document.getElementById('mainQuizTitle').textContent = s.mainQuizTitle;
-      document.getElementById('mainQuizSubtitle').textContent = s.mainQuizSubtitle;
-      document.getElementById('langToggleButton').textContent = s.langToggleButton;
-      document.getElementById('chooseModeTitle').textContent = s.chooseModeTitle;
+      document.getElementById('mainQuizSubtitle').textContent =
+        s.mainQuizSubtitle;
+      document.getElementById('langToggleButton').textContent =
+        s.langToggleButton;
+
+      // Mode buttons
       document.getElementById('testModeButton').textContent = s.testModeButton;
       document.getElementById('learningModeButton').textContent = s.learningModeButton;
-      document.getElementById('aiModeButton').textContent = s.aiModeButton;
+
+
+      // Shuffle labels
       document.getElementById('shuffleLabel').textContent = s.defaultLabel;
-      document.getElementById('shuffleButton').textContent = s.shuffleButton;
+      document.getElementById('shuffleButton').textContent =
+        s.shuffleButton;
+
+      // Nav button labels
       document.getElementById('prevButton').textContent = s.prevButton;
       document.getElementById('nextButton').textContent = s.nextButton;
       document.getElementById('resetAllButton').textContent = s.resetButton;
-      document.getElementById('viewResultsButton').textContent = s.viewResultsButton;
+      document.getElementById('viewResultsButton').textContent =
+        s.viewResultsButton;
+      document.getElementById('finalResultsTitle').textContent =
+        s.finalResultsTitle;
+
+      // New UI text updates for learning mode
       document.getElementById('learningToolsTitle').textContent = s.learningToolsTitle;
       document.getElementById('generatePracticeCardButton').textContent = s.generatePracticeCardButton;
       document.getElementById('viewStatsButton').textContent = s.viewStatsButton;
-      if (document.getElementById('checkPracticeCardButton')) { document.getElementById('checkPracticeCardButton').textContent = s.checkPracticeCardButton; }
-      if (document.getElementById('generateNewPracticeCardButton')) { document.getElementById('generateNewPracticeCardButton').textContent = s.generateNewPracticeCardButton; }
+      if (document.getElementById('checkPracticeCardButton')) { // Check if element exists before updating
+        document.getElementById('checkPracticeCardButton').textContent = s.checkPracticeCardButton;
+      }
+      if (document.getElementById('generateNewPracticeCardButton')) { // Check if element exists before updating
+        document.getElementById('generateNewPracticeCardButton').textContent = s.generateNewPracticeCardButton;
+      }
+      document.getElementById('performanceStatsTitle').textContent = s.performanceStatsTitle;
+      document.getElementById('achievementsTitle').textContent = s.achievementsTitle;
+
+
+      // Update quiz customization options
       document.querySelector('#quizStrategy option[value="default"]').textContent = s.optionDefault;
       document.querySelector('#quizStrategy option[value="unseen"]').textContent = s.optionUnseen;
       document.querySelector('#quizStrategy option[value="problematic"]').textContent = s.optionProblematic;
       document.querySelector('#quizStrategy option[value="random_x"]').textContent = s.optionRandomX;
       document.querySelector('label[for="numQuestions"]').textContent = s.numQuestionsLabel;
       document.querySelector('label[for="quizStrategy"]').textContent = s.generateLabel;
-      document.getElementById('performanceStatsTitle').textContent = s.performanceStatsTitle;
-      document.getElementById('achievementsTitle').textContent = s.achievementsTitle;
 
-      // Update main quiz page titles
+
+      // Page headings
       pageElements.forEach((page, idx) => {
         const titleEl = document.getElementById(`pageTitle-${idx}`);
         if (!titleEl) return;
@@ -694,17 +842,13 @@
         titleEl.textContent = `${s.questionsLabel} ${startQ} – ${endQ}`;
       });
 
-      // Update AI page titles if they exist
-      aiPageElements.forEach((page, idx) => {
-          const titleEl = document.getElementById(`ai-pageTitle-${idx}`);
-          if (!titleEl) return;
-          const startQ = idx * questionsPerPage + 1;
-          const endQ = Math.min((idx + 1) * questionsPerPage, allAiQuizData.length);
-          titleEl.textContent = `${s.questionsLabel} ${startQ} – ${endQ}`;
-      });
-      
-      updateProgressBar('test');
-      updateProgressBar('ai');
+      // Update progress bar text
+      updateTestProgressBar();
+
+      // Update categories in stats modal if open
+      if (document.getElementById('performanceStatsModal').style.display === 'block') {
+        showPerformanceStatsModal();
+      }
     }
 
     // ––– Mode Switching –––
@@ -712,136 +856,192 @@
       currentMode = mode;
       const testContainer = document.getElementById('testModeContainer');
       const learnContainer = document.getElementById('learningModeContainer');
-      const aiContainer = document.getElementById('aiModeContainer');
       const shuffleControls = document.getElementById('shuffleControls');
-
-      // Hide all main containers first
-      testContainer.style.display = 'none';
-      learnContainer.style.display = 'none';
-      aiContainer.style.display = 'none';
-      shuffleControls.style.display = 'none';
 
       if (mode === 'test') {
         testContainer.style.display = 'block';
-        shuffleControls.style.display = 'flex';
-        updateNavigation(); // Set up pagination for test mode
-        renderCurrentPageQuestionsAndFeedback(); // Render the current page
-      } else if (mode === 'learn') {
+        learnContainer.style.display = 'none';
+        shuffleControls.style.display = 'flex'; // Show shuffle controls in test mode
+        updateNavigation(); // Ensure test mode pagination is updated
+        renderCurrentPageQuestionsAndFeedback(); // Ensure questions are rendered
+        updateTestProgressBar(); // Update progress bar when switching to test mode
+      } else { // 'learn' mode
+        testContainer.style.display = 'none';
         learnContainer.style.display = 'block';
-      } else if (mode === 'ai') {
-        if (allAiQuizData.length > 0) {
-          aiContainer.style.display = 'block';
-          navigateAiPage(aiCurrentPageIndex, true); // Go to current AI page and force render
-        } else {
-            showNotification("AI Quiz data is not available.", 'error');
-            switchMode('learn'); // Fallback to a safe mode
-        }
+        shuffleControls.style.display = 'none'; // Hide shuffle controls in learning mode
+        // Clear any previous practice questions when switching to learn mode
+        document.getElementById('practiceQuestionsDisplayArea').innerHTML = '';
+        document.getElementById('checkPracticeCardButton').style.display = 'none';
+        document.getElementById('practiceCardScoreText').textContent = '';
+        document.getElementById('generateNewPracticeCardButton').style.display = 'none';
+        document.getElementById('practiceCardProgress').textContent = ''; // Clear practice card progress
       }
     }
 
-    // ––– Create a Single Question Block (Generic for all modes) –––
-    function createQuestionElement(qData, prefix, displayIndex = null) {
-      const s = uiStrings[currentLanguage];
-      const div = document.createElement('div');
-      div.className = 'question-block';
-      const actualDisplayIndex = displayIndex !== null ? displayIndex : qData.qNum;
 
-      div.innerHTML = `
-        <p class="text-gray-800 text-base"><b>${actualDisplayIndex}.</b> ${qData.text[currentLanguage]}</p>
-        <div class="mt-3 space-y-2">
-          <label class="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors duration-150">
-            <input type="radio" name="${prefix}${qData.qNum}" value="true"><span class="ml-3 text-gray-700">${s.trueLabel}</span>
-          </label>
-          <label class="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors duration-150">
-            <input type="radio" name="${prefix}${qData.qNum}" value="false"><span class="ml-3 text-gray-700">${s.falseLabel}</span>
-          </label>
-        </div>
-        <p id="${prefix}${qData.qNum}-result" class="result mt-2"></p>`;
-
-      const radioButtons = div.querySelectorAll(`input[name="${prefix}${qData.qNum}"]`);
-      radioButtons.forEach(radio => {
-          radio.addEventListener('change', (event) => {
-              const selectedVal = event.target.value;
-              const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
-              if (resultEl) { resultEl.textContent = ''; resultEl.className = 'result mt-2'; }
-              
-              if (prefix === 'q') { // Test Mode
-                  savedSelectedAnswers[qData.qNum] = selectedVal;
-                  saveSavedAnswers();
-                  updateProgressBar('test');
-                  radioButtons.forEach(rb => { rb.disabled = true; });
-              } else if (prefix === 'aiq') { // AI Mode
-                  aiSavedSelectedAnswers[qData.qNum] = selectedVal;
-                  saveAiSavedAnswers();
-                  updateProgressBar('ai');
-                  radioButtons.forEach(rb => { rb.disabled = true; });
-              } else if (prefix === 'pq') { // Learning Mode
-                  setTimeout(() => {
-                      processSingleQuestionAnswer(qData, selectedVal, prefix);
-                      updatePracticeCardProgress();
-                  }, 750);
-              }
-          });
-      });
-      return div;
-    }
-    
-    // ––– MAIN TEST MODE: Rendering and Navigation –––
+    // ––– Render Current Page (Questions + Buttons) –––
     function renderCurrentPageQuestionsAndFeedback() {
       const pageEl = pageElements[currentPageIndex];
       if (!pageEl) return;
 
+      // 1) Keep the <h2> heading intact
       const heading = pageEl.querySelector('.page-title');
-      pageEl.innerHTML = heading ? heading.outerHTML : '';
+      const headingHTML = heading ? heading.outerHTML : '';
 
+      // 2) Clear entire page, then re-insert heading
+      pageEl.innerHTML = headingHTML;
+
+      // 3) Append the 10 question-blocks for this page
       const startIdx = currentPageIndex * questionsPerPage;
       const endIdx = Math.min(startIdx + questionsPerPage, allQuizData.length);
 
       for (let i = startIdx; i < endIdx; i++) {
-        const dataIdx = quizOrder[i];
-        pageEl.appendChild(createQuestionElement(allQuizData[dataIdx], 'q'));
+        const dataIdx = quizOrder[i]; // index into allQuizData
+        const qData = allQuizData[dataIdx];
+        pageEl.appendChild(createQuestionElement(qData, 'q')); // Pass 'q' prefix for test mode
       }
 
+      // 4) Append “Check Answers” button + score placeholder
       addCheckButtonAndScoreToPage(currentPageIndex);
-      loadSavedAnswersForPage(pageEl, 'q', savedSelectedAnswers);
 
-      if (pageScores[currentPageIndex] && pageScores[currentPageIndex].attempted) {
-        checkAnswersForPage(currentPageIndex, false);
+      // 5) Load saved answers and apply them
+      loadSavedAnswersForPage(pageEl, 'q');
+
+      // 6) If page was already attempted, re-run checkAnswers (calculateScore = false)
+      // This is primarily for displaying the score, not for re-processing answers
+      if (
+        pageScores[currentPageIndex] &&
+        pageScores[currentPageIndex].attempted &&
+        currentMode === 'test' // Only re-check in test mode to update score display
+      ) {
+        checkAnswersForPage(
+          currentPageIndex,
+          false // Don't recalculate score from scratch, just update display based on performanceData
+        );
       }
     }
-    
+
+    // ––– Create a Single Question Block (Bilingual) –––
+    // Added a 'prefix' argument to differentiate radio button names between test and practice modes
+    function createQuestionElement(qData, prefix = 'q', displayIndex = null) {
+      const s = uiStrings[currentLanguage];
+      const div = document.createElement('div');
+      div.className = 'question-block';
+      const actualDisplayIndex = displayIndex !== null ? displayIndex : qData.qNum; // Use provided index or qNum
+
+      div.innerHTML = `
+        <p class="text-gray-800 text-base"><b>${actualDisplayIndex}.</b> ${
+        qData.text[currentLanguage]
+      }</p>
+        <div class="mt-3 space-y-2">
+          <label class="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors duration-150">
+            <input type="radio" name="${prefix}${qData.qNum}" value="true">
+            <span class="ml-3 text-gray-700 true-label">${s.trueLabel}</span>
+          </label>
+          <label class="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors duration-150">
+            <input type="radio" name="${prefix}${qData.qNum}" value="false">
+            <span class="ml-3 text-gray-700 false-label">${s.falseLabel}</span>
+          </label>
+        </div>
+        <p id="${prefix}${qData.qNum}-result" class="result mt-2"></p>
+      `;
+
+      // Add event listeners for immediate feedback (only in Learning Mode)
+      const radioButtons = div.querySelectorAll(`input[name="${prefix}${qData.qNum}"]`);
+      radioButtons.forEach(radio => {
+          radio.addEventListener('change', (event) => {
+              const selectedVal = event.target.value;
+              // Clear previous feedback immediately
+              const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
+              if (resultEl) {
+                  resultEl.textContent = '';
+                  resultEl.className = 'result mt-2';
+              }
+
+              // Save the selected answer immediately
+              savedSelectedAnswers[qData.qNum] = selectedVal;
+              saveSavedAnswers();
+
+              if (currentMode === 'learn') {
+                  // In learning mode, provide immediate feedback after a delay
+                  setTimeout(() => {
+                      processSingleQuestionAnswer(qData, selectedVal, prefix);
+                      updatePracticeCardProgress(); // Update progress bar for practice card
+                  }, 750); // 0.75 seconds delay
+              } else {
+                  // In test mode, disable other radio buttons for this question
+                  // and do NOT provide immediate feedback. Feedback comes from checkAnswersForPage.
+                  radioButtons.forEach(rb => {
+                      if (rb !== event.target) {
+                          rb.disabled = true;
+                      }
+                  });
+              }
+              updateTestProgressBar(); // Update progress bar on any answer selection in test mode
+          });
+      });
+
+      return div;
+    }
+
+    // ––– Add “Check Answers” Button & Score Placeholder to Page –––
     function addCheckButtonAndScoreToPage(pageIdx) {
       const s = uiStrings[currentLanguage];
       const pageEl = pageElements[pageIdx];
       if (!pageEl) return;
 
+      // Remove any existing check button to prevent duplicates
       const existingBtn = pageEl.querySelector('.check-answers-btn');
-      if (existingBtn) existingBtn.remove();
+      if (existingBtn) {
+          existingBtn.remove();
+      }
       const existingScoreP = pageEl.querySelector('.page-score-display');
-      if (existingScoreP) existingScoreP.remove();
+      if (existingScoreP) {
+          existingScoreP.remove();
+      }
 
       const btn = document.createElement('button');
-      btn.onclick = () => checkAnswersForPage(pageIdx, true);
-      btn.className = 'check-answers-btn bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg w-full mt-6 shadow-md transition-colors duration-150';
-      btn.textContent = `${s.checkAnswersButton} (${s.pageIndicatorPrefix} ${pageIdx + 1})`;
+      btn.onclick = () => checkAnswersForPage(pageIdx, true); // Simplified call
+      btn.className =
+        'check-answers-btn bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg w-full mt-6 shadow-md transition-colors duration-150';
+      btn.textContent = `${s.checkAnswersButton} (${s.pageIndicatorPrefix} ${
+        pageIdx + 1
+      })`;
       pageEl.appendChild(btn);
 
       const scoreP = document.createElement('p');
       scoreP.id = `score-page-${pageIdx}`;
-      scoreP.className = 'page-score-display text-center font-semibold text-lg mt-4 text-gray-800';
+      scoreP.className =
+        'page-score-display text-center font-semibold text-lg mt-4 text-gray-800';
       pageEl.appendChild(scoreP);
     }
 
+    // ––– Update Pagination Controls –––
     function updateNavigation() {
       const s = uiStrings[currentLanguage];
       pageElements.forEach((page, idx) => {
         if (!page) return;
-        page.style.display = (idx === currentPageIndex) ? 'block' : 'none';
-        page.classList.toggle('active', idx === currentPageIndex);
+        if (idx === currentPageIndex) {
+          page.style.display = 'block';
+          page.classList.add('active');
+        } else {
+          page.style.display = 'none';
+          page.classList.remove('active');
+        }
       });
-      document.getElementById('pageIndicator').textContent = `${s.pageIndicatorPrefix} ${currentPageIndex + 1} / ${numPages}`;
-      document.getElementById('prevButton').disabled = currentPageIndex === 0;
-      document.getElementById('nextButton').disabled = currentPageIndex === numPages - 1;
+      document.getElementById(
+        'pageIndicator'
+      ).textContent = `${s.pageIndicatorPrefix} ${currentPageIndex + 1} / ${numPages}`;
+      document.getElementById('prevButton').disabled =
+        currentPageIndex === 0;
+      document.getElementById('nextButton').disabled =
+        currentPageIndex === numPages - 1;
+
+      // Scroll container into view
+      const container = document.querySelector('.container.mx-auto');
+      if (container) {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function navigatePage(dir) {
@@ -850,33 +1050,117 @@
         currentPageIndex = newIdx;
         updateNavigation();
         renderCurrentPageQuestionsAndFeedback();
-        const container = document.querySelector('.container.mx-auto');
-        if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
+    // ––– Process a Single Question's Answer and Update Performance Data –––
+    function processSingleQuestionAnswer(qData, selectedVal, prefix) {
+        const s = uiStrings[currentLanguage];
+        const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
+
+        if (!resultEl) return;
+
+        const wasCorrect = selectedVal === qData.answer;
+
+        if (wasCorrect) {
+            resultEl.textContent = s.correctFeedback;
+            resultEl.className = "result text-green-700";
+            if (prefix === 'pq') { // Only track streak and show encouragement in learning mode
+                currentLearningStreak++;
+                if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) { // Notify every 5 correct answers
+                    showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
+                }
+                // Add random encouragement for correct answers with 50% probability
+                if (Math.random() < 0.5) {
+                    const randomEncouragement = s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)];
+                    resultEl.textContent += ` (${randomEncouragement})`;
+                }
+            }
+        } else {
+            const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
+            resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
+            resultEl.className = "result text-red-700";
+            if (prefix === 'pq') { // Reset streak in learning mode
+                currentLearningStreak = 0;
+            }
+            // Add random encouragement for incorrect answers with 50% probability
+            if (Math.random() < 0.5) {
+                const randomEncouragement = s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)];
+                resultEl.textContent += ` (${randomEncouragement})`;
+            }
+        }
+
+        // Update performance data ONLY IF IN LEARNING MODE
+        if (prefix === 'pq') {
+            const qNumForPerf = qData.qNum;
+            if (!performanceData[qNumForPerf]) {
+                performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
+            }
+            const questionPerf = performanceData[qNumForPerf];
+
+            if (wasCorrect) {
+                questionPerf.correctAttempts++;
+            } else {
+                questionPerf.incorrectAttempts++;
+            }
+            // Store category at the time of answering for potential achievement checks
+            questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category }); // Use current category
+            if (questionPerf.history.length > 10) questionPerf.history.shift(); // Keep last 10 history items
+
+            updateQuestionCategory(qNumForPerf);
+            savePerformanceData(); // Save after each question update
+            checkAchievements(); // Check achievements after performance data update
+        }
+    }
+
+
+    // ––– Check Answers for One Page (Test Mode) –––
     function checkAnswersForPage(pageIdx, calculateScore = true) {
-      if (currentMode !== 'test') return;
+      if (currentMode === 'learn') {
+          // In learning mode, individual questions are processed automatically.
+          // This button is not strictly needed for feedback, but could be used to summarize.
+          // For now, we'll just ensure the score is updated if needed.
+          // The individual question feedback is handled by the radio button change event.
+          return;
+      }
+
       const s = uiStrings[currentLanguage];
       let score = 0;
+
       const startIdx = pageIdx * questionsPerPage;
       const endIdx = Math.min(startIdx + questionsPerPage, allQuizData.length);
       const questionsOnThisPage = endIdx - startIdx;
-      
+
+      if (calculateScore) {
+        pageScores[pageIdx] = {
+          score: 0,
+          totalQuestions: questionsOnThisPage,
+          attempted: true
+        };
+      }
+
       for (let i = startIdx; i < endIdx; i++) {
-        const qData = allQuizData[quizOrder[i]];
-        const radios = document.getElementsByName(`q${qData.qNum}`);
-        let selectedVal = radios[0].checked ? "true" : (radios[1].checked ? "false" : null);
-        radios.forEach(rb => { rb.disabled = true; });
-        
-        const resultEl = document.getElementById(`q${qData.qNum}-result`);
+        const dataIdx = quizOrder[i];
+        const qData   = allQuizData[dataIdx];
+        const qNumber = qData.qNum;
+
+        const radios   = document.getElementsByName(`q${qNumber}`);
+        let selectedVal = null;
+        radios.forEach(rb => {
+            if (rb.checked) selectedVal = rb.value;
+            // Re-enable all radio buttons for this question after checking
+            rb.disabled = false;
+        });
+
+        // Display feedback for each question
+        const resultEl = document.getElementById(`q${qNumber}-result`);
         if (resultEl) {
             if (selectedVal !== null) {
                 const wasCorrect = selectedVal === qData.answer;
                 if (wasCorrect) {
                     resultEl.textContent = s.correctFeedback;
                     resultEl.className = "result text-green-700";
-                    if(calculateScore) score++;
+                    score++; // Increment score for test mode if correct
                 } else {
                     const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
                     resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
@@ -889,236 +1173,358 @@
         }
       }
 
-      if (calculateScore) {
-        pageScores[pageIdx] = { score, totalQuestions: questionsOnThisPage, attempted: true };
+      if (calculateScore && pageScores[pageIdx]) {
+        pageScores[pageIdx].score = score;
       }
-      
+
       const scoreEl = document.getElementById(`score-page-${pageIdx}`);
       if (scoreEl && pageScores[pageIdx]) {
-        scoreEl.textContent = `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
+        scoreEl.textContent =
+          `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
       }
-      checkAchievements();
+      // Performance data (seen/unseen/mastered) is NOT updated by test mode answers here.
+      // It's only updated by learning mode interaction.
+      savePerformanceData(); // Save any changes to gamification stats (like achievements)
+      checkAchievements(); // Check achievements after test mode page check
     }
 
-    // ––– AI QUIZ MODE: Initialization, Rendering, and Navigation –––
-    function initializeAiMode() {
-        const aiContainer = document.getElementById('aiModeContainer');
-        const aiModeButton = document.getElementById('aiModeButton');
-        const s = uiStrings[currentLanguage];
-
-        if (allAiQuizData.length === 0) {
-            aiModeButton.disabled = true;
-            return;
-        }
-        aiModeButton.disabled = false;
-
-        numAiPages = Math.ceil(allAiQuizData.length / questionsPerPage);
-        aiPageScores = Array(numAiPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
-
-        aiContainer.innerHTML = `
-            <h2 class="text-3xl font-bold text-center mb-2 text-teal-700" id="aiQuizTitle">${s.aiQuizTitle}</h2>
-            <div class="w-full bg-gray-200 rounded-full h-4 my-4 relative">
-                <div id="aiProgressBar" class="bg-teal-600 h-4 rounded-full" style="width: 0%;"></div>
-                <span id="aiProgressText" class="progress-bar-text">0% Complete</span>
-            </div>
-            <div id="ai-pages-container"></div>
-            <footer class="mt-10 pt-6 border-t border-gray-300">
-                <div class="navigation-controls flex justify-between items-center mb-4">
-                    <button id="aiPrevButton" onclick="navigateAiPage(-1)" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md disabled:opacity-50">${s.prevButton}</button>
-                    <span id="aiPageIndicator" class="text-gray-700 font-medium text-lg">Page 1 / ${numAiPages}</span>
-                    <button id="aiNextButton" onclick="navigateAiPage(1)" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md">${s.nextButton}</button>
-                </div>
-                <div class="mt-6 space-y-3 md:space-y-0 md:flex md:space-x-3">
-                    <button onclick="showFinalResultsModal('ai')" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md">${s.viewResultsButton}</button>
-                    <button onclick="resetAiQuiz()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md" id="resetAiQuizButton">${s.resetAiQuizButton}</button>
-                </div>
-            </footer>`;
-
-        const pagesContainer = document.getElementById('ai-pages-container');
-        aiPageElements.length = 0;
-        for (let i = 0; i < numAiPages; i++) {
-            const pageDiv = document.createElement('div');
-            pageDiv.id = `ai-page-${i}`;
-            pageDiv.className = 'ai-quiz-page';
-            const startQ = i * questionsPerPage + 1;
-            const endQ = Math.min((i + 1) * questionsPerPage, allAiQuizData.length);
-            pageDiv.innerHTML = `<h2 id="ai-pageTitle-${i}" class="page-title text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">${s.questionsLabel} ${startQ} – ${endQ}</h2>`;
-            pagesContainer.appendChild(pageDiv);
-            aiPageElements.push(pageDiv);
-        }
-    }
-    
-    function renderCurrentAiPage() {
-        const pageEl = aiPageElements[aiCurrentPageIndex];
-        if (!pageEl) return;
-
-        const heading = pageEl.querySelector('.page-title');
-        pageEl.innerHTML = heading ? heading.outerHTML : '';
-
-        const startIdx = aiCurrentPageIndex * questionsPerPage;
-        const endIdx = Math.min(startIdx + questionsPerPage, allAiQuizData.length);
-
-        for (let i = startIdx; i < endIdx; i++) {
-            pageEl.appendChild(createQuestionElement(allAiQuizData[i], 'aiq'));
-        }
-
-        addCheckButtonAndScoreToAiPage(aiCurrentPageIndex);
-        loadSavedAnswersForPage(pageEl, 'aiq', aiSavedSelectedAnswers);
-
-        if (aiPageScores[aiCurrentPageIndex] && aiPageScores[aiCurrentPageIndex].attempted) {
-            checkAnswersForAiPage(aiCurrentPageIndex, false);
-        }
+    // ––– Save/Load Selected Answers –––
+    function loadSavedAnswers() {
+      const savedAnswers = localStorage.getItem('quizSelectedAnswers_v1');
+      if (savedAnswers) {
+        savedSelectedAnswers = JSON.parse(savedAnswers);
+      } else {
+        savedSelectedAnswers = {};
+      }
+      console.log("Saved answers loaded:", savedSelectedAnswers);
     }
 
-    function addCheckButtonAndScoreToAiPage(pageIdx) {
-        const s = uiStrings[currentLanguage];
-        const pageEl = aiPageElements[pageIdx];
-        if (!pageEl) return;
-        
-        let btn = pageEl.querySelector('.check-answers-btn');
-        if (!btn) {
-            btn = document.createElement('button');
-            btn.className = 'check-answers-btn bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg w-full mt-6 shadow-md';
-            pageEl.appendChild(btn);
-        }
-        btn.onclick = () => checkAnswersForAiPage(pageIdx, true);
-        btn.textContent = `${s.checkAnswersButton} (${s.pageIndicatorPrefix} ${pageIdx + 1})`;
-        
-        let scoreP = pageEl.querySelector('.page-score-display');
-        if (!scoreP) {
-            scoreP = document.createElement('p');
-            scoreP.className = 'page-score-display text-center font-semibold text-lg mt-4 text-gray-800';
-            pageEl.appendChild(scoreP);
-        }
-        scoreP.id = `ai-score-page-${pageIdx}`;
+    function saveSavedAnswers() {
+      localStorage.setItem('quizSelectedAnswers_v1', JSON.stringify(savedSelectedAnswers));
+      console.log("Saved answers updated.");
     }
 
-    function navigateAiPage(dir, forceRender = false) {
-        const newIdx = (forceRender) ? dir : aiCurrentPageIndex + dir;
-        if (newIdx >= 0 && newIdx < numAiPages) {
-            aiCurrentPageIndex = newIdx;
-            const s = uiStrings[currentLanguage];
-            
-            aiPageElements.forEach((page, idx) => {
-                page.style.display = (idx === aiCurrentPageIndex) ? 'block' : 'none';
-                page.classList.toggle('active', idx === aiCurrentPageIndex);
-            });
-
-            document.getElementById('aiPageIndicator').textContent = `${s.pageIndicatorPrefix} ${aiCurrentPageIndex + 1} / ${numAiPages}`;
-            document.getElementById('aiPrevButton').disabled = aiCurrentPageIndex === 0;
-            document.getElementById('aiNextButton').disabled = aiCurrentPageIndex === numAiPages - 1;
-            
-            renderCurrentAiPage();
-            const container = document.querySelector('.container.mx-auto');
-            if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-    
-    function checkAnswersForAiPage(pageIdx, calculateScore = true) {
-        const s = uiStrings[currentLanguage];
-        let score = 0;
-        const startIdx = pageIdx * questionsPerPage;
-        const endIdx = Math.min(startIdx + questionsPerPage, allAiQuizData.length);
-        const questionsOnThisPage = endIdx - startIdx;
-        
-        for (let i = startIdx; i < endIdx; i++) {
-            const qData = allAiQuizData[i];
-            const radios = document.getElementsByName(`aiq${qData.qNum}`);
-            let selectedVal = radios[0].checked ? "true" : (radios[1].checked ? "false" : null);
-            radios.forEach(rb => { rb.disabled = true; });
-
-            const resultEl = document.getElementById(`aiq${qData.qNum}-result`);
-            if (resultEl) {
-                if (selectedVal !== null) {
-                    if (selectedVal === qData.answer) {
-                        resultEl.textContent = s.correctFeedback;
-                        resultEl.className = "result text-green-700";
-                        if(calculateScore) score++;
-                    } else {
-                        resultEl.textContent = `${s.incorrectFeedbackPrefix}${(qData.answer === "true" ? s.trueLabel : s.falseLabel)}.`;
-                        resultEl.className = "result text-red-700";
+    function loadSavedAnswersForPage(pageElement, prefix) {
+        const questionBlocks = pageElement.querySelectorAll('.question-block');
+        questionBlocks.forEach(block => {
+            const qNum = parseInt(block.querySelector('input[type="radio"]').name.replace(prefix, ''));
+            if (savedSelectedAnswers[qNum]) {
+                const radios = block.querySelectorAll(`input[name="${prefix}${qNum}"]`);
+                radios.forEach(radio => {
+                    if (radio.value === savedSelectedAnswers[qNum]) {
+                        radio.checked = true;
+                        // In test mode, disable other radio buttons if an answer was loaded
+                        if (currentMode === 'test') {
+                            radios.forEach(rb => {
+                                if (rb !== radio) {
+                                    rb.disabled = true;
+                                }
+                            });
+                        }
                     }
-                } else {
-                    resultEl.textContent = s.selectAnswerPrompt;
-                    resultEl.className = "result text-red-700";
-                }
+                });
             }
-        }
-        if (calculateScore) {
-            aiPageScores[pageIdx] = { score, totalQuestions: questionsOnThisPage, attempted: true };
-        }
-        const scoreEl = document.getElementById(`ai-score-page-${pageIdx}`);
-        if (scoreEl && aiPageScores[pageIdx]) {
-            scoreEl.textContent = `${s.scoreForPageLabel}: ${aiPageScores[pageIdx].score} / ${aiPageScores[pageIdx].totalQuestions}`;
-        }
-    }
-    
-    function resetAiQuiz() {
-        const s = uiStrings[currentLanguage];
-        showConfirmationModal(s.confirmResetAiQuiz, () => {
-            aiSavedSelectedAnswers = {};
-            saveAiSavedAnswers();
-            aiPageScores = Array(numAiPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
-            showNotification(s.aiQuizResetMsg, 'success');
-            renderCurrentAiPage();
-            updateProgressBar('ai');
         });
     }
 
-    // ––– LEARNING MODE & PERFORMANCE TRACKING –––
-    function processSingleQuestionAnswer(qData, selectedVal, prefix) {
-        const s = uiStrings[currentLanguage];
-        const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
-        if (!resultEl) return;
-
-        const wasCorrect = selectedVal === qData.answer;
-        let feedbackText;
-
-        if (wasCorrect) {
-            feedbackText = s.correctFeedback;
-            resultEl.className = "result text-green-700";
-            currentLearningStreak++;
-            if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) {
-                showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
-            }
-            if (Math.random() < 0.5) {
-                feedbackText += ` (${s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)]})`;
-            }
-        } else {
-            const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
-            feedbackText = `${s.incorrectFeedbackPrefix}${correctText}.`;
-            resultEl.className = "result text-red-700";
-            currentLearningStreak = 0;
-            if (Math.random() < 0.5) {
-                feedbackText += ` (${s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)]})`;
-            }
+    // ––– Reset All Answers & Scores –––
+    function resetAllAnswers() {
+      const s = uiStrings[currentLanguage];
+      // Use a custom modal for confirmation instead of alert/confirm
+      showConfirmationModal(s.confirmResetPerformance, () => {
+        allQuizData.forEach((qData) => {
+          // Reset test mode radio buttons and feedback
+          const radios = document.getElementsByName(`q${qData.qNum}`);
+          radios.forEach((rb) => {
+              rb.checked = false;
+              rb.disabled = false; // Re-enable if they were disabled in test mode
+          });
+          const resEl = document.getElementById(`q${qData.qNum}-result`);
+          if (resEl) {
+            resEl.textContent = '';
+            resEl.className = 'result mt-2';
+          }
+          // Reset practice mode radio buttons and feedback (if any are rendered)
+          const pqRadios = document.getElementsByName(`pq${qData.qNum}`);
+          pqRadios.forEach((rb) => {
+              rb.checked = false;
+              rb.disabled = false;
+          });
+          const pqResEl = document.getElementById(`pq${qData.qNum}-result`);
+          if (pqResEl) {
+            pqResEl.textContent = '';
+            pqResEl.className = 'result mt-2';
+          }
+        });
+        pageScores = Array(numPages)
+          .fill(null)
+          .map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
+        for (let i = 0; i < numPages; i++) {
+          const scEl = document.getElementById(`score-page-${i}`);
+          if (scEl) scEl.textContent = '';
         }
-        resultEl.textContent = feedbackText;
 
-        // Update performance data
-        const qNumForPerf = qData.qNum;
-        if (!performanceData[qNumForPerf]) {
-            performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-        }
-        const questionPerf = performanceData[qNumForPerf];
+        // Reset performance data
+        performanceData = {};
+        allQuizData.forEach(qData => {
+          performanceData[qData.qNum] = {
+            qNumOriginal: qData.qNum,
+            correctAttempts: 0,
+            incorrectAttempts: 0,
+            category: 'unseen',
+            history: [],
+            lastSeenInQuiz: 0 // Reset last seen counter
+          };
+        });
+        quizCounter = 0; // Reset quiz counter
+        currentLearningStreak = 0; // Reset learning streak
+        consecutivePerfectCards = 0; // Reset perfect card streak
 
-        if (wasCorrect) {
-            questionPerf.correctAttempts++;
-        } else {
-            questionPerf.incorrectAttempts++;
-        }
-        questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category });
-        if (questionPerf.history.length > 10) questionPerf.history.shift();
+        // Clear saved answers from localStorage
+        savedSelectedAnswers = {};
+        saveSavedAnswers();
 
-        updateQuestionCategory(qNumForPerf);
         savePerformanceData();
-        checkAchievements();
+        // Reset achievements by reloading them as empty
+        earnedAchievements = [];
+        saveAchievements();
+        showNotification(s.performanceDataReset, 'success');
+        renderCurrentPageQuestionsAndFeedback(); // Re-render current page to clear feedback
+        updateTestProgressBar(); // Reset progress bar
+      });
     }
-    
-    // (generatePracticeCardFromUI, generatePracticeCard, renderPracticeCardQuestions, updatePracticeCardProgress, and checkPracticeCardAnswers remain the same as the "before brick" version)
+
+    // Custom Confirmation Modal (instead of window.confirm)
+    let confirmationModalCallback = null;
+    function showConfirmationModal(message, callback) {
+        const modal = document.getElementById('customConfirmationModal');
+        const modalBody = document.getElementById('confirmationModalBody').querySelector('p');
+        modalBody.textContent = message;
+
+        modal.style.display = 'block';
+
+        confirmationModalCallback = callback;
+
+        document.getElementById('confirmYes').onclick = () => {
+            if (confirmationModalCallback) confirmationModalCallback();
+            closeConfirmationModal();
+        };
+        document.getElementById('confirmNo').onclick = () => {
+            closeConfirmationModal();
+        };
+    }
+
+    function closeConfirmationModal() {
+        document.getElementById('customConfirmationModal').style.display = 'none';
+        confirmationModalCallback = null;
+    }
+
+
+    // ––– Show Notification Toast –––
+    function showNotification(message, type = 'info') {
+      const note = document.getElementById('notificationArea');
+      if (!note) return;
+      note.textContent = message;
+      let bg = 'bg-blue-600';
+      if (type === 'success') bg = 'bg-green-600';
+      if (type === 'error') bg = 'bg-red-600';
+      note.className = `fixed top-5 right-5 p-4 rounded-md shadow-lg z-100 text-white font-medium ${bg}`;
+      note.style.display = 'block';
+      setTimeout(() => {
+        note.style.display = 'none';
+      }, 3000);
+    }
+
+    // ––– Show Final Results Modal –––
+    function showFinalResultsModal() {
+      const s = uiStrings[currentLanguage];
+      const body = document.getElementById('finalResultsBody');
+      body.innerHTML = '';
+      let overallAchieved = 0;
+      let overallTotal = 0;
+      let anyAttempted = false;
+
+      pageScores.forEach((pageScore, idx) => {
+        if (pageScore && pageScore.attempted) {
+          anyAttempted = true;
+          const p = document.createElement('p');
+          p.className = 'text-gray-700';
+          p.textContent = `${s.pageIndicatorPrefix} ${
+            idx + 1
+          }: ${pageScore.score} / ${pageScore.totalQuestions}`;
+          body.appendChild(p);
+          overallAchieved += pageScore.score;
+          overallTotal += pageScore.totalQuestions;
+        }
+      });
+
+      if (!anyAttempted) {
+        body.textContent = s.noResultsYet;
+        document.getElementById('overallScoreText').textContent = '';
+      } else {
+        document.getElementById(
+          'overallScoreText'
+        ).textContent = `${s.overallScoreLabel}: ${overallAchieved} / ${overallTotal}`;
+      }
+      document.getElementById('finalResultsModal').style.display = 'block';
+    }
+    function closeFinalResultsModal() {
+      document.getElementById('finalResultsModal').style.display = 'none';
+    }
+
+    // ––– START OF NEW PERFORMANCE TRACKING AND PRACTICE CARD LOGIC –––
+
+    // Function to initialize or load performance data from localStorage
+    function loadPerformanceData() {
+      const savedData = localStorage.getItem('quizPerformanceData_v1');
+      if (savedData) {
+        performanceData = JSON.parse(savedData);
+        // Load quizCounter as well
+        const savedQuizCounter = localStorage.getItem('quizCounter_v1');
+        if (savedQuizCounter) {
+            quizCounter = parseInt(savedQuizCounter, 10);
+        }
+        // Load gamification variables
+        const savedLearningStreak = localStorage.getItem('currentLearningStreak_v1');
+        if (savedLearningStreak) currentLearningStreak = parseInt(savedLearningStreak, 10);
+        const savedPerfectCards = localStorage.getItem('consecutivePerfectCards_v1');
+        if (savedPerfectCards) consecutivePerfectCards = parseInt(savedPerfectCards, 10);
+
+        // Ensure all questions from allQuizData are in performanceData and have new properties
+        allQuizData.forEach(qData => {
+          if (!performanceData[qData.qNum]) {
+            performanceData[qData.qNum] = {
+              qNumOriginal: qData.qNum,
+              correctAttempts: 0,
+              incorrectAttempts: 0,
+              category: 'unseen', // Default to unseen
+              history: [],
+              lastSeenInQuiz: 0 // Initialize for new property
+            };
+          } else {
+              // Ensure existing data has lastSeenInQuiz, default to 0 if missing
+              if (performanceData[qData.qNum].lastSeenInQuiz === undefined) {
+                  performanceData[qData.qNum].lastSeenInQuiz = 0;
+              }
+              // Ensure history items have categoryAtTime (for problem_solver achievement)
+              performanceData[qData.qNum].history.forEach(h => {
+                  if (h.categoryAtTime === undefined) {
+                      // This is a fallback for old data, ideally categoryAtTime is set when history is pushed
+                      h.categoryAtTime = 'unknown'; // Or try to infer from current category if logic allows
+                  }
+              });
+              // Re-evaluate category on load in case logic changed
+              updateQuestionCategory(qData.qNum);
+          }
+        });
+      } else {
+        // Initialize for all questions if no data found
+        allQuizData.forEach(qData => {
+          performanceData[qData.qNum] = {
+            qNumOriginal: qData.qNum,
+            correctAttempts: 0,
+            incorrectAttempts: 0,
+            category: 'unseen',
+            history: [],
+            lastSeenInQuiz: 0
+          };
+        });
+        quizCounter = 0;
+        currentLearningStreak = 0;
+        consecutivePerfectCards = 0;
+      }
+      console.log("Performance data loaded/initialized:", performanceData);
+      console.log("Quiz Counter loaded:", quizCounter);
+      console.log("Learning Streak loaded:", currentLearningStreak);
+      console.log("Perfect Cards Streak loaded:", consecutivePerfectCards);
+    }
+
+    // Function to save performance data to localStorage
+    function savePerformanceData() {
+      localStorage.setItem('quizPerformanceData_v1', JSON.stringify(performanceData));
+      localStorage.setItem('quizCounter_v1', quizCounter.toString());
+      localStorage.setItem('currentLearningStreak_v1', currentLearningStreak.toString());
+      localStorage.setItem('consecutivePerfectCards_v1', consecutivePerfectCards.toString());
+      console.log("Performance data saved.");
+      console.log("Quiz Counter saved:", quizCounter);
+      console.log("Learning Streak saved:", currentLearningStreak);
+      console.log("Perfect Cards Streak saved:", consecutivePerfectCards);
+    }
+
+    // Function to update a question's category based on its performance
+    function updateQuestionCategory(qNumKey) {
+      const stats = performanceData[qNumKey];
+      if (!stats) return;
+
+      const totalAttempts = stats.correctAttempts + stats.incorrectAttempts;
+      const historyLength = stats.history.length;
+
+      // Get last 3 attempts for problematic/mastered and last 2 for learning-good/bad
+      const recentHistory = stats.history.slice(-3);
+      const recentCorrectCount = recentHistory.filter(h => h.correct).length;
+      const recentIncorrectCount = recentHistory.length - recentCorrectCount;
+
+      const lastTwoAttempts = stats.history.slice(-2);
+      const lastIsCorrect = lastTwoAttempts.length > 0 ? lastTwoAttempts[lastTwoAttempts.length - 1].correct : null;
+      const secondLastIsCorrect = lastTwoAttempts.length > 1 ? lastTwoAttempts[lastTwoAttempts.length - 2].correct : null;
+
+      // 1. Catégorie 'unseen' (Non vues)
+      if (totalAttempts === 0) {
+        stats.category = 'unseen';
+        return;
+      }
+
+      // 2. Catégorie 'new-learning' (Nouvelles en apprentissage)
+      // This ensures a question always passes through new-learning first (after unseen).
+      if (totalAttempts === 1) {
+        stats.category = 'new-learning';
+        return;
+      }
+
+      // 3. Catégorie 'problematic' (Problématiques)
+      // At least 3 attempts and ALL of the last 3 attempts were incorrect
+      if (historyLength >= 3 && recentIncorrectCount === 3) {
+        stats.category = 'problematic';
+        return;
+      }
+
+      // 4. Catégorie 'mastered' (Maîtrisées)
+      // Strict conditions for true mastery: at least 5 correct, >=90% overall ratio, AND last 3 attempts are correct
+      const correctRatio = totalAttempts > 0 ? stats.correctAttempts / totalAttempts : 0;
+      if (
+        stats.correctAttempts >= 5 &&
+        correctRatio >= 0.9 &&
+        recentCorrectCount === 3 &&
+        historyLength >= 3
+      ) {
+        stats.category = 'mastered';
+        return;
+      }
+
+      // 5. Learning Sub-categories (Only if not unseen, new-learning, problematic, or mastered)
+      if (historyLength >= 2) {
+        // Learning-bad: Last two attempts were incorrect
+        if (lastIsCorrect === false && secondLastIsCorrect === false) {
+          stats.category = 'learning-bad';
+          return;
+        }
+        // Learning-good: Last two attempts were correct
+        else if (lastIsCorrect === true && secondLastIsCorrect === true) {
+          stats.category = 'learning-good';
+          return;
+        }
+      }
+
+      // 6. Learning-normal (Default for questions that don't fit previous specific criteria)
+      stats.category = 'learning-normal';
+    }
+
+    // --- Practice Card Functions ---
+    // This function acts as a wrapper to get parameters from the UI
     function generatePracticeCardFromUI() {
         const quizStrategy = document.getElementById('quizStrategy').value;
-        let numQuestions = DEFAULT_PRACTICE_CARD_SIZE;
+        let numQuestions = DEFAULT_PRACTICE_CARD_SIZE; // Default for 'default' strategy
+
         if (quizStrategy === 'random_x') {
             numQuestions = parseInt(document.getElementById('numQuestions').value, 10);
             if (isNaN(numQuestions) || numQuestions < 1 || numQuestions > allQuizData.length) {
@@ -1130,83 +1536,166 @@
     }
 
     function generatePracticeCard(strategy = 'default', numQuestionsToGenerate = DEFAULT_PRACTICE_CARD_SIZE) {
-      quizCounter++;
+      quizCounter++; // Increment quiz counter for tracking last seen questions
       const s = uiStrings[currentLanguage];
       currentPracticeCardQuestions = [];
-      currentPracticeCardQuestionIndex = 0;
+      currentPracticeCardQuestionIndex = 0; // Reset current question index
 
-      const candidates = { problematic: [], 'learning-bad': [], 'learning-normal': [], 'learning-good': [], 'new-learning': [], unseen: [], mastered: [] };
+      // Define all categories, including the new learning sub-categories
+      const allCategories = ['problematic', 'learning-bad', 'learning-normal', 'learning-good', 'new-learning', 'unseen', 'mastered'];
+      const candidates = {};
+      allCategories.forEach(cat => candidates[cat] = []);
+
+      // Populate candidates based on their category
       allQuizData.forEach(qData => {
         const perf = performanceData[qData.qNum] || { category: 'unseen' };
-        (candidates[perf.category] || candidates['learning-normal']).push(qData);
+        if (allCategories.includes(perf.category)) {
+          candidates[perf.category].push(qData);
+        } else {
+          // Fallback for any unexpected categories (should be rare with updated logic)
+          candidates['learning-normal'].push(qData);
+        }
       });
-      Object.values(candidates).forEach(cat => cat.sort(() => 0.5 - Math.random()));
+
+      // Shuffle each category list to ensure randomness within categories
+      for (const category in candidates) {
+        candidates[category].sort(() => 0.5 - Math.random());
+      }
+
+      let count = 0;
+      const BOOST_INTERVAL = 3; // Every 3 quizzes, boost unseen/new-learning
+      const applyBoost = (quizCounter % BOOST_INTERVAL === 0);
+      const minMasteredResurfaceInterval = 15; // How many quizzes before a mastered question can resurface
 
       if (strategy === 'unseen') {
+          // Take from unseen questions
           currentPracticeCardQuestions = candidates.unseen.slice(0, numQuestionsToGenerate);
       } else if (strategy === 'problematic') {
+          // Take from problematic questions
           currentPracticeCardQuestions = candidates.problematic.slice(0, numQuestionsToGenerate);
       } else if (strategy === 'random_x') {
-          const allAvailable = [].concat(...Object.values(candidates));
-          allAvailable.sort(() => 0.5 - Math.random());
-          currentPracticeCardQuestions = allAvailable.slice(0, numQuestionsToGenerate);
-      } else {
-          const targetCounts = { problematic: 3, 'learning-bad': 2, 'learning-normal': 1, 'learning-good': 1, 'new-learning': (quizCounter % 3 === 0) ? 2 : 1, unseen: (quizCounter % 3 === 0) ? 2 : 1, mastered: 0 };
+          // Take random questions from all available questions
+          const allAvailableQuestions = [];
+          for (const cat in candidates) {
+              allAvailableQuestions.push(...candidates[cat]);
+          }
+          allAvailableQuestions.sort(() => 0.5 - Math.random()); // Shuffle all
+          currentPracticeCardQuestions = allAvailableQuestions.slice(0, numQuestionsToGenerate);
+      } else { // Default strategy: mixed questions based on learning progress
+          // Define flexible target counts for each category for a 10-question card
+          const targetCounts = {
+              problematic: 3,
+              'learning-bad': 2,
+              'learning-normal': 1,
+              'learning-good': 1,
+              'new-learning': applyBoost ? 2 : 1, // Boosted
+              unseen: applyBoost ? 2 : 1, // Boosted
+              mastered: 0 // Will be added via resurfacing logic
+          };
+
+          // Priority order for filling the card (from most difficult/urgent to easiest/less urgent)
           const priorityOrder = ['problematic', 'learning-bad', 'new-learning', 'unseen', 'learning-normal', 'learning-good'];
-          let count = 0;
-          priorityOrder.forEach(category => {
-              let needed = targetCounts[category] || 0;
+
+          // 1. Fill based on target counts and priority
+          for (const category of priorityOrder) {
+              let needed = targetCounts[category] || 0; // Get target count, default to 0 if not defined
               while (needed > 0 && candidates[category].length > 0 && count < DEFAULT_PRACTICE_CARD_SIZE) {
-                  currentPracticeCardQuestions.push(candidates[category].shift());
+                  const qData = candidates[category].shift();
+                  currentPracticeCardQuestions.push(qData);
+                  // If an unseen question is picked, immediately mark it as new-learning
+                  if (category === 'unseen') {
+                      performanceData[qData.qNum].category = 'new-learning';
+                  }
                   count++;
                   needed--;
               }
-          });
-          
-          let remainingPool = [].concat(...Object.values(candidates));
-          remainingPool.sort(() => 0.5 - Math.random());
-          while (count < DEFAULT_PRACTICE_CARD_SIZE && remainingPool.length > 0) {
-              const nextQ = remainingPool.shift();
-              if(!currentPracticeCardQuestions.find(q => q.qNum === nextQ.qNum)) {
-                currentPracticeCardQuestions.push(nextQ);
-                count++;
-              }
+          }
+
+          // 2. Add Mastered questions that need resurfacing
+          // Sort mastered by lastSeenInQuiz (ascending) to get older ones first
+          const resurfaceCandidates = candidates.mastered
+              .filter(qData => (quizCounter - performanceData[qData.qNum].lastSeenInQuiz) > minMasteredResurfaceInterval)
+              .sort((a, b) => performanceData[a.qNum].lastSeenInQuiz - performanceData[b.qNum].lastSeenInQuiz);
+
+          while (count < DEFAULT_PRACTICE_CARD_SIZE && resurfaceCandidates.length > 0) {
+              currentPracticeCardQuestions.push(resurfaceCandidates.shift());
+              count++;
+          }
+
+          // 3. Fill any remaining slots with a general mix from remaining questions
+          // Prioritize from harder categories first if still available
+          let remainingQuestionsPool = [];
+          // Re-add remaining questions from candidates in priority order to the pool
+          for (const category of priorityOrder) {
+              remainingQuestionsPool = remainingQuestionsPool.concat(candidates[category]);
+          }
+          // Add any remaining mastered questions that didn't meet the resurfacing criteria
+          remainingQuestionsPool = remainingQuestionsPool.concat(candidates.mastered);
+
+          remainingQuestionsPool.sort(() => 0.5 - Math.random()); // Shuffle the entire remaining pool
+
+          while (count < DEFAULT_PRACTICE_CARD_SIZE && remainingQuestionsPool.length > 0) {
+              currentPracticeCardQuestions.push(remainingQuestionsPool.shift());
+              count++;
           }
       }
 
+      // Final shuffle of the selected questions for randomness within the card
       currentPracticeCardQuestions.sort(() => 0.5 - Math.random());
 
       if (currentPracticeCardQuestions.length === 0) {
-        showNotification(s.noQuestionsAvailableForPractice, 'info');
+        showNotification(s.noQuestionsAvailableForPractice, 'info'); // Use a UI string for this
         return;
       }
-      currentPracticeCardQuestions.forEach(qData => { performanceData[qData.qNum].lastSeenInQuiz = quizCounter; });
-      savePerformanceData();
+
+      // Update lastSeenInQuiz for all questions in the generated practice card
+      currentPracticeCardQuestions.forEach(qData => {
+          performanceData[qData.qNum].lastSeenInQuiz = quizCounter;
+      });
+      savePerformanceData(); // Save quizCounter and updated lastSeenInQuiz
 
       renderPracticeCardQuestions(currentPracticeCardQuestions);
       document.getElementById('checkPracticeCardButton').style.display = 'block';
-      document.getElementById('practiceCardScoreText').textContent = '';
-      document.getElementById('generateNewPracticeCardButton').style.display = 'none';
-      updatePracticeCardProgress();
+      document.getElementById('practiceCardScoreText').textContent = ''; // Clear previous score
+      document.getElementById('generateNewPracticeCardButton').style.display = 'none'; // Hide until checked
+      updatePracticeCardProgress(); // Initial update for practice card progress
     }
 
+    // Renders the practice card questions directly on the page
     function renderPracticeCardQuestions(questionsToRender) {
       const displayArea = document.getElementById('practiceQuestionsDisplayArea');
+      // Clear previous questions and re-add progress element
       displayArea.innerHTML = '<p id="practiceCardProgress" class="text-center text-gray-600 font-medium mb-4"></p>';
+
       questionsToRender.forEach((qData, index) => {
+        // Use 'pq' prefix for practice questions to avoid name conflicts with 'q' from test mode
         displayArea.appendChild(createQuestionElement(qData, 'pq', index + 1));
       });
-      loadSavedAnswersForPage(displayArea, 'pq', savedSelectedAnswers);
+      loadSavedAnswersForPage(displayArea, 'pq'); // Load saved answers for the practice card
     }
-    
+
+    // Update Practice Card Progress
     function updatePracticeCardProgress() {
         const s = uiStrings[currentLanguage];
         const progressEl = document.getElementById('practiceCardProgress');
         if (!progressEl) return;
-        let answeredCount = currentPracticeCardQuestions.filter(qData => document.querySelector(`input[name="pq${qData.qNum}"]:checked`)).length;
-        progressEl.textContent = s.practiceCardProgress.replace('{current}', answeredCount).replace('{total}', currentPracticeCardQuestions.length);
+
+        let answeredCount = 0;
+        currentPracticeCardQuestions.forEach(qData => {
+            const radios = document.getElementsByName(`pq${qData.qNum}`);
+            if (Array.from(radios).some(radio => radio.checked)) {
+                answeredCount++;
+            }
+        });
+
+        progressEl.textContent = s.practiceCardProgress
+            .replace('{current}', answeredCount)
+            .replace('{total}', currentPracticeCardQuestions.length);
     }
-    
+
+
+    // This function is now primarily for displaying the overall score of the practice card
+    // Individual question updates are handled by processSingleQuestionAnswer
     function checkPracticeCardAnswers() {
       const s = uiStrings[currentLanguage];
       let score = 0;
@@ -1217,309 +1706,261 @@
         let selectedVal = null;
         radios.forEach(rb => {
             if (rb.checked) selectedVal = rb.value;
+            // Disable radio buttons after checking in practice mode
             rb.disabled = true;
         });
 
         if (selectedVal !== null) {
           answeredCount++;
+          // Ensure feedback is displayed for all questions on the card if not already
+          // This call also updates performanceData and streak
+          processSingleQuestionAnswer(qData, selectedVal, 'pq');
+
+          // Check if the last attempt for this question was correct based on performanceData
           const questionPerf = performanceData[qData.qNum];
-          if (questionPerf && questionPerf.history.length > 0 && questionPerf.history.slice(-1)[0].correct) {
+          if (questionPerf && questionPerf.history.length > 0 && questionPerf.history[questionPerf.history.length - 1].correct) {
               score++;
           }
         } else {
             const resultEl = document.getElementById(`pq${qData.qNum}-result`);
-            if (resultEl) { resultEl.textContent = s.selectAnswerPrompt; resultEl.className = "result text-red-700"; }
+            if (resultEl) {
+                resultEl.textContent = s.selectAnswerPrompt;
+                resultEl.className = "result text-red-700";
+            }
         }
       });
 
       if (answeredCount === currentPracticeCardQuestions.length) {
           document.getElementById('practiceCardScoreText').textContent = `${s.scoreForPageLabel}: ${score} / ${currentPracticeCardQuestions.length}`;
-          document.getElementById('generateNewPracticeCardButton').style.display = 'block';
-          document.getElementById('checkPracticeCardButton').style.display = 'none';
+          document.getElementById('generateNewPracticeCardButton').style.display = 'block'; // Show new card button
+          document.getElementById('checkPracticeCardButton').style.display = 'none'; // Hide check button
 
+          // Handle consecutive perfect cards
           if (score === currentPracticeCardQuestions.length) {
               consecutivePerfectCards++;
               showNotification(s.perfectCardNotification.replace('{count}', consecutivePerfectCards), 'success');
           } else {
-              consecutivePerfectCards = 0;
+              consecutivePerfectCards = 0; // Reset if not perfect
           }
+
+          // Special message for 9/10
           if (score === currentPracticeCardQuestions.length - 1 && currentPracticeCardQuestions.length > 1) {
               showNotification(s.goodJob90Percent, 'success');
           }
-          savePerformanceData();
-          checkAchievements();
+
+          savePerformanceData(); // Save updated consecutivePerfectCards
+          checkAchievements(); // Check achievements after practice card check
       } else {
-          showNotification(s.selectAnswerPrompt, 'info');
+          // Optionally, show a message if not all questions are answered
+          showNotification(s.selectAnswerPrompt, 'info'); // Using existing string for consistency
       }
     }
 
-
-    // ––– DATA PERSISTENCE & UTILITIES –––
-    function loadSavedAnswers() {
-      const saved = localStorage.getItem('quizSelectedAnswers_v1');
-      savedSelectedAnswers = saved ? JSON.parse(saved) : {};
-    }
-    function saveSavedAnswers() {
-      localStorage.setItem('quizSelectedAnswers_v1', JSON.stringify(savedSelectedAnswers));
-    }
-    function loadAiSavedAnswers() {
-        const saved = localStorage.getItem('aiQuizSelectedAnswers_v1');
-        aiSavedSelectedAnswers = saved ? JSON.parse(saved) : {};
-    }
-    function saveAiSavedAnswers() {
-        localStorage.setItem('aiQuizSelectedAnswers_v1', JSON.stringify(aiSavedSelectedAnswers));
-    }
-    
-    function loadSavedAnswersForPage(pageElement, prefix, answersObject) {
-        const questionBlocks = pageElement.querySelectorAll('.question-block');
-        questionBlocks.forEach(block => {
-            const qNum = parseInt(block.querySelector('input[type="radio"]').name.replace(prefix, ''));
-            if (answersObject[qNum]) {
-                const radios = block.querySelectorAll(`input[name="${prefix}${qNum}"]`);
-                radios.forEach(radio => {
-                    if (radio.value === answersObject[qNum]) {
-                        radio.checked = true;
-                        if (prefix === 'q' || prefix === 'aiq') {
-                            radios.forEach(rb => { rb.disabled = true; });
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    function resetAllAnswers() {
-      const s = uiStrings[currentLanguage];
-      showConfirmationModal(s.confirmResetPerformance, () => {
-        // Reset Test Mode
-        savedSelectedAnswers = {};
-        saveSavedAnswers();
-        pageScores = Array(numPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
-        
-        // Reset Performance Data
-        performanceData = {};
-        allQuizData.forEach(qData => {
-          performanceData[qData.qNum] = { qNumOriginal: qData.qNum, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-        });
-        quizCounter = 0;
-        currentLearningStreak = 0;
-        consecutivePerfectCards = 0;
-        savePerformanceData();
-
-        // Reset Achievements
-        earnedAchievements = [];
-        saveAchievements();
-
-        showNotification(s.performanceDataReset, 'success');
-        
-        // Re-render UI
-        renderCurrentPageQuestionsAndFeedback();
-        updateProgressBar('test');
-      });
-    }
-    
-    // (loadPerformanceData, savePerformanceData, and updateQuestionCategory remain the same)
-    function loadPerformanceData() {
-      const savedData = localStorage.getItem('quizPerformanceData_v1');
-      if (savedData) {
-        performanceData = JSON.parse(savedData);
-        const savedQuizCounter = localStorage.getItem('quizCounter_v1');
-        if (savedQuizCounter) quizCounter = parseInt(savedQuizCounter, 10);
-        const savedLearningStreak = localStorage.getItem('currentLearningStreak_v1');
-        if (savedLearningStreak) currentLearningStreak = parseInt(savedLearningStreak, 10);
-        const savedPerfectCards = localStorage.getItem('consecutivePerfectCards_v1');
-        if (savedPerfectCards) consecutivePerfectCards = parseInt(savedPerfectCards, 10);
-        allQuizData.forEach(qData => {
-          if (!performanceData[qData.qNum]) {
-            performanceData[qData.qNum] = { qNumOriginal: qData.qNum, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-          } else {
-              if (performanceData[qData.qNum].lastSeenInQuiz === undefined) { performanceData[qData.qNum].lastSeenInQuiz = 0; }
-              performanceData[qData.qNum].history.forEach(h => { if (h.categoryAtTime === undefined) { h.categoryAtTime = 'unknown'; } });
-              updateQuestionCategory(qData.qNum);
-          }
-        });
-      } else {
-        allQuizData.forEach(qData => {
-          performanceData[qData.qNum] = { qNumOriginal: qData.qNum, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
-        });
-        quizCounter = 0; currentLearningStreak = 0; consecutivePerfectCards = 0;
-      }
-    }
-    function savePerformanceData() {
-      localStorage.setItem('quizPerformanceData_v1', JSON.stringify(performanceData));
-      localStorage.setItem('quizCounter_v1', quizCounter.toString());
-      localStorage.setItem('currentLearningStreak_v1', currentLearningStreak.toString());
-      localStorage.setItem('consecutivePerfectCards_v1', consecutivePerfectCards.toString());
-    }
-    function updateQuestionCategory(qNumKey) {
-      const stats = performanceData[qNumKey];
-      if (!stats) return;
-      const totalAttempts = stats.correctAttempts + stats.incorrectAttempts;
-      const historyLength = stats.history.length;
-      if (totalAttempts === 0) { stats.category = 'unseen'; return; }
-      if (totalAttempts === 1) { stats.category = 'new-learning'; return; }
-      const recentHistory = stats.history.slice(-3);
-      const recentIncorrectCount = recentHistory.filter(h => !h.correct).length;
-      if (historyLength >= 3 && recentIncorrectCount === 3) { stats.category = 'problematic'; return; }
-      const correctRatio = totalAttempts > 0 ? stats.correctAttempts / totalAttempts : 0;
-      const recentCorrectCount = recentHistory.filter(h => h.correct).length;
-      if (stats.correctAttempts >= 5 && correctRatio >= 0.9 && recentCorrectCount === 3 && historyLength >= 3) { stats.category = 'mastered'; return; }
-      const lastTwo = stats.history.slice(-2);
-      if(lastTwo.length === 2) {
-          if(lastTwo[0].correct && lastTwo[1].correct) { stats.category = 'learning-good'; return; }
-          if(!lastTwo[0].correct && !lastTwo[1].correct) { stats.category = 'learning-bad'; return; }
-      }
-      stats.category = 'learning-normal';
-    }
-
-
-    // ––– MODALS & NOTIFICATIONS –––
-    let confirmationModalCallback = null;
-    function showConfirmationModal(message, callback) {
-        const modal = document.getElementById('customConfirmationModal');
-        modal.querySelector('.modal-body p').textContent = message;
-        modal.style.display = 'block';
-        confirmationModalCallback = callback;
-        document.getElementById('confirmYes').onclick = () => {
-            if (confirmationModalCallback) confirmationModalCallback();
-            closeConfirmationModal();
-        };
-        document.getElementById('confirmNo').onclick = closeConfirmationModal;
-    }
-    function closeConfirmationModal() {
-        document.getElementById('customConfirmationModal').style.display = 'none';
-        confirmationModalCallback = null;
-    }
-    function showNotification(message, type = 'info') {
-      const note = document.getElementById('notificationArea');
-      if (!note) return;
-      note.textContent = message;
-      note.className = `fixed top-5 right-5 p-4 rounded-md shadow-lg z-100 text-white font-medium ${type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-blue-600'}`;
-      note.style.display = 'block';
-      setTimeout(() => { note.style.display = 'none'; }, 3000);
-    }
-    function showFinalResultsModal(mode) {
-      const s = uiStrings[currentLanguage];
-      const body = document.getElementById('finalResultsBody');
-      const title = document.getElementById('finalResultsTitle');
-      body.innerHTML = '';
-      let overallAchieved = 0, overallTotal = 0, anyAttempted = false;
-      let scoresToShow, titleText;
-
-      if (mode === 'test') {
-          scoresToShow = pageScores;
-          titleText = s.finalResultsTitle;
-      } else { // 'ai'
-          scoresToShow = aiPageScores;
-          titleText = s.aiResultsTitle;
-      }
-      title.textContent = titleText;
-      
-      scoresToShow.forEach((pageScore, idx) => {
-        if (pageScore && pageScore.attempted) {
-          anyAttempted = true;
-          const p = document.createElement('p');
-          p.className = 'text-gray-700';
-          p.textContent = `${s.pageIndicatorPrefix} ${idx + 1}: ${pageScore.score} / ${pageScore.totalQuestions}`;
-          body.appendChild(p);
-          overallAchieved += pageScore.score;
-          overallTotal += pageScore.totalQuestions;
-        }
-      });
-
-      document.getElementById('overallScoreText').textContent = !anyAttempted ? s.noResultsYet : `${s.overallScoreLabel}: ${overallAchieved} / ${overallTotal}`;
-      document.getElementById('finalResultsModal').style.display = 'block';
-    }
-    function closeFinalResultsModal() { document.getElementById('finalResultsModal').style.display = 'none'; }
+    // --- Performance Stats Modal Functions ---
     function showPerformanceStatsModal() {
-        // This function remains large; keeping as is for brevity.
-        const s = uiStrings[currentLanguage];
-        const body = document.getElementById('performanceStatsBody');
-        body.innerHTML = ''; // Clear previous content
+      const s = uiStrings[currentLanguage];
+      const body = document.getElementById('performanceStatsBody');
+      body.innerHTML = ''; // Clear previous content
 
-        // Add Achievements section first
-        const achievementsTitleEl = document.createElement('h3');
-        achievementsTitleEl.className = 'text-xl font-semibold mb-2 text-gray-700';
-        achievementsTitleEl.textContent = s.achievementsTitle;
-        body.appendChild(achievementsTitleEl);
+      // Add Achievements section first
+      const achievementsTitle = document.createElement('h3');
+      achievementsTitle.id = 'achievementsTitle';
+      achievementsTitle.className = 'text-xl font-semibold mb-2 text-gray-700';
+      achievementsTitle.textContent = s.achievementsTitle;
+      body.appendChild(achievementsTitle);
 
-        const achievementsDisplay = document.getElementById('achievementsDisplay');
-        achievementsDisplay.innerHTML = ''; // Clear old badges
-        if (earnedAchievements.length > 0) {
-            earnedAchievements.forEach(achId => {
-                const achievement = achievements.find(a => a.id === achId);
-                if (achievement) {
-                    const achEl = document.createElement('div');
-                    achEl.className = 'bg-green-100 border border-green-300 rounded-lg p-3 flex items-center space-x-3 shadow-sm';
-                    achEl.innerHTML = `<svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><div><p class="font-semibold text-green-800">${achievement[`name_${currentLanguage}`]}</p><p class="text-green-700 text-sm">${achievement[`description_${currentLanguage}`]}</p></div>`;
-                    achievementsDisplay.appendChild(achEl);
-                }
-            });
+      const achievementsDisplay = document.createElement('div');
+      achievementsDisplay.id = 'achievementsDisplay';
+      achievementsDisplay.className = 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-6';
+      if (earnedAchievements.length > 0) {
+          earnedAchievements.forEach(achId => {
+              const achievement = achievements.find(a => a.id === achId);
+              if (achievement) {
+                  const achEl = document.createElement('div');
+                  achEl.className = 'bg-green-100 border border-green-300 rounded-lg p-3 flex items-center space-x-3 shadow-sm';
+                  achEl.innerHTML = `
+                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                      <p class="font-semibold text-green-800">${achievement[`name_${currentLanguage}`]}</p>
+                      <p class="text-green-700 text-sm">${achievement[`description_${currentLanguage}`]}</p>
+                    </div>
+                  `;
+                  achievementsDisplay.appendChild(achEl);
+              }
+          });
+      } else {
+          const noAch = document.createElement('p');
+          noAch.className = 'text-gray-500 italic';
+          noAch.textContent = "No achievements earned yet. Keep practicing!"; // Add to uiStrings later
+          achievementsDisplay.appendChild(noAch);
+      }
+      body.appendChild(achievementsDisplay);
+
+      const divider1 = document.createElement('hr');
+      divider1.className = 'my-4';
+      body.appendChild(divider1);
+
+
+      // Add Performance Categories section
+      const stats = {
+        unseen: [], 'new-learning': [], 'learning-bad': [], 'learning-normal': [], 'learning-good': [], mastered: [], problematic: [],
+        totalCorrect: 0, totalIncorrect: 0
+      };
+
+      allQuizData.forEach(qData => {
+        const perf = performanceData[qData.qNum];
+        if (perf) {
+          stats[perf.category].push(qData);
+          stats.totalCorrect += perf.correctAttempts;
+          stats.totalIncorrect += perf.incorrectAttempts;
         } else {
-            achievementsDisplay.innerHTML = `<p class="text-gray-500 italic">No achievements earned yet. Keep practicing!</p>`;
+          stats.unseen.push(qData); // Should not happen if loadPerformanceData is correct
         }
-        body.appendChild(achievementsDisplay);
-        
-        // Code for displaying category stats... (omitted for brevity, but it's the same as before)
-        document.getElementById('performanceStatsModal').style.display = 'block';
+      });
+
+      const categoryLabels = {
+          unseen: s.categoryUnseen,
+          'new-learning': s.categoryNewLearning,
+          'learning-normal': s.categoryLearning, // Use general 'Learning' label for normal
+          mastered: s.categoryMastered,
+          problematic: s.categoryProblematic
+      };
+
+      // Order for display in stats modal (from most difficult to easiest)
+      // Exclude 'learning-bad' and 'learning-good' from explicit display
+      const displayOrder = ['problematic', 'new-learning', 'learning-normal', 'unseen', 'mastered'];
+
+      displayOrder.forEach(category => {
+        // Only display if the category is not 'learning-bad' or 'learning-good'
+        if (category !== 'learning-bad' && category !== 'learning-good') {
+            const detailEl = document.createElement('details');
+            detailEl.className = 'category-detail';
+            const summaryEl = document.createElement('summary');
+            summaryEl.textContent = `${categoryLabels[category]}: ${stats[category].length} ${s.questionsInCategory}`;
+            detailEl.appendChild(summaryEl);
+
+            const ulEl = document.createElement('ul');
+            if (stats[category].length > 0) {
+                // Sort questions by qNum for consistent display within categories
+                stats[category].sort((a, b) => a.qNum - b.qNum).forEach(qData => {
+                    const liEl = document.createElement('li');
+                    liEl.textContent = `Q${qData.qNum}: ${qData.text[currentLanguage].substring(0, 100)}...`; // Show first 100 chars
+                    ulEl.appendChild(liEl);
+                });
+            } else {
+                const liEl = document.createElement('li');
+                liEl.textContent = s.noQuestionsInCategory;
+                ulEl.appendChild(liEl);
+            }
+            detailEl.appendChild(ulEl);
+            body.appendChild(detailEl);
+        }
+      });
+
+
+      const divider2 = document.createElement('hr');
+      divider2.className = 'my-2';
+      body.appendChild(divider2);
+
+      const pCorrect = document.createElement('p');
+      pCorrect.className = 'text-green-700 font-semibold';
+      pCorrect.textContent = `${s.totalCorrect}: ${stats.totalCorrect}`;
+      body.appendChild(pCorrect);
+
+      const pIncorrect = document.createElement('p');
+      pIncorrect.className = 'text-red-700 font-semibold';
+      pIncorrect.textContent = `${s.totalIncorrect}: ${stats.totalIncorrect}`;
+      body.appendChild(pIncorrect);
+
+      document.getElementById('performanceStatsModal').style.display = 'block';
     }
-    function closePerformanceStatsModal() { document.getElementById('performanceStatsModal').style.display = 'none'; }
-    
-    // ––– GAMIFICATION & PROGRESS –––
-    function updateProgressBar(mode) {
-        let progressBar, progressText, s, answersObject, totalQuestions;
 
-        if (mode === 'test') {
-            progressBar = document.getElementById('testProgressBar');
-            progressText = document.getElementById('testProgressText');
-            answersObject = savedSelectedAnswers;
-            totalQuestions = allQuizData.length;
-        } else if (mode === 'ai') {
-            progressBar = document.getElementById('aiProgressBar');
-            progressText = document.getElementById('aiProgressText');
-            answersObject = aiSavedSelectedAnswers;
-            totalQuestions = allAiQuizData.length;
-        } else { return; }
-        
-        if(!progressBar || !progressText) return;
+    function closePerformanceStatsModal() {
+      document.getElementById('performanceStatsModal').style.display = 'none';
+    }
 
-        s = uiStrings[currentLanguage];
-        const answeredCount = Object.keys(answersObject).length;
+    // ––– Gamification Functions –––
+
+    // Update Test Mode Progress Bar
+    function updateTestProgressBar() {
+        const progressBar = document.getElementById('testProgressBar');
+        const progressText = document.getElementById('testProgressText');
+        const s = uiStrings[currentLanguage];
+
+        let answeredCount = 0;
+        // Count unique questions that have a saved answer
+        for (const qNum in savedSelectedAnswers) {
+            // Ensure the question actually exists in allQuizData to prevent errors
+            if (allQuizData.some(q => q.qNum == qNum)) {
+                answeredCount++;
+            }
+        }
+
+        const totalQuestions = allQuizData.length;
+        // Ensure percentage is not NaN if totalQuestions is 0
         const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
 
         progressBar.style.width = `${percentage}%`;
-        progressText.textContent = `${answeredCount} / ${totalQuestions} (${percentage}%)`;
+        progressBar.setAttribute('aria-valuenow', percentage); // For accessibility
+        progressText.textContent = `${answeredCount} / ${totalQuestions} (${percentage}${s.percentComplete})`;
+
+        // Check for 'Quiz Champion' achievement
+        if (answeredCount === totalQuestions) {
+            checkAchievements();
+        }
     }
-    
+
+    // Achievement System
     function loadAchievements() {
-        const saved = localStorage.getItem('earnedAchievements_v1');
-        earnedAchievements = saved ? JSON.parse(saved) : [];
+        const savedAchievements = localStorage.getItem('earnedAchievements_v1');
+        if (savedAchievements) {
+            earnedAchievements = JSON.parse(savedAchievements);
+        } else {
+            earnedAchievements = [];
+        }
+        console.log("Earned achievements loaded:", earnedAchievements);
     }
+
     function saveAchievements() {
         localStorage.setItem('earnedAchievements_v1', JSON.stringify(earnedAchievements));
+        console.log("Earned achievements saved:", earnedAchievements);
     }
+
     function checkAchievements() {
         const s = uiStrings[currentLanguage];
         achievements.forEach(achievement => {
-            if (!earnedAchievements.includes(achievement.id) && achievement.check()) {
-                earnedAchievements.push(achievement.id);
-                saveAchievements();
-                showNotification(s.achievementUnlocked.replace('{name}', achievement[`name_${currentLanguage}`]), 'success');
+            if (!earnedAchievements.includes(achievement.id)) {
+                if (achievement.check()) {
+                    earnedAchievements.push(achievement.id);
+                    saveAchievements();
+                    showNotification(s.achievementUnlocked.replace('{name}', achievement[`name_${currentLanguage}`]), 'success');
+                    console.log(`Achievement unlocked: ${achievement[`name_${currentLanguage}`]}`);
+                }
             }
         });
     }
 
-    // Close modals on outside click
+    // ––– END OF NEW PERFORMANCE TRACKING AND PRACTICE CARD LOGIC –––
+
     window.onclick = function (event) {
-      if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
+      if (event.target == document.getElementById('finalResultsModal')) {
+        closeFinalResultsModal();
+      }
+      if (event.target == document.getElementById('performanceStatsModal')) {
+        closePerformanceStatsModal();
+      }
+      // Close custom confirmation modal if clicked outside
+      if (event.target == document.getElementById('customConfirmationModal')) {
+          closeConfirmationModal();
       }
     };
   </script>
 
   <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.1.3 Return TEST</span>
+    Version <span id="appVersion">1.1.2</span>
   </div>
 </body>
 </html>
