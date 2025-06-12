@@ -1,4 +1,4 @@
-// quizQuestions.js
+// newQuizQuestions.js
 // This file contains the complete quiz data.
 
 const allQuizData = [
@@ -6,108 +6,80 @@ const allQuizData = [
   {
     qNum: 1,
     text: {
-      fr:
-        "L’utilisation des indices de persuasion est plus efficace lorsque l’interlocuteur est fatigué.",
-      en: "The use of persuasive cues is more effective when the interlocutor is tired."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Charisma can be enhanced by using metaphors, contrasts, and ambitious goals in speech."
     },
     answer: 'true'
   },
   {
     qNum: 2,
     text: {
-      fr:
-        "Le biais rétrospectif s’explique par le fait que les individus surestiment rétrospectivement l’apparition d’un événement une fois que l’événement est survenu.",
-      en:
-        "Hindsight bias is explained by the fact that individuals retrospectively overestimate the occurrence of an event once it has taken place."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Women consistently speak longer than men in leadership tasks regardless of context."
     },
     answer: 'false'
   },
   {
     qNum: 3,
     text: {
-      fr:
-        "Une des principales caractéristiques de la méthode scientifique est que les résultats d’une étude ne doivent pas être falsifiables.",
-      en:
-        "One of the key characteristics of the scientific method is that the results of a study should not be falsifiable."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 4,
-    text: {
-      fr:
-        "La diffusion de la responsabilité survient fréquemment dans les structures holacratiques.",
-      en: "Diffusion of responsibility frequently occurs in holacratic structures."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Leaders high in consideration behavior focus on building supportive relationships with subordinates."
     },
     answer: 'true'
   },
   {
-    qNum: 4.1, // (to keep qNum unique if needed, but here qNum always from 1–100)
+    qNum: 4,
     text: {
-      fr:
-        "Avoir un comportement de dominance permet d’influencer autrui et ce type de pouvoir s’appelle pouvoir légitime.",
-      en:
-        "Dominant behavior allows one to influence others, and this type of power is called legitimate power."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Powerless speech is associated with perceptions of competence and persuasiveness."
     },
     answer: 'false'
   },
   {
-    qNum: 5, // Actually Q5
+    qNum: 5,
     text: {
-      fr:
-        "Les deux éléments essentiels qui composent les théories comportementales du leadership sont la production de l’employé et sa considération.",
-      en:
-        "The two essential elements in behavioral leadership theories are employee production and employee consideration."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Dehumanization can sometimes help individuals make difficult decisions more easily."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 6,
     text: {
-      fr:
-        "Au sein d’une entreprise, une hiérarchie stable favorise la performance du groupe dans toutes les situations.",
-      en:
-        "Within a company, a stable hierarchy promotes group performance in all situations."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Women in leadership are often perceived through the lens of implicit bias and stereotype expectations."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 7,
     text: {
-      fr:
-        "Si votre supérieur vous offre un bonus de fin d’année pour votre excellente performance, on dira qu’il a un pouvoir légitime.",
-      en:
-        "If your superior offers you a year-end bonus for your excellent performance, we would say he has legitimate power."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "The central route of persuasion is used when the listener is highly motivated and able to process information."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 8,
     text: {
-      fr:
-        "La renaissance des théories des traits de personnalité dans les années 2000 n’a été possible que grâce au développement d’une nouvelle technique statistique, la méta-analyse.",
-      en:
-        "The resurgence of personality trait theories in the 2000s was only made possible by the development of the meta-analysis technique."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Mehrabian’s rule accurately states that 93% of communication is non-verbal."
     },
     answer: 'false'
   },
   {
     qNum: 9,
     text: {
-      fr:
-        "Les dirigeants peuvent être à la fois orientés vers les tâches et vers les personnes. Ces deux catégories ne s’excluent pas mutuellement et il est donc possible d’être à la fois l’un et l’autre.",
-      en:
-        "Leaders can be both task-oriented and people-oriented. These two categories are not mutually exclusive, so it is possible to be both."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Effective communication in multicultural teams requires low-context communication strategies."
     },
     answer: 'true'
   },
   {
     qNum: 10,
     text: {
-      fr:
-        "Vous êtes à la tête d’un groupe de travail qui cherche des solutions pour le réchauffement climatique. Vous proposez à vos collègues de faire une activité afin de remettre en question les stratégies précédemment utilisées. En faisant cela, vous utilisez un style de leadership transformationnel basé sur la stimulation intellectuelle.",
-      en:
-        "You are leading a task force looking for solutions to global warming. You suggest your colleagues carry out an activity to challenge previously used strategies. In doing so, you use a transformational leadership style based on intellectual stimulation."
+      fr: "PAS ENCORE IMPLÉMENTÉ POUR LE FRANÇAIS",
+      en: "Social proof is primarily based on conformity to what others are doing."
     },
     answer: 'true'
   },
@@ -116,303 +88,244 @@ const allQuizData = [
   {
     qNum: 11,
     text: {
-      fr:
-        "Un leader qui montre de l’optimisme et de l’enthousiasme peut être catégorisé comme utilisant l’influence idéalisée du leadership transformationnel.",
-      en:
-        "A leader who shows optimism and enthusiasm can be categorized as using the idealized influence of transformational leadership."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 12,
-    text: {
-      fr:
-        "Un style de leadership laisser-faire est moins efficace qu’un style de leadership transactionnel actif.",
-      en:
-        "A laissez-faire leadership style is less effective than an active transactional leadership style."
+      fr: "",
+      en: "Stereotype threat can reduce performance when individuals fear confirming negative stereotypes."
     },
     answer: 'true'
   },
   {
-    qNum: 13,
+    qNum: 12,
     text: {
-      fr:
-        "La validité incrémentielle permet d’améliorer la prédiction des performances du leader.",
-      en:
-        "Incremental validity improves the prediction of a leader’s performance."
+      fr: "",
+      en: "In-group favoritism is unrelated to stereotype valence."
     },
     answer: 'false'
   },
   {
+    qNum: 13,
+    text: {
+      fr: "",
+      en: "Instrumental leadership includes strategic planning and facilitating subordinates' work."
+    },
+    answer: 'true'
+  },
+  {
     qNum: 14,
     text: {
-      fr:
-        "Une leader qui formule une stratégie claire, visionnaire, et dont les objectifs sont ambitieux fait preuve d’un leadership transformationnel.",
-      en:
-        "A leader who formulates a clear, visionary strategy with ambitious goals demonstrates transformational leadership."
+      fr: "",
+      en: "Transformational leadership is focused mainly on transactional exchanges like rewards and punishments."
     },
     answer: 'false'
   },
   {
     qNum: 15,
     text: {
-      fr:
-        "Le leadership instrumental nécessite une attention particulière à l’environnement et aux résultats des subordonnés.",
-      en:
-        "Instrumental leadership requires close attention to the environment and subordinates’ outcomes."
-    },
-    answer: 'true'
-  },
-  {
-    qNum: 16,
-    text: {
-      fr:
-        "Le leadership instrumental n’ajoute pas de validité supplémentaire au lien entre le leadership transformationnel et les performances du dirigeant.",
-      en:
-        "Instrumental leadership does not add incremental validity to the link between transformational leadership and leader performance."
+      fr: "",
+      en: "Implicit bias always occurs consciously."
     },
     answer: 'false'
   },
   {
+    qNum: 16,
+    text: {
+      fr: "",
+      en: "Structuring behavior involves defining roles and setting clear goals."
+    },
+    answer: 'true'
+  },
+  {
     qNum: 17,
     text: {
-      fr:
-        "L’efficacité d’un leader est plus élevée lorsqu’il utilise les récompenses contingentes comparé à un style de leadership transformationnel.",
-      en:
-        "A leader’s effectiveness is higher when using contingent rewards compared to a transformational leadership style."
+      fr: "",
+      en: "Low-context cultures rely more on shared assumptions than explicit communication."
     },
     answer: 'false'
   },
   {
     qNum: 18,
     text: {
-      fr:
-        "Lors de l’évaluation des performances d’un leader, il est toujours préférable d’utiliser une évaluation objective plutôt qu’une évaluation subjective.",
-      en:
-        "When evaluating a leader’s performance, it is always preferable to use an objective assessment rather than a subjective one."
+      fr: "",
+      en: "According to the Elaboration Likelihood Model, the peripheral route involves high cognitive processing."
     },
     answer: 'false'
   },
   {
     qNum: 19,
     text: {
-      fr:
-        "Quand un leader dit : « Si vous gagnez ce client, je vais vous donner la responsabilité du projet… », il utilise les récompenses contingentes dans son style de leadership.",
-      en:
-        "When a leader says, “If you win this client, I will give you responsibility for the project…,” he is using contingent rewards in his leadership style."
+      fr: "",
+      en: "Obedience is driven by the desire to be liked and accepted by others."
     },
-    answer: 'true'
+    answer: 'false'
   },
   {
     qNum: 20,
     text: {
-      fr:
-        "« Je pense que, je pense que, pardon mais euh…, sur le sujet des engrais, l'approche qu'on a, et j'entends ce que vous dites et c'est très juste… » Ceci est un exemple du doute selon le langage impuissant.",
-      en:
-        "\"I think that, I think that, sorry but um…, on the subject of fertilizers, our approach, and I hear what you’re saying and it’s very true…\" This is an example of doubt in powerless language."
+      fr: "",
+      en: "Self-leadership involves setting personal goals and rewarding oneself."
     },
-    answer: 'false'
+    answer: 'true'
   },
 
   // Page 3 (Q21–30)
   {
     qNum: 21,
     text: {
-      fr:
-        "« Si l'on recherche un peu plus d'information, on pourrait peut-être y arriver même si je ne suis pas certain du résultat. » Ceci est un exemple de clause de non-responsabilité selon le langage impuissant.",
-      en:
-        "\"If we look for a bit more information, we might get there even if I’m not sure of the result.\" This is an example of a disclaimer in powerless language."
+      fr: "",
+      en: "The transactional model of communication accounts for context, such as culture and relationships."
     },
     answer: 'true'
   },
   {
     qNum: 22,
     text: {
-      fr:
-        "Le modèle interactionnel de la communication permet d'expliquer que certaines blagues ne produisent pas du rire chez tous les spectateurs, surtout chez ceux dont l'origine n'est pas similaire à celle de l'oratrice.",
-      en:
-        "The interactional model of communication explains why some jokes don’t produce laughter in all spectators, especially those whose background isn’t similar to the speaker’s."
+      fr: "",
+      en: "High-context cultures rely mostly on explicit verbal messages."
     },
     answer: 'false'
   },
   {
     qNum: 23,
     text: {
-      fr:
-        "Les leaders à succès passent une proportion de leur temps plus grande à prendre des décisions que les leaders ayant le moins de succès.",
-      en:
-        "Successful leaders spend a larger proportion of their time making decisions than less successful leaders."
+      fr: "",
+      en: "Low-context cultures value directness and clarity in communication."
     },
     answer: 'true'
   },
   {
     qNum: 24,
     text: {
-      fr:
-        "Dans une culture à forte contextualisation, un même énoncé a besoin d'indices supplémentaires pour être compris par le récepteur.",
-      en:
-        "In a high-context culture, the same statement needs additional cues to be understood by the receiver."
+      fr: "",
+      en: "Non-verbal communication includes gestures, posture, and facial expressions."
     },
     answer: 'true'
   },
   {
     qNum: 25,
     text: {
-      fr:
-        "« Pour améliorer le quotidien de nombreuses personnes dans le besoin, il faut mettre en place des mesures drastiques. Il faut améliorer la quantité de ressources allouées à cette problématique. Il faut aussi sensibiliser la population et favoriser l'intégration de ces personnes. » Ceci est un exemple de répétition.",
-      en:
-        "\"To improve the daily lives of many people in need, drastic measures must be put in place. We need to increase the quantity of resources allocated to this issue. We must also raise awareness and promote integration of these people.\" This is an example of repetition."
+      fr: "",
+      en: "In leadership, power can only come from formal authority."
     },
     answer: 'false'
   },
   {
     qNum: 26,
     text: {
-      fr:
-        "« Souvenez-vous, souvenez-vous du 5 novembre, de la poudre à canon, des trahisons et conspirations. » Ceci est un exemple d'anecdote.",
-      en:
-        "\"Remember, remember the 5th of November, gunpowder, treason and plot.\" This is an example of an anecdote."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 27,
-    text: {
-      fr:
-        "« Lors de mes voyages au travers des Caraïbes, j'ai rencontré des populations qui n'avaient que très peu de ressources. Pourtant, ces populations parviennent à survivre. Ce n'est pas la quantité qui permet de se développer, mais l'efficience dans l'utilisation des ressources. Si eux y sont arrivés, nous y arriverons aussi. » Ceci est un exemple de confiance vis-à-vis des objectifs.",
-      en:
-        "\"During my travels across the Caribbean, I met populations with very few resources. Yet those populations manage to survive. It’s not quantity that enables development but efficiency in resource usage. If they succeeded, we can too.\" This is an example of confidence in objectives."
+      fr: "",
+      en: "Extraversion has the highest correlation with leadership effectiveness among the Big Five traits."
     },
     answer: 'true'
   },
   {
+    qNum: 27,
+    text: {
+      fr: "",
+      en: "Introverts can never be effective leaders, even when behaving extravertedly."
+    },
+    answer: 'false'
+  },
+  {
     qNum: 28,
     text: {
-      fr:
-        "Les suiveurs adoptent la vision du leader dans le cadre d'un leadership charismatique ou transformationnel.",
-      en:
-        "Followers adopt the leader’s vision under both charismatic and transformational leadership."
+      fr: "",
+      en: "The scientific method must be objective, empirical, and reproducible."
     },
     answer: 'true'
   },
   {
     qNum: 29,
     text: {
-      fr:
-        "Lors de la structuration d'un discours, l'introduction doit comprendre un “appel à l'action”.",
-      en:
-        "When structuring a speech, the introduction should include a “call to action.”"
+      fr: "",
+      en: "Falsifiability means a theory must be impossible to disprove."
     },
     answer: 'false'
   },
   {
     qNum: 30,
     text: {
-      fr:
-        "Demander une grande faveur puis demander une plus petite faveur est un exemple de la technique du pied dans la porte.",
-      en:
-        "Asking for a large favor and then requesting a smaller one is an example of the foot-in-the-door technique."
+      fr: "",
+      en: "Evidence-based management uses data and research to guide decisions."
     },
-    answer: 'false'
+    answer: 'true'
   },
 
   // Page 4 (Q31–40)
   {
     qNum: 31,
     text: {
-      fr:
-        "Un employé vient d'apprendre que son département informatique lui fournira un ordinateur pour ses tâches administratives. Il a le choix entre trois modèles dont l'un est recommandé par le département pour sa facilité d'utilisation. Il décide de choisir cet ordinateur sur la base de cette recommandation. L'employé a utilisé une heuristique pour faire son choix.",
-      en:
-        "An employee just learned that his IT department will provide him with a computer for administrative tasks. He has a choice of three models, one of which is recommended by the department for its ease of use. He chooses that computer based on the department’s recommendation. The employee used a heuristic to make his decision."
+      fr: "",
+      en: "The Great Man Theory assumes leadership is developed through experience."
     },
-    answer: 'true'
+    answer: 'false'
   },
   {
     qNum: 32,
     text: {
-      fr:
-        "Flatter un individu augmente sa propension à coopérer grâce au mécanisme de la voie centrale.",
-      en:
-        "Flattering an individual increases their propensity to cooperate via the central route of persuasion."
+      fr: "",
+      en: "Task-oriented leaders focus on relationships and team harmony."
     },
     answer: 'false'
   },
   {
     qNum: 33,
     text: {
-      fr:
-        "Pour des thématiques qui vous sont importantes, la qualité des arguments est un facteur qui va influencer votre manière de penser.",
-      en:
-        "For topics that are important to you, argument quality is a factor that will influence your thinking."
+      fr: "",
+      en: "Consideration behavior involves concern for the well-being of team members."
     },
     answer: 'true'
   },
   {
     qNum: 34,
     text: {
-      fr:
-        "Les sites de vente en ligne utilisant une politique de premier arrivé-premier servi utilisent le principe de persuasion du côté unique du produit.",
-      en:
-        "First-come, first-served online retailers use the principle of product uniqueness to persuade customers to buy."
+      fr: "",
+      en: "Contingency theories argue that one leadership style fits all situations."
     },
     answer: 'false'
   },
   {
     qNum: 35,
     text: {
-      fr:
-        "La technique de persuasion du pied dans la porte se base sur le principe de réciprocité.",
-      en:
-        "The foot-in-the-door persuasion technique is based on the principle of reciprocity."
+      fr: "",
+      en: "Fiedler’s model evaluates leader-member relations, task structure, and position power."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 36,
     text: {
-      fr:
-        "Selon le modèle de probabilité d'élaboration, la voie centrale de persuasion est utilisée lorsque les individus ne sont pas motivés ou ne sont pas en mesure de comprendre.",
-      en:
-        "According to the Elaboration Likelihood Model, the central route of persuasion is used when individuals are not motivated or able to understand."
+      fr: "",
+      en: "Path-goal theory focuses on removing obstacles and motivating followers."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 37,
     text: {
-      fr:
-        "Selon les principes de la persuasion, la preuve par la masse se base sur les effets de l'obéissance.",
-      en:
-        "According to the principles of persuasion, social proof is based on obedience."
+      fr: "",
+      en: "LMX theory suggests leaders treat all team members equally by default."
     },
     answer: 'false'
   },
   {
     qNum: 38,
     text: {
-      fr:
-        "Le pouvoir d'autorité est une heuristique de persuasion.",
-      en: "Authority power is a heuristic of persuasion."
+      fr: "",
+      en: "Participative leadership involves high relationship-orientation and low task-orientation."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 39,
     text: {
-      fr:
-        "Un style de leadership authentique est en général plus efficace que les autres styles de leadership vu en cours.",
-      en:
-        "An authentic leadership style is generally more effective than other leadership styles discussed in class."
+      fr: "",
+      en: "Transformational leaders often display idealized influence and inspirational motivation."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 40,
     text: {
-      fr:
-        "L'évaluation défavorable dans un feedback est facilement acceptée lorsque les subordonnés choisissent le candidat.",
-      en:
-        "Unfavorable feedback is more readily accepted when subordinates choose the candidate."
+      fr: "",
+      en: "Transactional leaders focus on inspiring vision and individual growth."
     },
     answer: 'false'
   },
@@ -421,100 +334,80 @@ const allQuizData = [
   {
     qNum: 41,
     text: {
-      fr:
-        "Le « management by objectives » récompense et sanctionne l'avancée des collaborateurs vers l'objectif.",
-      en:
-        "\"Management by Objectives\" rewards and sanctions employees’ progress toward goals."
+      fr: "",
+      en: "Contingent reward is part of transformational leadership."
     },
-    answer: 'true'
+    answer: 'false'
   },
   {
     qNum: 42,
     text: {
-      fr:
-        "Afin de faciliter un entretien de feedback, on proposera aux collaborateurs d'agender la réunion en amont afin de lui fournir du temps pour se préparer.",
-      en:
-        "To facilitate a feedback interview, we suggest employees schedule the meeting in advance so they have time to prepare."
+      fr: "",
+      en: "Management-by-exception can be either active or passive."
     },
     answer: 'true'
   },
   {
     qNum: 43,
     text: {
-      fr:
-        "La conscience de soi n'existe que chez l'homme et n'est pas possible chez les animaux.",
-      en:
-        "Self-awareness only exists in humans and is not possible in animals."
+      fr: "",
+      en: "Laissez-faire leadership is characterized by high involvement and feedback."
     },
     answer: 'false'
   },
   {
     qNum: 44,
     text: {
-      fr:
-        "Pour un feedback à 360 degrés, le contenu du questionnaire que vous remplissez à votre sujet doit contenir des questions différentes de celles posées aux personnes qui vous évaluent.",
-      en:
-        "For 360-degree feedback, the questionnaire you fill out about yourself must contain different questions than those asked to people evaluating you."
+      fr: "",
+      en: "Instrumental leadership involves strategic planning and technical support."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 45,
     text: {
-      fr:
-        "Dans le cas d'un feedback à 360 degrés, le candidat choisit généralement la personne qui l'évalue.",
-      en:
-        "In the case of 360-degree feedback, the candidate typically chooses who evaluates them."
+      fr: "",
+      en: "Objective performance criteria include things like revenue and sales data."
     },
     answer: 'true'
   },
   {
     qNum: 46,
     text: {
-      fr:
-        "L'entretien annuel de collaboration est souvent plus négatif que ce que pensent réellement les supérieurs.",
-      en:
-        "Annual performance reviews are often more negative than what supervisors actually think."
+      fr: "",
+      en: "Subjective performance criteria include peer ratings and supervisor evaluations."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 47,
     text: {
-      fr:
-        "Lorsque vous donnez un feedback négatif, il est bon de se concentrer sur les intentions de la personne plutôt que sur son comportement.",
-      en:
-        "When giving negative feedback, it’s better to focus on the person’s intentions rather than their behavior."
+      fr: "",
+      en: "Interpersonal perception involves interpreting others’ behaviors and intentions."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 48,
     text: {
-      fr:
-        "C'est le niveau de stress subjectif qui détermine les conséquences négatives, et non le stress objectif.",
-      en:
-        "It is subjective stress levels that determine negative consequences, not objective stress."
+      fr: "",
+      en: "The halo effect is when one positive trait affects our overall impression."
     },
     answer: 'true'
   },
   {
     qNum: 49,
     text: {
-      fr:
-        "Une employée vient d'être embauchée dans une entreprise. Elle fait face à une charge de travail importante pour laquelle elle n'est pas encore totalement préparée. Elle a l'impression qu'elle gère la situation et n'est pas impactée par la charge de travail. Cette employée ressent donc un stress objectif, mais pas subjectif.",
-      en:
-        "An employee was just hired. She faces a heavy workload for which she’s not yet prepared. She feels she’s handling it and is not affected by the workload. Therefore, she experiences objective stress but not subjective stress."
+      fr: "",
+      en: "Powerful speech typically includes lots of hesitations and disclaimers."
     },
     answer: 'false'
   },
   {
     qNum: 50,
     text: {
-      fr:
-        "Le grit est une compétence qui se développe au cours du temps et permet aux leaders de devenir plus charismatiques si c'est un de leurs buts.",
-      en:
-        "Grit is a skill that develops over time and allows leaders to become more charismatic if it’s one of their goals."
+      fr: "",
+      en: "Perceived facial dominance is linked to perceptions of leadership ability."
     },
     answer: 'true'
   },
@@ -523,200 +416,162 @@ const allQuizData = [
   {
     qNum: 51,
     text: {
-      fr:
-        "Considérer que l'apprentissage est une composante essentielle de la progression favorise le développement du grit chez les leaders.",
-      en:
-        "Believing that learning is essential to progress fosters development of grit in leaders."
+      fr: "",
+      en: "Emergent leadership refers to formal appointment to a leadership position."
     },
-    answer: 'true'
+    answer: 'false'
   },
   {
     qNum: 52,
     text: {
-      fr:
-        "Dans des hiérarchies stables, des études montrent que les leaders ressentent moins de stress que les non-leaders et que leurs niveaux de stress physiologique, tels que l'hormone cortisol, sont moins élevés.",
-      en:
-        "In stable hierarchies, studies show that leaders feel less stress than non-leaders and have lower physiological stress levels (e.g., cortisol)."
+      fr: "",
+      en: "Expectation States Theory suggests that people’s expectations shape who becomes a leader."
     },
     answer: 'true'
   },
   {
     qNum: 53,
     text: {
-      fr:
-        "Il existe une corrélation entre le « Grit » et l'intelligence.",
-      en: "There is a correlation between grit and intelligence."
+      fr: "",
+      en: "In-group members in LMX theory receive fewer opportunities than out-group members."
     },
     answer: 'false'
   },
   {
     qNum: 54,
     text: {
-      fr:
-        "Un orateur qui voit un modèle du même sexe augmentera son temps de parole. Cela est vrai pour les hommes comme pour les femmes.",
-      en:
-        "A speaker who sees a same-gender role model will increase their speaking time. This is true for both men and women."
+      fr: "",
+      en: "Women are often stereotyped as more communal, while men are seen as more agentic."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 55,
     text: {
-      fr:
-        "Le self-leadership est une composante du leadership charismatique, car elle permet au leader de motiver les subordonnés.",
-      en:
-        "Self-leadership is a component of charismatic leadership because it helps the leader motivate subordinates."
+      fr: "",
+      en: "Implicit leadership theories are based on what people think a leader should look or act like."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 56,
     text: {
-      fr:
-        "Si un individu parvient à reconnaître correctement les traits et états d’autrui, on peut dire qu’il a de la sensibilité interpersonnelle.",
-      en:
-        "If an individual correctly recognizes others’ traits and states, we say they have interpersonal sensitivity."
+      fr: "",
+      en: "The backlash effect punishes people who go against stereotypical expectations."
     },
     answer: 'true'
   },
   {
     qNum: 57,
     text: {
-      fr:
-        "Une personne qui parle plus vite, a une voix plus grave, et fait plus d’interruptions est perçue comme quelqu’un avec plus de pouvoir.",
-      en:
-        "A person who speaks faster, has a deeper voice, and interrupts more is perceived as having more power."
+      fr: "",
+      en: "Social role theory links gender stereotypes to historical divisions of labor."
     },
     answer: 'true'
   },
   {
     qNum: 58,
     text: {
-      fr:
-        "Lors d’une réunion de travail dans votre nouvelle équipe, vous observez qu’une collègue a des contacts visuels fréquents avec les autres participants. D’ailleurs, lorsqu’elle parle, sa voix n’est pas du tout monotone. Vous en concluez qu’elle a du pouvoir dans l’équipe. Vous avez fait preuve de sensibilité interpersonnelle.",
-      en:
-        "During a team meeting, you notice a colleague making frequent eye contact and using a non-monotone voice. You conclude she has power in the team. That demonstrates interpersonal sensitivity."
+      fr: "",
+      en: "The IAT test measures conscious opinions about social categories."
     },
     answer: 'false'
   },
   {
     qNum: 59,
     text: {
-      fr:
-        "L’attractivité, la taille, la voix et la marque des vêtements portés sont utilisés comme indices de statut.",
-      en:
-        "Attractiveness, size, voice, and brand of clothing worn are used as status indicators."
+      fr: "",
+      en: "Stereotype threat can hurt performance, especially in domains that matter to the individual."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 60,
     text: {
-      fr:
-        "Selon le modèle de lentille de Brunswick (1956), les premières impressions sont généralement correctes.",
-      en:
-        "According to Brunswick’s lens model (1956), first impressions are generally accurate."
+      fr: "",
+      en: "Perspective-taking can help reduce implicit bias."
     },
-    answer: 'false'
+    answer: 'true'
   },
 
   // Page 7 (Q61–70)
   {
     qNum: 61,
     text: {
-      fr:
-        "La tâche de perception interpersonnelle (IPT) et la tâche WIPS sont des tests de performance utilisés pour mesurer le niveau de sensibilité interpersonnelle d'un individu.",
-      en:
-        "The Interpersonal Perception Task (IPT) and the WIPS task are performance tests used to measure an individual’s level of interpersonal sensitivity."
+      fr: "",
+      en: "Code-switching helps facilitate cross-cultural communication."
     },
     answer: 'true'
   },
   {
     qNum: 62,
     text: {
-      fr:
-        "Selon la théorie des attentes de statut (EST), les attentes concernant la contribution de chaque membre du groupe peuvent créer une prophétie auto-réalisatrice.",
-      en:
-        "According to Expectation States Theory (EST), expectations about each group member’s contribution can create a self-fulfilling prophecy."
+      fr: "",
+      en: "Leaders with multiple cultural identities may be better at managing diverse teams."
     },
     answer: 'true'
   },
   {
     qNum: 63,
     text: {
-      fr:
-        "Selon la théorie des attentes de statut (EST), les groupes homogènes forment des hiérarchies en fonction d'indices de statut externes.",
-      en:
-        "According to EST, homogeneous groups form hierarchies based on external status cues."
+      fr: "",
+      en: "Charismatic leaders always use logical arguments and data."
     },
     answer: 'false'
   },
   {
     qNum: 64,
     text: {
-      fr:
-        "Dans un groupe de personnes qui ne se connaissent pas, chaque personne reçoit aléatoirement une casquette avec un trait de personnalité marqué sur la casquette (p.ex. timide, maladroit). Les personnes ne connaissent pas le trait qui est marqué sur leur casquette, mais les autres membres du groupe le voient. Les traits de personnalité marqués sur les casquettes vont amener les membres du groupe à avoir des attentes différentes concernant le comportement de chaque membre du groupe.",
-      en:
-        "In a group of strangers, each person is randomly given a cap with a personality trait (e.g. shy, awkward). They don’t know their own trait, but the others do. Those traits cause group members to have different expectations about each member’s behavior."
+      fr: "",
+      en: "Charisma can be enhanced through storytelling and rhetorical devices."
     },
     answer: 'true'
   },
   {
     qNum: 65,
     text: {
-      fr:
-        "En réalisant un entretien structuré, c’est-à-dire qui respecte la même structure, quels que soient les candidats, on minimise les probabilités d’apparition de biais implicites.",
-      en:
-        "By conducting a structured interview—using the same structure for every candidate—we minimize the likelihood of implicit bias."
+      fr: "",
+      en: "Visual words and metaphors are more charismatic than abstract terms."
     },
     answer: 'true'
   },
   {
     qNum: 66,
     text: {
-      fr:
-        "Le racisme est un problème majeur qui s’explique par l’effet d’homogénéisation. Les personnes racistes pensent de la même manière et leur perception de l’exogroupe est homogène.",
-      en:
-        "Racism is a major problem caused by the homogenization effect. Racist people think similarly and perceive the out-group as homogeneous."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 67,
-    text: {
-      fr:
-        "Une perception réduite de la variabilité exogroupe limite le chevauchement réel entre la variabilité exogroupe et endogroupe.",
-      en:
-        "A reduced perception of out-group variability limits the actual overlap between in-group and out-group variability."
+      fr: "",
+      en: "TED Talk studies show more charismatic tactics = more views."
     },
     answer: 'true'
   },
   {
-    qNum: 68,
+    qNum: 67,
     text: {
-      fr:
-        "La valence des caractéristiques de l’endogroupe est négative.",
-      en: "The valence of in-group characteristics is negative."
+      fr: "",
+      en: "Charismatic speeches have no measurable effect on listener performance."
     },
     answer: 'false'
   },
   {
+    qNum: 68,
+    text: {
+      fr: "",
+      en: "Central route persuasion leads to more lasting attitude change than peripheral route."
+    },
+    answer: 'true'
+  },
+  {
     qNum: 69,
     text: {
-      fr:
-        "Un stéréotype est différent d’un préjugé car les réactions sont différentes : l’une est émotionnelle et l’autre comportementale.",
-      en:
-        "A stereotype is different from a prejudice because the reactions are different: one is emotional, the other behavioral."
+      fr: "",
+      en: "Peripheral route persuasion depends on high motivation and effort."
     },
     answer: 'false'
   },
   {
     qNum: 70,
     text: {
-      fr:
-        "Les stéréotypes sont une heuristique utilisée pour la sélection du personnel lors d’un premier entretien d’embauche.",
-      en:
-        "Stereotypes are a heuristic used in personnel selection during an initial job interview."
+      fr: "",
+      en: "Reciprocity means people feel inclined to return favors."
     },
     answer: 'true'
   },
@@ -725,302 +580,244 @@ const allQuizData = [
   {
     qNum: 71,
     text: {
-      fr:
-        "Selon la théorie de l'identité sociale, les stéréotypes peuvent provenir de la catégorisation sociale et de l'identité sociale.",
-      en:
-        "According to Social Identity Theory, stereotypes can stem from social categorization and social identity."
-    },
-    answer: 'true'
-  },
-  {
-    qNum: 72,
-    text: {
-      fr:
-        "Il ne suffit pas de connaître les stéréotypes de genre dans notre culture pour qu'ils influencent nos perceptions et nos comportements.",
-      en:
-        "Merely knowing gender stereotypes in our culture is not enough for them to influence our perceptions and behaviors."
+      fr: "",
+      en: "Foot-in-the-door is when you ask for something big, then something small."
     },
     answer: 'false'
   },
   {
+    qNum: 72,
+    text: {
+      fr: "",
+      en: "Scarcity increases the perceived value of an item or opportunity."
+    },
+    answer: 'true'
+  },
+  {
     qNum: 73,
     text: {
-      fr:
-        "L'exagération et la valence sont des caractéristiques clés des stéréotypes.",
-      en:
-        "Exaggeration and valence are key characteristics of stereotypes."
+      fr: "",
+      en: "Authority influences persuasion through perceived expertise and credibility."
     },
     answer: 'true'
   },
   {
     qNum: 74,
     text: {
-      fr:
-        "Selon la théorie des stéréotypes, les gens perçoivent leur propre groupe comme moins diversifié que d'autres groupes auxquels ils n'appartiennent pas.",
-      en:
-        "According to stereotype theory, people perceive their own group as less diverse than other groups they don’t belong to."
+      fr: "",
+      en: "People are more easily persuaded by those they like or admire."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 75,
     text: {
-      fr:
-        "Il y a toujours une part de vérité derrière les stéréotypes.",
-      en: "There is always some truth behind stereotypes."
+      fr: "",
+      en: "People with high power are more prone to dehumanizing others."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 76,
     text: {
-      fr:
-        "L'une des manifestations des préjugés implicites est que nous percevons et évaluons le même comportement différemment, en fonction de la personne qui le manifeste.",
-      en:
-        "One manifestation of implicit bias is that we perceive and evaluate the same behavior differently depending on who displays it."
+      fr: "",
+      en: "Power can lower stress if the hierarchy is stable."
     },
     answer: 'true'
   },
   {
     qNum: 77,
     text: {
-      fr:
-        "Le test d'association implicite est une méthode basée sur un questionnaire pour mesurer les préjugés implicites.",
-      en:
-        "The Implicit Association Test is a questionnaire-based method for measuring implicit biases."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 78,
-    text: {
-      fr:
-        "La désindividualisation est un moyen de briser les associations stéréotypées et habituelles et donc de surmonter les préjugés.",
-      en:
-        "Deindividuation is a way to break stereotypical and habitual associations, thereby overcoming biases."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 79,
-    text: {
-      fr:
-        "Au cours du temps, la proportion de répondants considérant les femmes et hommes égaux en termes de compétence à largement augmenté.",
-      en:
-        "Over time, the proportion of respondents who consider women and men equal in competence has increased significantly."
+      fr: "",
+      en: "Job demands increase stress, especially when resources are low."
     },
     answer: 'true'
   },
   {
-    qNum: 80,
+    qNum: 78,
     text: {
-      fr:
-        "La proportion de répondants dont l’évaluation de la caractéristique “agency” est stéréotypique des hommes est plus faible en 2020 que celle associée aux femmes en 1945.",
-      en:
-        "The proportion of respondents whose assessment of the characteristic “agency” is stereotypically male is lower in 2020 than that associated with women in 1945."
+      fr: "",
+      en: "The Job Demands-Resources model explains burnout from imbalance."
+    },
+    answer: 'true'
+  },
+  {
+    qNum: 79,
+    text: {
+      fr: "",
+      en: "Burnout leads to better performance under pressure."
     },
     answer: 'false'
+  },
+  {
+    qNum: 80,
+    text: {
+      fr: "",
+      en: "Self-control predicts academic and career success."
+    },
+    answer: 'true'
   },
 
   // Page 9 (Q81–90)
   {
     qNum: 81,
     text: {
-      fr:
-        "Le modèle du lack of fit permet d’expliquer pourquoi une femme serait sous-évaluée lors d’un entretien d’embauche lorsque ce poste concerne une position de manager.",
-      en:
-        "The Lack-of-Fit model explains why a woman would be undervalued in a job interview when the position is managerial."
+      fr: "",
+      en: "Grit relates to persistence toward long-term goals."
     },
     answer: 'true'
   },
   {
     qNum: 82,
     text: {
-      fr:
-        "La menace du stéréotype influence la catégorie auto-évaluation dans le modèle du lack of fit.",
-      en:
-        "Stereotype threat influences self-evaluation in the Lack-of-Fit model."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 83,
-    text: {
-      fr:
-        "L'explication la plus plausible de l'écart salarial entre les hommes et les femmes est que les femmes ne demandent pas autant d'argent que les hommes.",
-      en:
-        "The most plausible explanation for the gender wage gap is that women do not negotiate for as much money as men."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 84,
-    text: {
-      fr:
-        "Les femmes dirigeantes sont évaluées de manière particulièrement positive lorsqu'elles adoptent un style de leadership masculin.",
-      en:
-        "Female leaders are evaluated especially positively when they adopt a male leadership style."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 85,
-    text: {
-      fr:
-        "Selon le modèle du « Lack of fit », la cohérence ou l'incohérence entre les attributs d'un individu et les attentes ou stéréotypes peut conduire à un comportement d'autolimitation et à la discrimination.",
-      en:
-        "According to the Lack-of-Fit model, the match or mismatch between an individual’s attributes and expectations or stereotypes can lead to self-limiting behavior and discrimination."
+      fr: "",
+      en: "Self-leadership includes goal-setting, self-prompting, and visualizing success."
     },
     answer: 'true'
   },
   {
+    qNum: 83,
+    text: {
+      fr: "",
+      en: "Structured leadership helps reduce employee burnout."
+    },
+    answer: 'true'
+  },
+  {
+    qNum: 84,
+    text: {
+      fr: "",
+      en: "Women are underrepresented in leadership due to both bias and individual differences."
+    },
+    answer: 'true'
+  },
+  {
+    qNum: 85,
+    text: {
+      fr: "",
+      en: "In Switzerland, more women than men hold leadership roles."
+    },
+    answer: 'false'
+  },
+  {
     qNum: 86,
     text: {
-      fr:
-        "Fournir des explications externes à l'anxiété est un moyen de réduire la menace des stéréotypes.",
-      en:
-        "Providing external explanations for anxiety is a way to reduce stereotype threat."
+      fr: "",
+      en: "Implicit bias can affect evaluations even when objective behavior is equal."
     },
     answer: 'true'
   },
   {
     qNum: 87,
     text: {
-      fr:
-        "Les femmes sont plus susceptibles d'être perçues comme des leaders qui utilisent le style de leadership « Laissez-faire » que les hommes.",
-      en:
-        "Women are more likely to be perceived as using a laissez-faire leadership style than men."
+      fr: "",
+      en: "Power distance reflects how accepted hierarchy is within a culture."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 88,
     text: {
-      fr:
-        "Deux méta-analyses montrent que la diversité des sexes au sein du conseil d'administration a un effet sur les performances des entreprises.",
-      en:
-        "Two meta-analyses show that gender diversity on a board of directors affects company performance."
+      fr: "",
+      en: "Low power distance cultures expect strong separation between ranks."
     },
     answer: 'false'
   },
   {
     qNum: 89,
     text: {
-      fr:
-        "Dans une situation où une leader a un statut élevé, le fait d’avoir du pouvoir ou de ne pas avoir de pouvoir n’a pas d’influence sur les conflits interpersonnels.",
-      en:
-        "In a situation where a leader has high status, whether they have power or not does not influence interpersonal conflicts."
+      fr: "",
+      en: "Multicultural teams benefit from clearly defined communication norms."
     },
     answer: 'true'
   },
   {
     qNum: 90,
     text: {
-      fr:
-        "Les leaders ont tendance à garder à l’esprit les conseils des experts pour améliorer leur compétitivité et augmenter la confiance en leurs propres idées.",
-      en:
-        "Leaders tend to keep expert advice in mind to improve their competitiveness and increase confidence in their own ideas."
+      fr: "",
+      en: "Zoom fatigue is driven by nonverbal overload and self-focus."
     },
-    answer: 'false'
+    answer: 'true'
   },
 
   // Page 10 (Q91–100)
   {
     qNum: 91,
     text: {
-      fr:
-        "La construction du pouvoir et la corruption qui en découle dépend des opportunités et de la responsabilité de l’institution.",
-      en:
-        "The construction of power and resulting corruption depend on the opportunities and responsibilities of the institution."
+      fr: "",
+      en: "Written communication allows richer expression than oral communication."
     },
     answer: 'false'
   },
   {
     qNum: 92,
     text: {
-      fr:
-        "Lors du gala de fin d’année, vous arrivez habillé.e de manière informelle. Vous remarquez dès l’entrée que tous les autres participants sont habillés de manière formelle et vous n’avez pas été tenu au courant. Vous décidez de retourner vous changer pour respecter le code vestimentaire. Vous avez agi de cette manière sous l’influence sociale informative.",
-      en:
-        "At the year-end gala, you arrive in informal attire. Upon entering, you notice all other attendees are dressed formally, and you weren’t informed. You decide to go back and change to respect the dress code. You acted under informative social influence."
+      fr: "",
+      en: "The transparency illusion causes people to overestimate how well others understand them."
     },
     answer: 'true'
   },
   {
     qNum: 93,
     text: {
-      fr:
-        "Lors d’une réunion, on vous demande d’aller chercher des verres supplémentaires pour les invités de la société concurrente. Vous devez choisir parmi les verres marrons ou les verres violets et vous ne savez pas quoi faire. Vous choisissez finalement des verres de couleur marron car vous avez vu que la table ne contient que des verres marrons. Vous respectez la norme, il s’agit donc d’une influence sociale normative.",
-      en:
-        "At a meeting, you’re asked to fetch extra glasses for guests of the rival company. You must choose between brown or purple glasses and aren’t sure. You pick brown because you saw the table has only brown glasses. You’re obeying a norm, so this is normative social influence."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 94,
-    text: {
-      fr:
-        "Les personnes orientées vers l'échange se comportent de manière moins égoïste, car elles pensent qu'elles peuvent donner aux autres sans nécessairement toujours recevoir quelque chose en retour.",
-      en:
-        "People with an exchange orientation behave less selfishly because they believe they can give to others without necessarily always getting something in return."
-    },
-    answer: 'false'
-  },
-  {
-    qNum: 95,
-    text: {
-      fr:
-        "La déshumanisation peut avoir des effets positifs.",
-      en: "Dehumanization can have positive effects."
+      fr: "",
+      en: "Digital communication tools require leaders to adapt their communication strategies."
     },
     answer: 'true'
   },
   {
-    qNum: 96,
+    qNum: 94,
     text: {
-      fr:
-        "Le perfectionnisme est un comportement approprié pour les dirigeants, et ceux qui en font preuve sont moins susceptibles de devenir des dirigeants destructeurs.",
-      en:
-        "Perfectionism is appropriate for leaders, and those who display it are less likely to become destructive leaders."
+      fr: "",
+      en: "Deindividuation makes people more likely to act unethically if they feel anonymous."
+    },
+    answer: 'true'
+  },
+  {
+    qNum: 95,
+    text: {
+      fr: "",
+      en: "Obedience occurs because of peer conformity, not authority pressure."
     },
     answer: 'false'
   },
   {
+    qNum: 96,
+    text: {
+      fr: "",
+      en: "The Milgram experiment showed that people may obey harmful orders under pressure."
+    },
+    answer: 'true'
+  },
+  {
     qNum: 97,
     text: {
-      fr:
-        "Le fait d'avoir du pouvoir sans prestige diminue les conflits avec les autres.",
-      en:
-        "Having power without prestige decreases conflict with others."
+      fr: "",
+      en: "Normative influence is driven by the desire to be right."
     },
     answer: 'false'
   },
   {
     qNum: 98,
     text: {
-      fr:
-        "Les termes obéissance et conformité renvoient au même phénomène.",
-      en:
-        "The terms obedience and conformity refer to the same phenomenon."
+      fr: "",
+      en: "Informational influence comes from wanting to be accurate in ambiguous situations."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 99,
     text: {
-      fr:
-        "Vous voulez vous faire couper les cheveux de manière inhabituelle, mais vous craignez que les autres se moquent de vous. Dans ce cas, vous avez été affecté par une influence sociale informative.",
-      en:
-        "You want to get an unusual haircut but are worried others will mock you. In this case, you have been affected by informative social influence."
+      fr: "",
+      en: "The policeman's dilemma illustrates how stereotypes influence split-second decisions."
     },
-    answer: 'false'
+    answer: 'true'
   },
   {
     qNum: 100,
     text: {
-      fr:
-        "Le racisme est un problème majeur qui s’explique par l’effet d’homogénéisation. Les personnes racistes pensent de la même manière et leur perception de l’exogroupe est homogène.",
-      en:
-        "Racism is a major problem caused by the homogenization effect. Racist people think similarly and perceive the out-group as homogeneous."
+      fr: "",
+      en: "Meta-perception is how others see us."
     },
     answer: 'false'
   }
