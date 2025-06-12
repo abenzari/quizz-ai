@@ -373,7 +373,7 @@ const allQuizData = [
       fr:
         "Selon le modèle de probabilité d'élaboration, la voie centrale de persuasion est utilisée lorsque les individus ne sont pas motivés ou ne sont pas en mesure de comprendre.",
       en:
-        "According to the Elaboration Likelihood Model, the central route of persuasion is used when individuals are motivated and able to process the message. (If they’re not, the peripheral route is used.)"
+        "According to the Elaboration Likelihood Model, the central route of persuasion is used when individuals are not motivated or able to understand."
     },
     answer: 'false'
   },
