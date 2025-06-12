@@ -247,10 +247,9 @@
 
     <div id="testModeContainer">
       <!-- Progress Bar for Test Mode -->
-      <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
-        <div id="testProgressBar" class="bg-blue-600 h-4 rounded-full text-xs flex justify-center items-center text-white font-semibold" style="width: 0%;">
-          <span id="testProgressText">0% Complete</span>
-        </div>
+      <div class="w-full bg-gray-200 rounded-full h-4 mb-4 relative">
+        <div id="testProgressBar" class="bg-blue-600 h-4 rounded-full" style="width: 0%;"></div>
+        <span id="testProgressText" class="absolute inset-0 flex justify-center items-center text-white font-semibold text-xs">0% Complete</span>
       </div>
 
       <div id="page-0" class="quiz-page active">
@@ -567,8 +566,14 @@
         achievementsTitle: "Réalisations",
         noQuestionsInCategory: "Aucune question dans cette catégorie.",
         practiceCardProgress: "Question {current} / {total}",
-        encouragementCorrect: [ "Fantastique !", "Impressionnant !", "Bien joué !", "Exact !", "Parfait !", "Continuez comme ça !", "Superbe !", "Très bien !" ],
-        encouragementIncorrect: [ "Gardez la tête haute !", "Ne vous inquiétez pas, vous y arriverez !", "Chaque erreur est une leçon.", "Continuez d'essayer !", "Prochaine fois sera la bonne !", "C'est un processus d'apprentissage." ],
+        encouragementCorrect: [
+            "Fantastique !", "Impressionnant !", "Bien joué !", "Exact !", "Parfait !",
+            "Continuez comme ça !", "Superbe !", "Très bien !"
+        ],
+        encouragementIncorrect: [
+            "Gardez la tête haute !", "Ne vous inquiétez pas, vous y arriverez !", "Chaque erreur est une leçon.",
+            "Continuez d'essayer !", "Prochaine fois sera la bonne !", "C'est un processus d'apprentissage."
+        ],
         // New AI Mode strings
         aiModeButton: 'Quiz Généré par IA',
         aiQuizTitle: 'Quiz Généré par IA',
@@ -873,8 +878,9 @@
       addCheckButtonAndScoreToPage(currentPageIndex);
       loadSavedAnswersForPage(pageEl, 'q', savedSelectedAnswers);
 
+      // Re-apply feedback if page was already attempted in test mode
       if (pageScores[currentPageIndex] && pageScores[currentPageIndex].attempted) {
-        checkAnswersForPage(currentPageIndex, false);
+        checkAnswersForPage(currentPageIndex, false); // Don't recalculate score, just update display
       }
     }
 
@@ -906,7 +912,7 @@
               const selectedVal = event.target.value;
               const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
               if (resultEl) {
-                  resultEl.textContent = '';
+                  resultEl.textContent = ''; // Clear previous feedback
                   resultEl.className = 'result mt-2';
               }
               
@@ -914,14 +920,16 @@
                   savedSelectedAnswers[qData.qNum] = selectedVal;
                   saveSavedAnswers();
                   updateProgressBar('test');
-                  radioButtons.forEach(rb => { rb.disabled = true; }); // Only disable self and siblings
+                  // Disable all radios for this question once one is selected
+                  radioButtons.forEach(rb => { rb.disabled = true; });
               } else if (prefix === 'aiq') { // AI Mode
                   aiSavedSelectedAnswers[qData.qNum] = selectedVal;
                   saveAiSavedAnswers();
                   updateProgressBar('ai');
-                  radioButtons.forEach(rb => { rb.disabled = true; }); // Only disable self and siblings
+                  // Disable all radios for this question once one is selected
+                  radioButtons.forEach(rb => { rb.disabled = true; });
               } else if (prefix === 'pq') { // Learning Mode
-                  savedSelectedAnswers[qData.qNum] = selectedVal;
+                  savedSelectedAnswers[qData.qNum] = selectedVal; // Save learning mode answer too
                   saveSavedAnswers();
                   setTimeout(() => {
                       processSingleQuestionAnswer(qData, selectedVal, prefix);
@@ -982,46 +990,53 @@
     }
 
     // ––– Process a Single Question's Answer (Learning Mode) –––
+    // This function now specifically handles learning mode feedback and performance tracking
     function processSingleQuestionAnswer(qData, selectedVal, prefix) {
         const s = uiStrings[currentLanguage];
         const resultEl = document.getElementById(`${prefix}${qData.qNum}-result`);
         if (!resultEl) return;
         const wasCorrect = selectedVal === qData.answer;
 
+        let feedbackText = '';
+        let feedbackClass = '';
+
         if (wasCorrect) {
-            resultEl.textContent = s.correctFeedback;
-            resultEl.className = "result text-green-700";
-            if (prefix === 'pq') {
-                currentLearningStreak++;
-                if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) {
-                    showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
-                }
-                if (Math.random() < 0.5) {
-                    resultEl.textContent += ` (${s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)]})`;
-                }
+            feedbackText = s.correctFeedback;
+            feedbackClass = "result text-green-700";
+            currentLearningStreak++;
+            if (currentLearningStreak > 0 && currentLearningStreak % 5 === 0) {
+                showNotification(s.streakNotification.replace('{count}', currentLearningStreak), 'success');
+            }
+            if (Math.random() < 0.5) { // 50% probability for encouragement
+                feedbackText += ` (${s.encouragementCorrect[Math.floor(Math.random() * s.encouragementCorrect.length)]})`;
             }
         } else {
             const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
-            resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
-            resultEl.className = "result text-red-700";
-            if (prefix === 'pq') {
-                currentLearningStreak = 0;
-                if (Math.random() < 0.5) {
-                    resultEl.textContent += ` (${s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)]})`;
-                }
+            feedbackText = `${s.incorrectFeedbackPrefix}${correctText}.`;
+            feedbackClass = "result text-red-700";
+            currentLearningStreak = 0; // Reset streak on incorrect answer
+            if (Math.random() < 0.5) { // 50% probability for encouragement
+                feedbackText += ` (${s.encouragementIncorrect[Math.floor(Math.random() * s.encouragementIncorrect.length)]})`;
             }
         }
+        
+        resultEl.textContent = feedbackText;
+        resultEl.className = feedbackClass;
+
+        // Update performance data ONLY for Learning Mode questions (prefix === 'pq')
         if (prefix === 'pq') {
             const qNumForPerf = qData.qNum;
             if (!performanceData[qNumForPerf]) {
                 performanceData[qNumForPerf] = { qNumOriginal: qNumForPerf, correctAttempts: 0, incorrectAttempts: 0, category: 'unseen', history: [], lastSeenInQuiz: 0 };
             }
             const questionPerf = performanceData[qNumForPerf];
+
             if (wasCorrect) {
                 questionPerf.correctAttempts++;
             } else {
                 questionPerf.incorrectAttempts++;
             }
+            // Store category at the time of answering for potential achievement checks
             questionPerf.history.push({ timestamp: Date.now(), correct: wasCorrect, categoryAtTime: questionPerf.category });
             if (questionPerf.history.length > 10) questionPerf.history.shift();
             updateQuestionCategory(qNumForPerf);
@@ -1031,6 +1046,8 @@
     }
 
     // ––– Check Answers for One Page (Test Mode) –––
+    // This function now solely handles feedback display and scoring for Test Mode.
+    // It DOES NOT update performanceData categories or streaks.
     function checkAnswersForPage(pageIdx, calculateScore = true) {
       if (currentMode !== 'test') return;
       const s = uiStrings[currentLanguage];
@@ -1040,12 +1057,12 @@
       const questionsOnThisPage = endIdx - startIdx;
       
       for (let i = startIdx; i < endIdx; i++) {
-        const qData = allQuizData[quizOrder[i]];
+        const qData = allQuizData[quizOrder[i]]; // Use quizOrder for test mode
         const radios = document.getElementsByName(`q${qData.qNum}`);
         let selectedVal = null;
         radios.forEach(rb => {
             if (rb.checked) selectedVal = rb.value;
-            rb.disabled = true; // Disable all radios on this page after checking
+            rb.disabled = true; // Disable all radios for this question after checking
         });
         const resultEl = document.getElementById(`q${qData.qNum}-result`);
         if (resultEl) {
@@ -1054,7 +1071,7 @@
                 if (wasCorrect) {
                     resultEl.textContent = s.correctFeedback;
                     resultEl.className = "result text-green-700";
-                    score++;
+                    score++; // Increment score for test mode if correct
                 } else {
                     const correctText = (qData.answer === "true") ? s.trueLabel : s.falseLabel;
                     resultEl.textContent = `${s.incorrectFeedbackPrefix}${correctText}.`;
@@ -1075,7 +1092,8 @@
       if (scoreEl && pageScores[pageIdx]) {
         scoreEl.textContent = `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
       }
-      savePerformanceData();
+      // Test mode does not influence performanceData categories or streaks directly.
+      // Achievements are checked here as they might depend on overall test completion.
       checkAchievements();
     }
 
@@ -1095,6 +1113,7 @@
         localStorage.setItem('aiQuizSelectedAnswers_v1', JSON.stringify(aiSavedSelectedAnswers));
     }
 
+    // Generic function to load saved answers for a given page and prefix
     function loadSavedAnswersForPage(pageElement, prefix, answersObject) {
         const questionBlocks = pageElement.querySelectorAll('.question-block');
         questionBlocks.forEach(block => {
@@ -1104,7 +1123,8 @@
                 radios.forEach(radio => {
                     if (radio.value === answersObject[qNum]) {
                         radio.checked = true;
-                        if (prefix !== 'pq') { // Don't disable in learning mode
+                        // For test mode (q) and AI mode (aiq), disable radios if an answer is loaded
+                        if (prefix === 'q' || prefix === 'aiq') {
                             radios.forEach(rb => { rb.disabled = true; });
                         }
                     }
@@ -1121,11 +1141,11 @@
           const radios = document.getElementsByName(`q${qData.qNum}`);
           radios.forEach((rb) => { rb.checked = false; rb.disabled = false; });
           const resEl = document.getElementById(`q${qData.qNum}-result`);
-          if (resEl) resEl.textContent = '';
+          if (resEl) { resEl.textContent = ''; resEl.className = 'result mt-2'; }
           const pqRadios = document.getElementsByName(`pq${qData.qNum}`);
           pqRadios.forEach((rb) => { rb.checked = false; rb.disabled = false; });
           const pqResEl = document.getElementById(`pq${qData.qNum}-result`);
-          if (pqResEl) pqResEl.textContent = '';
+          if (pqResEl) { pqResEl.textContent = ''; pqResEl.className = 'result mt-2'; }
         });
         pageScores = Array(numPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
         for (let i = 0; i < numPages; i++) {
@@ -1169,10 +1189,9 @@
         // Build the structure
         aiContainer.innerHTML = `
             <h2 class="text-3xl font-bold text-center mb-2 text-teal-700" id="aiQuizTitle">${s.aiQuizTitle}</h2>
-            <div class="w-full bg-gray-200 rounded-full h-4 my-4">
-                <div id="aiProgressBar" class="bg-teal-600 h-4 rounded-full text-xs flex justify-center items-center text-white font-semibold" style="width: 0%;">
-                    <span id="aiProgressText">0% Complete</span>
-                </div>
+            <div class="w-full bg-gray-200 rounded-full h-4 my-4 relative">
+                <div id="aiProgressBar" class="bg-teal-600 h-4 rounded-full" style="width: 0%;"></div>
+                <span id="aiProgressText" class="absolute inset-0 flex justify-center items-center text-white font-semibold text-xs">0% Complete</span>
             </div>
             <div id="ai-pages-container"></div>
             <footer class="mt-10 pt-6 border-t border-gray-300">
@@ -1402,9 +1421,9 @@
 
     // ––– Performance Tracking & Practice Card Logic (Unchanged) –––
     function loadPerformanceData() {
-      const savedData = localStorage.getItem('quizPerformanceData_v1');
-      if (savedData) {
-        performanceData = JSON.parse(savedData);
+      const saved = localStorage.getItem('quizPerformanceData_v1');
+      if (saved) {
+        performanceData = JSON.parse(saved);
         const savedQuizCounter = localStorage.getItem('quizCounter_v1');
         if (savedQuizCounter) quizCounter = parseInt(savedQuizCounter, 10);
         const savedLearningStreak = localStorage.getItem('currentLearningStreak_v1');
@@ -1623,7 +1642,7 @@
             return; // Not a mode with a progress bar
         }
         
-        if(!progressBar) return; // Exit if the elements aren't on the page
+        if(!progressBar || !progressText) return; // Exit if the elements aren't on the page
 
         answeredCount = Object.keys(answersObject).length;
         const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
