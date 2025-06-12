@@ -705,9 +705,9 @@
       loadAiSavedAnswers();
       loadAchievements();
 
-      updateAllUIText();
+      initializeAiMode(); // Initialize AI mode structure early
 
-      initializeAiMode();
+      updateAllUIText();
 
       const shuffleToggle = document.getElementById('shuffleToggle');
       const shuffleButton = document.getElementById('shuffleButton');
@@ -738,25 +738,25 @@
         numQuestionsInputContainer.style.display = quizStrategySelect.value === 'random_x' ? 'flex' : 'none';
       });
 
-      switchMode(currentMode);
-      updateNavigation();
-      renderCurrentPageQuestionsAndFeedback();
-      updateProgressBar('test');
+      switchMode('learn'); // Start in a default mode
     });
 
     // ––– Language Switching –––
     function toggleLanguage() {
       currentLanguage = currentLanguage === 'fr' ? 'en' : 'fr';
       updateAllUIText();
-      renderCurrentPageQuestionsAndFeedback();
-      if (currentMode === 'ai') {
+
+      // Re-render content based on the current mode
+      if (currentMode === 'test') {
+        renderCurrentPageQuestionsAndFeedback();
+      } else if (currentMode === 'ai') {
         renderCurrentAiPage();
+      } else if (currentMode === 'learn' && currentPracticeCardQuestions.length > 0) {
+        renderPracticeCardQuestions(currentPracticeCardQuestions);
       }
+      
       if (document.getElementById('performanceStatsModal').style.display === 'block') {
         showPerformanceStatsModal();
-      }
-      if (currentMode === 'learn' && currentPracticeCardQuestions.length > 0) {
-          renderPracticeCardQuestions(currentPracticeCardQuestions);
       }
     }
 
@@ -843,9 +843,14 @@
         document.getElementById('generateNewPracticeCardButton').style.display = 'none';
         document.getElementById('practiceCardProgress').textContent = '';
       } else if (mode === 'ai') {
-        aiContainer.style.display = 'block';
-        navigateAiPage(0, true); // Go to first page and force render
-        updateProgressBar('ai');
+        if (allAiQuizData.length > 0) {
+          aiContainer.style.display = 'block';
+          navigateAiPage(aiCurrentPageIndex, true); // Go to current page and force render
+          updateProgressBar('ai');
+        } else {
+            // Fallback if AI mode is selected but no data exists
+            switchMode('learn'); 
+        }
       }
     }
 
@@ -909,12 +914,12 @@
                   savedSelectedAnswers[qData.qNum] = selectedVal;
                   saveSavedAnswers();
                   updateProgressBar('test');
-                  radioButtons.forEach(rb => { if (rb !== event.target) rb.disabled = true; });
+                  radioButtons.forEach(rb => { rb.disabled = true; }); // Only disable self and siblings
               } else if (prefix === 'aiq') { // AI Mode
                   aiSavedSelectedAnswers[qData.qNum] = selectedVal;
                   saveAiSavedAnswers();
                   updateProgressBar('ai');
-                  radioButtons.forEach(rb => { if (rb !== event.target) rb.disabled = true; });
+                  radioButtons.forEach(rb => { rb.disabled = true; }); // Only disable self and siblings
               } else if (prefix === 'pq') { // Learning Mode
                   savedSelectedAnswers[qData.qNum] = selectedVal;
                   saveSavedAnswers();
@@ -1033,16 +1038,14 @@
       const startIdx = pageIdx * questionsPerPage;
       const endIdx = Math.min(startIdx + questionsPerPage, allQuizData.length);
       const questionsOnThisPage = endIdx - startIdx;
-      if (calculateScore) {
-        pageScores[pageIdx] = { score: 0, totalQuestions: questionsOnThisPage, attempted: true };
-      }
+      
       for (let i = startIdx; i < endIdx; i++) {
         const qData = allQuizData[quizOrder[i]];
         const radios = document.getElementsByName(`q${qData.qNum}`);
         let selectedVal = null;
         radios.forEach(rb => {
             if (rb.checked) selectedVal = rb.value;
-            rb.disabled = false;
+            rb.disabled = true; // Disable all radios on this page after checking
         });
         const resultEl = document.getElementById(`q${qData.qNum}-result`);
         if (resultEl) {
@@ -1063,9 +1066,11 @@
             }
         }
       }
-      if (calculateScore && pageScores[pageIdx]) {
-        pageScores[pageIdx].score = score;
+
+      if (calculateScore) {
+        pageScores[pageIdx] = { score: score, totalQuestions: questionsOnThisPage, attempted: true };
       }
+      
       const scoreEl = document.getElementById(`score-page-${pageIdx}`);
       if (scoreEl && pageScores[pageIdx]) {
         scoreEl.textContent = `${s.scoreForPageLabel}: ${pageScores[pageIdx].score} / ${pageScores[pageIdx].totalQuestions}`;
@@ -1100,7 +1105,7 @@
                     if (radio.value === answersObject[qNum]) {
                         radio.checked = true;
                         if (prefix !== 'pq') { // Don't disable in learning mode
-                            radios.forEach(rb => { if (rb !== radio) rb.disabled = true; });
+                            radios.forEach(rb => { rb.disabled = true; });
                         }
                     }
                 });
@@ -1152,17 +1157,18 @@
         const aiModeButton = document.getElementById('aiModeButton');
         const s = uiStrings[currentLanguage];
 
-        if (allAiQuizData.length === 0) {
+        if (typeof allAiQuizData === 'undefined' || allAiQuizData.length === 0) {
             aiModeButton.disabled = true;
             return;
         }
+        aiModeButton.disabled = false;
 
         numAiPages = Math.ceil(allAiQuizData.length / questionsPerPage);
         aiPageScores = Array(numAiPages).fill(null).map(() => ({ score: 0, totalQuestions: 0, attempted: false }));
 
         // Build the structure
         aiContainer.innerHTML = `
-            <h2 class="text-3xl font-bold text-center mb-2 text-teal-700">${s.aiQuizTitle}</h2>
+            <h2 class="text-3xl font-bold text-center mb-2 text-teal-700" id="aiQuizTitle">${s.aiQuizTitle}</h2>
             <div class="w-full bg-gray-200 rounded-full h-4 my-4">
                 <div id="aiProgressBar" class="bg-teal-600 h-4 rounded-full text-xs flex justify-center items-center text-white font-semibold" style="width: 0%;">
                     <span id="aiProgressText">0% Complete</span>
@@ -1177,7 +1183,7 @@
                 </div>
                 <div class="mt-6 space-y-3 md:space-y-0 md:flex md:space-x-3">
                     <button onclick="showFinalResultsModal('ai')" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150">${s.viewResultsButton}</button>
-                    <button onclick="resetAiQuiz()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150">${s.resetAiQuizButton}</button>
+                    <button onclick="resetAiQuiz()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-colors duration-150" id="resetAiQuizButton">${s.resetAiQuizButton}</button>
                 </div>
             </footer>
         `;
@@ -1269,16 +1275,14 @@
         const startIdx = pageIdx * questionsPerPage;
         const endIdx = Math.min(startIdx + questionsPerPage, allAiQuizData.length);
         const questionsOnThisPage = endIdx - startIdx;
-        if (calculateScore) {
-            aiPageScores[pageIdx] = { score: 0, totalQuestions: questionsOnThisPage, attempted: true };
-        }
+        
         for (let i = startIdx; i < endIdx; i++) {
             const qData = allAiQuizData[i];
             const radios = document.getElementsByName(`aiq${qData.qNum}`);
             let selectedVal = null;
             radios.forEach(rb => {
                 if (rb.checked) selectedVal = rb.value;
-                rb.disabled = false;
+                rb.disabled = true; // Disable radios after checking
             });
             const resultEl = document.getElementById(`aiq${qData.qNum}-result`);
             if (resultEl) {
@@ -1300,7 +1304,7 @@
             }
         }
         if (calculateScore) {
-            aiPageScores[pageIdx].score = score;
+            aiPageScores[pageIdx] = { score: score, totalQuestions: questionsOnThisPage, attempted: true };
         }
         const scoreEl = document.getElementById(`ai-score-page-${pageIdx}`);
         if (scoreEl && aiPageScores[pageIdx]) {
@@ -1615,11 +1619,12 @@
             s = uiStrings[currentLanguage];
             answersObject = aiSavedSelectedAnswers;
             totalQuestions = allAiQuizData.length;
-            if(!progressBar) return; // In case AI mode isn't initialized
         } else {
             return; // Not a mode with a progress bar
         }
         
+        if(!progressBar) return; // Exit if the elements aren't on the page
+
         answeredCount = Object.keys(answersObject).length;
         const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
 
@@ -1657,7 +1662,7 @@
 
   <!-- Version number at the very bottom -->
   <div class="text-center text-gray-500 text-xs mt-8 pb-4">
-    Version <span id="appVersion">1.1.3</span>
+    Version <span id="appVersion">1.1.4</span>
   </div>
 </body>
 </html>
